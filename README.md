@@ -1,9 +1,11 @@
 # Required Tools
 * task: https://taskfile.dev/
 * direnv: https://direnv.net/
+* talhelper: https://github.com/budimanjojo/talhelper
 * talosctl: https://www.talos.dev/v1.6/introduction/getting-started/#talosctl
 * kubectl: https://kubernetes.io/docs/reference/kubectl/
 * flux: https://fluxcd.io/flux/
+* flux-local: https://github.com/allenporter/flux-local
 * cloudflared: https://github.com/cloudflare/cloudflared
 * sops: https://github.com/getsops/sops
 * age: https://github.com/FiloSottile/age
