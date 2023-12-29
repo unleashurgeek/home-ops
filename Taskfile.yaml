@@ -1,0 +1,23 @@
+---
+version: "3"
+
+env:
+  SOPS_AGE_KEY_FILE: "{{.ROOT_DIR}}/age.key"
+  TASK_X_ANY_VARIABLES: "1"
+
+vars:
+  KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
+
+includes:
+  sops:
+    taskfile: .taskfiles/sops
+    dir: .taskfiles/sops
+  talos:
+    taskfile: .taskfiles/talos
+    dir: .taskfile/talos
+
+tasks:
+  default:
+    silent: true
+    cmds:
+      - task -l

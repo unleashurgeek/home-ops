@@ -1,0 +1,119 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/budimanjojo/talhelper/master/pkg/config/schemas/talconfig.json
+clusterName: ${clusterName}
+endpoint: "https://${clusterVIP}:6443" # TODO: change to url after dns reconfiguration
+allowSchedulingOnControlPlanes: true
+
+# renovate: datasource=docker depName=ghcr.io/siderolabs/installer
+talosVersion: v1.6.1
+
+# renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
+kubernetesVersion: v1.29.0
+
+cniConfig:
+  name: none
+
+additionalApiServerCertSans: &san
+  - ${clusterVIP}
+  - ${clusterName}.${clusterDNSSuffix}
+  - "127.0.0.1" # KubePrism
+additionalMachineCertSans: *san
+
+nodes:
+  - &it12
+    hostname: augustus # GEEKOM IT12, i7-12650H, nvme + ssd storage
+    ipAddress: 192.168.10.20
+    controlPlane: true
+    installDiskSelector:
+      size: "<= 600GB"
+      type: ssd
+    machineDisks:
+      - device: /dev/nvme0n1 # 1tb nvme
+        partitions:
+          - mountpoint: /var/mnt/nvme
+    disableSearchDomain: true
+    networkInterfaces:
+      - deviceSelector:
+          driver: igc # Ethernet Controller I225-V
+        addresses:
+          - 192.168.10.20
+        dhcp: true
+        vip:
+          ip: ${clusterVIP}
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/i915-ucode
+            - siderolabs/intel-ucode
+            - siderolabs/thunderbolt
+    patches:
+      # kubelet extra mount config
+      - |-
+        machine:
+          kubelet:
+            extraMounts:
+              - destination: /var/mnt/nvme
+                type: bind
+                source: /var/mnt/nvme
+                options:
+                  - rbind
+                  - rshared
+                  - rw
+
+controlPlane:
+  schematic:
+    customization:
+      extraKernelArgs:
+        - net.ifnames=0
+
+  patches:
+    # NTP
+    - |-
+      machine:
+        time:
+          disabled: false
+          servers:
+            - time.cloudflare.com
+
+    # Configure cluster loopback
+    - |-
+      machine:
+        network:
+          extraHostEntries:
+            - ip: ${clusterVIP}
+              aliases:
+                - ${clusterName}.${clusterDNSSuffix}
+
+    # Disable kube-proxy
+    - |-
+      cluster:
+        proxy:
+          disabled: true
+
+    # ETCD configuration
+    - |-
+      cluster:
+        etcd:
+          advertisedSubnets:
+            - 192.168.10.0/24
+
+    # Kubelet configuration
+    - |-
+      machine:
+        kubelet:
+          extraArgs:
+            feature-gates: GracefulNodeShutdown=true
+            rotate-server-certificates: "true"
+          extraConfig:
+            maxPods: 150
+          nodeIP:
+            validSubnets:
+              - 192.168.10.0/24
+
+    # Custom sysctls
+    - |-
+      machine:
+        sysctls:
+          fs.inotify.max_user_watches: "1048576"
+          fs.inotify.max_user_instances: "8192"

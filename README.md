@@ -10,3 +10,12 @@
 * sops: https://github.com/getsops/sops
 * age: https://github.com/FiloSottile/age
 * terraform: https://developer.hashicorp.com/terraform/install
+
+# Insipration
+* https://github.com/JJGadgets/Biohazard/tree/main
+* https://github.com/bjw-s/home-ops/tree/main
+* https://github.com/onedr0p/home-ops/tree/main
+* https://github.com/ishioni/homelab-ops
+* https://github.com/Diaoul/home-ops
+* https://github.com/deedee-ops/home-ops
+* https://github.com/LilDrunkenSmurf/k3s-home-cluster

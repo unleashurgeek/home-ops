@@ -1,0 +1,65 @@
+---
+version: "3"
+
+vars:
+  cluster: '{{ .cluster | default "main" }}'
+
+
+tasks:
+  default:
+    vars:
+      cluster: &cluster '{{ or .cluster (fail "Argument (cluster) is required") }}'
+    cmds:
+      - talosctl {{.CLI_ARGS}} --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig
+
+  genconfig:
+    aliases: [gen]
+    dir: &dir "/{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos"
+    desc: Generate talos configs from talhelper
+    summary: |
+      Args:
+        cluster: Cluster to run command against (required)
+    vars:
+      cluster: *cluster
+    cmds:
+      - talhelper genconfig
+    sources:
+      - /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/talconfig.yaml
+      - /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/talenv.sops.yaml
+      - /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/talsecret.sops.yaml
+    generates:
+      - /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/*
+
+  apply:
+    dir: *dir
+    desc: Apply talos config to a given node
+    summary: &apply-summary |
+      Args:
+        cluster: Cluster to run command against (required)
+        node:    name of the node to use (required)
+        ip:      address of node to apply (node name if not specified)
+    vars: &apply-vars
+      node: '{{ or .node (fail "Argument (node) is required") }}'
+      ip: '{{ .id | default .node }}'
+      cluster: *cluster
+    cmds:
+      - task: genconfig
+      - |-
+        talosctl apply-config \
+            --nodes {{.ip}} \
+            --file /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/{{.cluster}}-{{.node}}.yaml \
+            --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig
+
+  init:
+    dir: *dir
+    desc: Apply initial talos config to a given node (insecure)
+    summary: *apply-summary
+    vars: *apply-vars
+    cmds:
+      - task: genconfig
+      - |-
+        talosctl apply-config \
+            --nodes {{.ip}} \
+            --file /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/{{.cluster}}-{{.node}}.yaml \
+            --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig \
+            --insecure

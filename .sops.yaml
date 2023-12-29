@@ -1,0 +1,9 @@
+---
+keys:
+  - &personal age1rss899lzcafjv5y8ve8cj4urhqfyypwrlqua2jmeyusmkdmugdxqsluwyl
+
+creation_rules:
+  - path_regex: .*\.sops\.ya?ml$
+    key_groups:
+      - age:
+          - *personal
