@@ -1,0 +1,10 @@
+# Required Tools
+* task: https://taskfile.dev/
+* direnv: https://direnv.net/
+* talosctl: https://www.talos.dev/v1.6/introduction/getting-started/#talosctl
+* kubectl: https://kubernetes.io/docs/reference/kubectl/
+* flux: https://fluxcd.io/flux/
+* cloudflared: https://github.com/cloudflare/cloudflared
+* sops: https://github.com/getsops/sops
+* age: https://github.com/FiloSottile/age
+* terraform: https://developer.hashicorp.com/terraform/install

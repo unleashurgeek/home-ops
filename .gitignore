@@ -1,0 +1,24 @@
+# Mac Crap
+.DS_Store
+Thumbs.db
+
+# Sops
+.decrypted~*
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*tfplan*
+
+# talos & kube configs
+kubeconfig
+talosconfig
+
+# misc secrets
+*.pem
+*.key
+*.pub
+*.agekey
+*.secret.env
+*.secret.yaml

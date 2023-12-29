@@ -1,0 +1,5 @@
+{
+  "files.trimTrailingWhitespace": true,
+  "sops.defaults.ageKeyFile": "age.key",
+  "yaml.schemaStore.enable": true
+}
