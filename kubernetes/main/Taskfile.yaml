@@ -32,13 +32,14 @@ tasks:
       ip: '{{ .ip | default "192.168.10.20" }}'
     cmds:
       - task: apply-all
+      - sleep 15
       - task: talos:bootstrap
         vars: { ip: "{{.ip}}" }
       - task: k8s:cilium-bootstrap-apply
       - task: k8s:csr-bootstrap-apply
       # TODO: bootstrap flux
       - task: talos:health
-        vars: { ip: "{{.ip}}" }
+        vars: { ip: 192.168.10.10 }
 
   reset:
     desc: Reset the cluster back to default talos installation

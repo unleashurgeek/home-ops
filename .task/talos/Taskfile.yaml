@@ -89,9 +89,11 @@ tasks:
       ip: '{{ or .ip (fail "Argument (ip) is required") }}'
       talosconfig: /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig
     cmds:
-      - until talosctl bootstrap --talosconfig {{.talosconfig}} --nodes {{.ip}} ; do sleep 1; done
-      - until talosctl kubeconfig --talosconfig {{.talosconfig}} --nodes {{.ip}} ; do sleep 1; done
+      - talosctl bootstrap --talosconfig {{.talosconfig}} --nodes {{.ip}}
+      - sleep 180
+      - talosctl kubeconfig --talosconfig {{.talosconfig}} --nodes {{.ip}} --force
       - "sed -i 's/current-context: admin@.*/current-context: admin@{{.cluster}}/g' ~/.kube/config || true"
+      - kubectl certificate approve $(kubectl get csr --sort-by=.metadata.creationTimestamp | grep Pending | awk '{print $1}')
 
   reset:
     desc: Reset a node, wiping its STATE and EPHEMERAL partitions
@@ -119,6 +121,6 @@ tasks:
     cmd: |-
       talosctl reset \
           --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL \
-          --graceful={{.graceful}} --reboot=true \
+          --graceful={{.graceful}} --reboot=true --wait={{.graceful}} \
           --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig \
           --nodes {{.ip}}
