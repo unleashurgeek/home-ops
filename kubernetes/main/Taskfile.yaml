@@ -4,11 +4,11 @@ version: "3"
 includes:
   k8s:
     internal: true
-    taskfile: ../../.taskfiles/k8s
+    taskfile: ../../.task/k8s
     aliases: [k8s]
   talos:
     internal: true
-    taskfile: ../../.taskfiles/talos
+    taskfile: ../../.task/talos
     aliases: [talos]
 
 vars:

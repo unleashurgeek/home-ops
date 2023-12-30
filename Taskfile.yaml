@@ -9,10 +9,10 @@ vars:
   KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
 
 includes:
-  sops: .taskfiles/sops
-  talos: .taskfiles/talos
-  k8s: .taskfiles/k8s
-  cluster: .taskfiles/cluster
+  sops: .task/sops
+  talos: .task/talos
+  k8s: .task/k8s
+  cluster: .task/cluster
 
 tasks:
   default:
