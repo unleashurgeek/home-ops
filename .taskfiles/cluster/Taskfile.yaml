@@ -1,0 +1,16 @@
+---
+version: "3"
+
+includes:
+  main:
+    taskfile: ../../kubernetes/main
+
+tasks:
+  cluster-switch:
+    aliases: [ctx]
+    desc: Switch kubeconfig current-context to another cluster
+    vars:
+      cluster: '{{ or .cluster (fail "Argument (cluster) is required") }}'
+    cmds:
+      - |
+        sed -i 's/current-context: admin@.*/current-context: admin@{{.C}}/g' ~/.kube/config || true

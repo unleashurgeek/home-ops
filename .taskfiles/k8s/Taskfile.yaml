@@ -1,11 +1,9 @@
 ---
 version: "3"
 
-vars:
-  cluster: '{{ .cluster | default "main" }}'
-
 tasks:
   cilium-bootstrap-apply:
+    internal: true
     desc: Bootstrap Cilium onto a new cluster
     vars:
       cluster: '{{ or .cluster (fail "Argument (cluster) is required") }}'
@@ -16,3 +14,17 @@ tasks:
       - cmd: kustomize build --enable-helm /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/cilium/ | envsubst | kubectl delete -f -
         ignore_error: true
       - kustomize build --enable-helm /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/cilium/ | envsubst | kubectl apply -f -
+    preconditions:
+      - test -f /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/cilium/kustomization.yaml
+
+  csr-bootstrap-apply:
+    internal: true
+    desc: Bootstrap kubelet-csr-approver
+    vars:
+      cluster: '{{ or .cluster (fail "Argument (cluster) is required") }}'
+    cmds:
+      - cmd: kustomize build --enable-helm /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/kubelet-csr-approver/ | envsubst | kubectl delete -f -
+        ignore_error: true
+      - kustomize build --enable-helm /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/kubelet-csr-approver/ | envsubst | kubectl apply -f -
+    preconditions:
+      - test -f /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/kubelet-csr-approver/kustomization.yaml

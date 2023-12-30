@@ -10,11 +10,24 @@ vars:
   cluster: '{{ .cluster | default "main" }}'
 
 tasks:
+  desc: Runs talosctl with a generated talosconfig
   default:
     vars:
       cluster: &cluster '{{ or .cluster (fail "Argument (cluster) is required") }}'
-    cmds:
-      - talosctl {{.CLI_ARGS}} --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig
+      talosconfig: /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig
+    cmd: talosctl {{.CLI_ARGS}} --talosconfig {{.talosconfig}}
+
+  health:
+    desc: Gets the current health status of the cluster
+    summary: |
+      Args:
+        cluster: cluster to run command against (required)
+        ip:      address of node to apply (required)
+    vars:
+      cluster: *cluster
+      ip: '{{ or .ip (fail "Argument (ip) is required") }}'
+      talosconfig: /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig
+    cmd: talosctl health --nodes {{.ip}} --talosconfig {{.talosconfig}}
 
   genconfig:
     aliases: [gen]
@@ -52,32 +65,60 @@ tasks:
         talosctl apply-config \
             --nodes {{.ip}} \
             --file /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/{{.cluster}}-{{.node}}.yaml \
-            --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig
+            --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig \
+            {{.CLI_ARGS}}
 
   init:
     desc: Apply initial talos config to a given node (insecure)
     dir: *dir
     summary: *apply-summary
     vars: *apply-vars
-    cmds:
-      - task: genconfig
-      - |-
-        talosctl apply-config \
-            --nodes {{.ip}} \
-            --file /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/{{.cluster}}-{{.node}}.yaml \
-            --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig \
-            --insecure
+    cmd:
+      task: apply
+      vars: {cluster: "{{.cluster}}", node: "{{.node}}", ip: "{{.ip}}", CLI_ARGS: "--insecure"}
 
   bootstrap:
     desc: Run all bootstrap related tasks for a talos cluster
     dir: *dir
-    summary: *apply-summary
-    vars: *apply-vars
+    summary: |
+      Args:
+        cluster:  cluster to run command against (required)
+        ip:       address of node to bootstrap (required)
+    vars:
+      cluster: *cluster
+      ip: '{{ or .ip (fail "Argument (ip) is required") }}'
+      talosconfig: /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig
     cmds:
-      - until talosctl bootstrap --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig --nodes {{.ip}} ; do sleep 1; done
-      - until talosctl kubeconfig --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig --nodes {{.ip}} ; do sleep 1; done
-      - |
-        sed -i 's/current-context: admin@.*/current-context: admin@{{.cluster}}/g' ~/.kube/config || true
-      - task: cilium-bootstrap-apply
-        vars:
-          cluster: "{{.cluster}}"
+      - until talosctl bootstrap --talosconfig {{.talosconfig}} --nodes {{.ip}} ; do sleep 1; done
+      - until talosctl kubeconfig --talosconfig {{.talosconfig}} --nodes {{.ip}} ; do sleep 1; done
+      - "sed -i 's/current-context: admin@.*/current-context: admin@{{.cluster}}/g' ~/.kube/config || true"
+
+  reset:
+    desc: Reset a node, wiping its STATE and EPHEMERAL partitions
+    dir: *dir
+    summary: |
+      Args:
+        cluster:  cluster to run command against (required)
+        ip:       address of node to reset (required)
+        graceful: attempt to drain the node (default true)
+    vars:
+      cluster: *cluster
+      ip: '{{ or .ip (fail "Argument (ip) is required") }}'
+      graceful: '{{ .graceful | default "true" }}'
+    prompt: This will destroy the target node and reset to a default talos install... Continue?
+    cmd:
+      task: reset-no-prompt
+
+  # useful for other reset scripts
+  reset-no-prompt:
+    internal: true
+    vars:
+      cluster: *cluster
+      ip: '{{ or .ip (fail "Argument (ip) is required") }}'
+      graceful: '{{ .graceful | default "true" }}'
+    cmd: |-
+      talosctl reset \
+          --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL \
+          --graceful={{.graceful}} --reboot=true \
+          --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig \
+          --nodes {{.ip}}
