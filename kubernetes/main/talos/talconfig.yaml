@@ -20,8 +20,8 @@ additionalApiServerCertSans: &san
 additionalMachineCertSans: *san
 
 nodes:
-  - &it12
-    hostname: augustus # GEEKOM IT12, i7-12650H, nvme + ssd storage
+  - &it12 # GEEKOM IT12, i7-12650H, nvme + ssd storage
+    hostname: augustus
     ipAddress: 192.168.10.20
     controlPlane: true
     installDiskSelector:
@@ -33,11 +33,15 @@ nodes:
           - mountpoint: /var/mnt/nvme
     disableSearchDomain: true
     networkInterfaces:
-      - deviceSelector:
+      - &it12-net
+        deviceSelector:
           driver: igc # Ethernet Controller I225-V
         addresses:
           - 192.168.10.20
-        dhcp: true
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.10.1
+        dhcp: false
         vip:
           ip: ${clusterVIP}
     schematic:
@@ -60,6 +64,22 @@ nodes:
                   - rbind
                   - rshared
                   - rw
+
+  - <<: *it12
+    hostname: nero
+    ipAddress: 192.168.10.21
+    networkInterfaces:
+      - <<: *it12-net
+        addresses:
+          - 192.168.10.21
+
+  - <<: *it12
+    hostname: titus
+    ipAddress: 192.168.10.22
+    networkInterfaces:
+      - <<: *it12-net
+        addresses:
+          - 192.168.10.22
 
 controlPlane:
   schematic:
@@ -111,9 +131,9 @@ controlPlane:
             validSubnets:
               - 192.168.10.0/24
 
-    # Custom sysctls
-    - |-
-      machine:
-        sysctls:
-          fs.inotify.max_user_watches: "1048576"
-          fs.inotify.max_user_instances: "8192"
+    # # Custom sysctls
+    # - |-
+    #   machine:
+    #     sysctls:
+    #       fs.inotify.max_user_watches: "1048576"
+    #       fs.inotify.max_user_instances: "8192"

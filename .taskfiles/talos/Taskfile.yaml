@@ -40,7 +40,7 @@ tasks:
         ip:      address of node to apply (node name if not specified)
     vars: &apply-vars
       node: '{{ or .node (fail "Argument (node) is required") }}'
-      ip: '{{ .id | default .node }}'
+      ip: '{{ .ip | default .node }}'
       cluster: *cluster
     cmds:
       - task: genconfig
