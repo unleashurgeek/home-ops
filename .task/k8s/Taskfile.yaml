@@ -2,11 +2,29 @@
 version: "3"
 
 tasks:
+  flux-bootstrap-apply:
+    internal: false
+    desc: Bootstrap Flux onto a new cluster
+    requires:
+      vars: [cluster]
+    cmds:
+      - kubectl apply --server-side --kustomize /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/flux
+      - sops --decrypt /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/flux/age-key.sops.yaml | kubectl apply -f -
+      - kubectl apply --server-side --kustomize /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/flux/vars
+      - kubectl apply --server-side --kustomize /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/flux/config
+    preconditions:
+      - msg: Private age key not found
+        sh: test -f /{{.ROOT_DIR}}/age.key
+      - msg: Flux bootstrap kustomization.yaml is required
+        sh: test -f /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/flux/kustomization.yaml
+      - msg: Flux age-key not found
+        sh: test -f /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/flux/age-key.sops.yaml
+
   cilium-bootstrap-apply:
     internal: true
     desc: Bootstrap Cilium onto a new cluster
-    vars:
-      cluster: '{{ or .cluster (fail "Argument (cluster) is required") }}'
+    requires:
+      vars: [cluster]
     cmds:
       - kubectl delete configmap -n kube-system cilium-config || true
       - kubectl delete daemonset -n kube-system cilium || true
@@ -15,16 +33,18 @@ tasks:
         ignore_error: true
       - kustomize build --enable-helm /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/cilium/ | envsubst | kubectl apply -f -
     preconditions:
-      - test -f /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/cilium/kustomization.yaml
+      - msg: cilium boostrap files not found
+        sh: test -f /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/cilium/kustomization.yaml
 
   csr-bootstrap-apply:
-    internal: false
+    internal: true
     desc: Bootstrap kubelet-csr-approver
-    vars:
-      cluster: '{{ or .cluster (fail "Argument (cluster) is required") }}'
+    requires:
+      vars: [cluster]
     cmds:
       - cmd: kustomize build --enable-helm /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/kubelet-csr-approver/ | envsubst | kubectl delete -f -
         ignore_error: true
       - kustomize build --enable-helm /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/kubelet-csr-approver/ | envsubst | kubectl apply -f -
     preconditions:
-      - test -f /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/kubelet-csr-approver/kustomization.yaml
+      - msg: kubelet-csr-approver bootstrap files not found
+        sh: test -f /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/kubelet-csr-approver/kustomization.yaml

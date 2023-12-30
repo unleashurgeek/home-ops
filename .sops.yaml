@@ -1,8 +1,22 @@
 ---
 keys:
   - &personal age1rss899lzcafjv5y8ve8cj4urhqfyypwrlqua2jmeyusmkdmugdxqsluwyl
+  - &flux age1zt22uns634n9qxy34jjjp86cw5ruynpngge0ypdere8kq40ysylqh6ce5r
 
 creation_rules:
+  - path_regex: kubernetes/.*/talos/.*\.sops\.ya?ml$
+    key_groups:
+      - age:
+          - *personal
+          - *flux
+
+  - path_regex: kubernetes/.*\.sops\.ya?ml$
+    encrypted_regex: "^(data|stringData)$"
+    key_groups:
+      - age:
+          - *personal
+          - *flux
+
   - path_regex: .*\.sops\.ya?ml$
     key_groups:
       - age:

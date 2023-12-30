@@ -6,13 +6,12 @@ includes:
     internal: true
     taskfile: ../../.task/k8s
     aliases: [k8s]
+    vars: { cluster: main }
   talos:
     internal: true
     taskfile: ../../.task/talos
     aliases: [talos]
-
-vars:
-  cluster: main
+    vars: { cluster: main }
 
 tasks:
   apply-all:
@@ -34,12 +33,12 @@ tasks:
       - task: apply-all
       - sleep 15
       - task: talos:bootstrap
-        vars: { ip: "{{.ip}}" }
+        vars: { cluster: main, ip: "{{.ip}}" }
       - task: k8s:cilium-bootstrap-apply
       - task: k8s:csr-bootstrap-apply
-      # TODO: bootstrap flux
+      - task: k8s:flux-bootstrap-apply
       - task: talos:health
-        vars: { ip: 192.168.10.10 }
+        vars: { cluster: main, ip: 192.168.10.10 }
 
   reset:
     desc: Reset the cluster back to default talos installation

@@ -3,7 +3,6 @@ version: "3"
 
 env:
   SOPS_AGE_KEY_FILE: "{{.ROOT_DIR}}/age.key"
-  TASK_X_ANY_VARIABLES: "1"
 
 vars:
   KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
