@@ -4,6 +4,8 @@
 * talhelper: https://github.com/budimanjojo/talhelper
 * talosctl: https://www.talos.dev/v1.6/introduction/getting-started/#talosctl
 * kubectl: https://kubernetes.io/docs/reference/kubectl/
+* kustomize: https://github.com/kubernetes-sigs/kustomize
+* helm: https://helm.sh/
 * flux: https://fluxcd.io/flux/
 * flux-local: https://github.com/allenporter/flux-local
 * cloudflared: https://github.com/cloudflare/cloudflared

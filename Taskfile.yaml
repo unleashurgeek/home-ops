@@ -14,7 +14,10 @@ includes:
     dir: .taskfiles/sops
   talos:
     taskfile: .taskfiles/talos
-    dir: .taskfile/talos
+    dir: .taskfiles/talos
+  k8s:
+    taskfile: .taskfiles/k8s
+    dir: .taskfiles/k8s
 
 tasks:
   default:

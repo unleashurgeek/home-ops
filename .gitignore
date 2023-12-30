@@ -8,6 +8,9 @@ Thumbs.db
 # Sops
 .decrypted~*
 
+# Helm
+**/charts/*
+
 # Terraform
 **/.terraform/*
 *.tfstate

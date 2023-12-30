@@ -1,9 +1,13 @@
 ---
 version: "3"
 
+includes:
+  k8s:
+    internal: true
+    taskfile: ../k8s
+
 vars:
   cluster: '{{ .cluster | default "main" }}'
-
 
 tasks:
   default:
@@ -14,8 +18,8 @@ tasks:
 
   genconfig:
     aliases: [gen]
-    dir: &dir "/{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos"
     desc: Generate talos configs from talhelper
+    dir: &dir "/{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos"
     summary: |
       Args:
         cluster: Cluster to run command against (required)
@@ -33,15 +37,15 @@ tasks:
   apply:
     dir: *dir
     desc: Apply talos config to a given node
+    vars: &apply-vars
+      node: '{{ or .node (fail "Argument (node) is required") }}'
+      ip: '{{ .ip | default .node }}'
+      cluster: *cluster
     summary: &apply-summary |
       Args:
         cluster: Cluster to run command against (required)
         node:    name of the node to use (required)
         ip:      address of node to apply (node name if not specified)
-    vars: &apply-vars
-      node: '{{ or .node (fail "Argument (node) is required") }}'
-      ip: '{{ .ip | default .node }}'
-      cluster: *cluster
     cmds:
       - task: genconfig
       - |-
@@ -51,8 +55,8 @@ tasks:
             --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig
 
   init:
-    dir: *dir
     desc: Apply initial talos config to a given node (insecure)
+    dir: *dir
     summary: *apply-summary
     vars: *apply-vars
     cmds:
@@ -63,3 +67,17 @@ tasks:
             --file /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/{{.cluster}}-{{.node}}.yaml \
             --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig \
             --insecure
+
+  bootstrap:
+    desc: Run all bootstrap related tasks for a talos cluster
+    dir: *dir
+    summary: *apply-summary
+    vars: *apply-vars
+    cmds:
+      - until talosctl bootstrap --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig --nodes {{.ip}} ; do sleep 1; done
+      - until talosctl kubeconfig --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig --nodes {{.ip}} ; do sleep 1; done
+      - |
+        sed -i 's/current-context: admin@.*/current-context: admin@{{.cluster}}/g' ~/.kube/config || true
+      - task: cilium-bootstrap-apply
+        vars:
+          cluster: "{{.cluster}}"
