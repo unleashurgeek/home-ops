@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kyle-fail
+spec:
+  secretName: kyle-fail-tls
+  issuerRef:
+    name: letsencrypt-staging # TODO: change to production
+    kind: ClusterIssuer
+  commonName: kyle.fail
+  dnsNames:
+    - kyle.fail
+    - "*.kyle.fail"

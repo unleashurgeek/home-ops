@@ -1,0 +1,15 @@
+---
+originRequest:
+  http2Origin: true
+  noTLSVerify: true
+
+ingress:
+  - hostname: kyle.fail
+    service: https://nginx-external-controller.network.svc.cluster.local:443
+    originRequest:
+      originServerName: external.kyle.fail
+  - hostname: "*.kyle.fail"
+    service: https://nginx-external-controller.network.svc.cluster.local:443
+    originRequest:
+      originServerName: external.kyle.fail
+  - service: http_status:404
