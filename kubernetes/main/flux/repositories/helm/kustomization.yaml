@@ -6,3 +6,4 @@ resources:
   - ./bjw-s.yaml
   - ./kubernetes-sigs-metrics-server.yaml
   - ./jetstack.yaml
+  - ./stakater.yaml
