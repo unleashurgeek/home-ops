@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: &app external-dns-bind
+  name: &app external-dns-bind-crds
 spec:
   interval: 30m
   chart:
@@ -61,7 +61,7 @@ spec:
     extraArgs:
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
-      - --label-filter="target-dns=internal"
+      - --label-filter="target-dns==internal"
 
     sources:
       - crd
