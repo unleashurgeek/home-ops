@@ -8,3 +8,4 @@ resources:
   - ./jetstack.yaml
   - ./stakater.yaml
   - ./ingress-nginx.yaml
+  - ./cilium.yaml

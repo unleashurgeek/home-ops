@@ -3,19 +3,19 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app metrics-server
+  name: &app cilium
   namespace: flux-system
 spec:
   targetNamespace: kube-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  path: ./kubernetes/main/apps/kube-system/metrics-server/app
-  prune: true
+  path: ./kubernetes/main/apps/kube-system/cilium/app
+  prune: false
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
-  wait: true
+  wait: false
   interval: 30m
   retryInterval: 1m
   timeout: 5m
