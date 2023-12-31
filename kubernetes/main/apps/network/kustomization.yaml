@@ -10,4 +10,4 @@ resources:
   - ./external-dns/ks.yaml
   - ./echo-server/ks.yaml
   # Standard Resources
-  - ./external-services/kustomization.yaml
+  - ./external-services
