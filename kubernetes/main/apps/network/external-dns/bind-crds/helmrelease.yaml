@@ -66,7 +66,7 @@ spec:
     sources:
       - crd
 
-    txtOwnerId: default
+    txtOwnerId: bind-crds
     txtPrefix: k8s.
 
     podAnnotations:
