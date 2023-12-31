@@ -1,5 +1,3 @@
-### NOTE: This is not meant to be the desired cilium config, just the minimum necessary to make
-### a healthy cluster with a working network
 ---
 ## Talos required settings
 securityContext:
@@ -17,53 +15,37 @@ cluster:
   name: main
   id: 1
 
-## Allow fallback to another CNI
-cni:
-  exclusive: false
-
-## Cilium networking internals (+ kube-proxy replacement)
+## Cilium kube-proxy replacement
 ipam:
   mode: kubernetes
 kubeProxyReplacement: true
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 k8sServiceHost: localhost
 k8sServicePort: 7445
-# autoDirectNodeRoutes: true
-# routingMode: native
-# ipv4NativeRoutingCIDR: 10.244.0.0/16
+
+## IP Routing
+# tunnel: disabled
+# endpointRoutes:
+#   enabled: true
+# localRedirectPolicy: true
+ipv4NativeRoutingCIDR: 10.244.0.0/16
 # loadBalancer:
 #   algorithm: maglev
 #   mode: dsr
+# autoDirectNodeRoutes: true
+bpf:
+  masquerade: true
+bgp:
+  enabled: false
+
+## Enabling L2 Announcements (no BGP)
+l2announcements:
+  enabled: true
+  leaseDuration: 120s
+  leaseRenewDeadline: 60s
+  leaseRetryPeriod: 1s
 
 ## Cilium automatic management upon ConfigMap update/resource changes
 rollOutCiliumPods: true
 operator:
   rollOutPods: true
-
-# bpf:
-#   masquerade: true
-#   tproxy: true
-# bgpControlPlane:
-#   enabled: true
-# localRedirectPolicy: true
-# bandwidthManager:
-#   enabled: true
-#   bbr: true
-# enableCnpStatusUpdates: true
-# endpointStatus:
-#   enabled: true
-#   status: policy
-
-## Hubble observability
-hubble:
-  enabled: true
-
-  relay:
-    enabled: true
-    rollOutPods: true
-
-  ui:
-    enabled: false
-    ingress:
-      enabled: true
-    rollOutPods: true
