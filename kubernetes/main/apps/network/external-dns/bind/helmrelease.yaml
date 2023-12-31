@@ -41,9 +41,9 @@ spec:
 
     env:
       - name: EXTERNAL_DNS_RFC2136_HOST
-        value: 192.168.2.58
+        value: "192.168.2.58"
       - name: EXTERNAL_DNS_RFC2136_PORT
-        value: 53
+        value: "53"
       - name: EXTERNAL_DNS_RFC2136_ZONE
         value: kyle.fail
       - name: EXTERNAL_DNS_RFC2136_TSIG_AXFR
