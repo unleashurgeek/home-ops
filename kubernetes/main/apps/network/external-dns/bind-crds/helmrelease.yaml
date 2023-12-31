@@ -61,7 +61,7 @@ spec:
     extraArgs:
       - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
       - --crd-source-kind=DNSEndpoint
-      - --label-filter="target-dns==internal"
+      - --label-filter=target-dns==internal
 
     sources:
       - crd
