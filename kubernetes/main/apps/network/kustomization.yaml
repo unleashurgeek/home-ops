@@ -9,3 +9,5 @@ resources:
   - ./nginx/ks.yaml
   - ./external-dns/ks.yaml
   - ./echo-server/ks.yaml
+  # Standard Resources
+  - ./external-services/kustomization.yaml
