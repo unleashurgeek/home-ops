@@ -1,11 +1,10 @@
 apiVersion: v1
 kind: Secret
-type: Opaque
 metadata:
     name: sops-age
     namespace: flux-system
 data:
-    age.agekey: ENC[AES256_GCM,data:oO4GzA2BJYKObBbouj2wY0XisaIdTHOzLkVrpUiiassWIb8+lHF12w80CG/lA7dP+W2kZWtBFrD/JKHdcg+lnQEq7A/Vxh/pJEQ=,iv:6PVbobOUm5SSTAyHfW+PAacg4igNisB6l+jVRvKh1UA=,tag:yqWTFIu6EA8cfcjofwQ4Vg==,type:str]
+    age.agekey: ENC[AES256_GCM,data:IWU2lu7MjDnkXr0ZrVMrsyHXNeXig3UnD6NZo4lTsOmWz2puqQ/S3zJ91Gq92EaEPEzTMVFeUL57n7Cgvu7EqMB4fYYY1s2cBBUEMLzfzWQ9h/V/BPp6YaOc2YwvZHz+H0kr213JCZzu4WUd8X45cLF2dGy01sIGk96sl/4SKc3Rn5HaksH9IuHeGeiLJiJzCXLZsc5CjuJNxHiDVx5NgdOrMr/DTq5bmt1/ruGr7YYwSffUxdl9PsW9kfzM6/uvNxZq8sEHhaPARKoYeCxW1aurzThqq2cHysTLkE8RjeCmH+1J5CHsjm1W+1mKfBHb9idRjfEfONU=,iv:o/HZIAEs43P+ZJfPH/sht0v3aD8xzGKSNgadgZKs/SI=,tag:AEbT+ckqOMM9CkCO8CounQ==,type:str]
 sops:
     kms: []
     gcp_kms: []
@@ -30,8 +29,8 @@ sops:
             eG5DN3Z6YUNQSmUxTkF1NXBiWUprSU0K/Fw+Cqs64UTZiiCwp4SpbJcEbEFx5Jfp
             G7LbJFDhRCHkky1GA6eTxgbfB+5rD7JY0DYCB+7pVYmKcOy1QG8qFQ==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2023-12-30T21:46:04Z"
-    mac: ENC[AES256_GCM,data:8yZKyldGiFlURz7rNFWPpKswJgY2e5QV7WTl5FbpDF61CymPjJO55UZ4sPDE9fQAMaHvdRc3GUWb5XtBtJ29UxXezuVn90srId3JoluVcum2W4WP5NDAnF/DGzhVmi8P+mMicMNX5pwCzYyt6VbPtkfG+5ZIBRcYhUAwHseOg5Q=,iv:uIJZRrlMh+BMs5vaFv8fY3YM79fM65cJEH6+NTyKsgw=,tag:TsZ+09yO5Dz16BEKM5/axQ==,type:str]
+    lastmodified: "2023-12-30T23:50:37Z"
+    mac: ENC[AES256_GCM,data:YA3+r0eDfJj3ULvHs/uZVwLH9edemievfRUItxJyjEANIWF4iw7WH9wg961OZtOr67yCaZ6lZoZ7gU70Ph39TRvyjqAc7My9oI06bd+8zWnTFhRTCbd4IYr5YVPI0ZNj+ZSJ7S5vUvrbWQeBL47FYctZoZTKxrFPHOOjpA/1yf8=,iv:p1bRsvBAVRKlrA0XYYDisXZ9wz1OwCKBP5/u14eVAjk=,tag:JmAInrrKI1+toQtB7S/pAA==,type:str]
     pgp: []
     encrypted_regex: ^(data|stringData)$
     version: 3.8.1

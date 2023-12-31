@@ -12,6 +12,7 @@ includes:
   talos: .task/talos
   k8s: .task/k8s
   cluster: .task/cluster
+  flux: .task/flux
 
 tasks:
   default:

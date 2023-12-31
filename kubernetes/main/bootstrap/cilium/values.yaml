@@ -1,3 +1,5 @@
+### NOTE: This is not meant to be the desired cilium config, just the minimum necessary to make
+### a healthy cluster with a working network
 ---
 ## Talos required settings
 securityContext:
@@ -26,31 +28,31 @@ kubeProxyReplacement: strict
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 k8sServiceHost: localhost
 k8sServicePort: 7445
-autoDirectNodeRoutes: true
-routingMode: native
-ipv4NativeRoutingCIDR: 10.244.0.0/16
-loadBalancer:
-  algorithm: maglev
-  mode: dsr
+# autoDirectNodeRoutes: true
+# routingMode: native
+# ipv4NativeRoutingCIDR: 10.244.0.0/16
+# loadBalancer:
+#   algorithm: maglev
+#   mode: dsr
 
 ## Cilium automatic management upon ConfigMap update/resource changes
 rollOutCiliumPods: true
 operator:
   rollOutPods: true
 
-bpf:
-  masquerade: true
-  tproxy: true
-bgpControlPlane:
-  enabled: true
-localRedirectPolicy: true
-bandwidthManager:
-  enabled: true
-  bbr: true
-enableCnpStatusUpdates: true
-endpointStatus:
-  enabled: true
-  status: policy
+# bpf:
+#   masquerade: true
+#   tproxy: true
+# bgpControlPlane:
+#   enabled: true
+# localRedirectPolicy: true
+# bandwidthManager:
+#   enabled: true
+#   bbr: true
+# enableCnpStatusUpdates: true
+# endpointStatus:
+#   enabled: true
+#   status: policy
 
 ## Hubble observability
 hubble:

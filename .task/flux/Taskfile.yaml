@@ -1,0 +1,7 @@
+---
+version: "3"
+
+tasks:
+  watch:
+    silent: true
+    cmd: watch -n1 flux get all -A

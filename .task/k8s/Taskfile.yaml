@@ -3,7 +3,6 @@ version: "3"
 
 tasks:
   flux-bootstrap-apply:
-    internal: false
     desc: Bootstrap Flux onto a new cluster
     requires:
       vars: [cluster]
@@ -21,7 +20,6 @@ tasks:
         sh: test -f /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/flux/age-key.sops.yaml
 
   cilium-bootstrap-apply:
-    internal: true
     desc: Bootstrap Cilium onto a new cluster
     requires:
       vars: [cluster]
@@ -37,7 +35,6 @@ tasks:
         sh: test -f /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/cilium/kustomization.yaml
 
   csr-bootstrap-apply:
-    internal: true
     desc: Bootstrap kubelet-csr-approver
     requires:
       vars: [cluster]
