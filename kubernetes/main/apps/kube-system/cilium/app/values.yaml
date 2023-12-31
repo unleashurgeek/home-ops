@@ -24,7 +24,7 @@ k8sServiceHost: localhost
 k8sServicePort: 7445
 
 ## IP Routing
-routingMode: native
+tunnel: disabled
 endpointRoutes:
   enabled: true
 localRedirectPolicy: true
