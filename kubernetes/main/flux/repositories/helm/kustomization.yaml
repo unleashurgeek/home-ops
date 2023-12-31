@@ -10,3 +10,5 @@ resources:
   - ./ingress-nginx.yaml
   - ./cilium.yaml
   - ./external-dns.yaml
+  - ./intel.yaml
+  - ./node-feature-discovery.yaml
