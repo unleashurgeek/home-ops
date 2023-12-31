@@ -1,0 +1,54 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/externaldns.k8s.io/dnsendpoint_v1alpha1.json
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: proxmox
+  labels:
+    app.kubernetes.io/name: proxmox
+    app.kubernetes.io/instance: proxmox
+    target-dns: internal
+spec:
+  endpoints:
+    - dnsName: pve.kyle.fail
+      recordType: A
+      targets: ["192.168.2.56"]
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.29.0/service.json
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxmox
+  labels:
+    app.kubernetes.io/name: proxmox
+    app.kubernetes.io/instance: proxmox
+spec:
+  type: ExternalName
+  externalName: pve.kyle.fail
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.29.0/ingress.json
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: proxmox
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: 'HTTPS'
+  labels:
+    app.kubernetes.io/name: proxmox
+    app.kubernetes.io/instance: proxmox
+spec:
+  ingressClassName: internal
+  rules:
+    - host: &host proxmox.kyle.fail
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: proxmox
+                port:
+                  number: 8006
+  tls:
+    - hosts:
+        - *host
