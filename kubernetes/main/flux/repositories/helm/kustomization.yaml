@@ -9,3 +9,4 @@ resources:
   - ./stakater.yaml
   - ./ingress-nginx.yaml
   - ./cilium.yaml
+  - ./external-dns.yaml
