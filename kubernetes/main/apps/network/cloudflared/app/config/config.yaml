@@ -1,7 +1,6 @@
 ---
 originRequest:
   http2Origin: true
-  noTLSVerify: true
 
 ingress:
   - hostname: kyle.fail
