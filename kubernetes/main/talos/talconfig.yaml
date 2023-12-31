@@ -44,6 +44,8 @@ nodes:
         dhcp: false
         vip:
           ip: ${clusterVIP}
+    nameservers:
+      - 192.168.2.58
     schematic:
       customization:
         systemExtensions:
