@@ -6,7 +6,7 @@ metadata:
   name: home-kubernetes
   namespace: flux-system
 spec:
-  interval: 30m
+  interval: 5m
   url: https://github.com/unleashurgeek/home-ops.git
   ref:
     branch: main
