@@ -33,7 +33,6 @@ metadata:
   name: nas
   annotations:
     nginx.ingress.kubernetes.io/backend-protocol: 'HTTPS'
-    nginx.ingress.kubernetes.io/proxy-ssl-verify: 'off'
   labels:
     app.kubernetes.io/name: nas
     app.kubernetes.io/instance: nas
