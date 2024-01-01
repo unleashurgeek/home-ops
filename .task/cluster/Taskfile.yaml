@@ -31,3 +31,11 @@ tasks:
       - cp -r /{{.ROOT_DIR}}/.task/cluster/templates/app /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/apps/{{.ns}}/{{.app}}/
       - grep -lR 'APP' /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/apps/{{.ns}}/{{.app}}/ | xargs -I% sed -i 's/${APP}/{{.app}}/g' %
       - grep -lR 'NAMESPACE' /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/apps/{{.ns}}/{{.app}}/ | xargs -I% sed -i 's/${NAMESPACE}/{{.ns}}/g' %
+
+  delete-failed-pods:
+    desc: Deletes pods with Failed phase
+    cmd: kubectl delete pods --field-selector status.phase=Failed -A --ignore-not-found=true
+
+  delete-succeeded-pods:
+    desc: Deletes pods with Succeeded phase
+    cmd: kubectl delete pods --field-selector status.phase=Succeeded -A --ignore-not-found=true
