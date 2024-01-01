@@ -6,7 +6,6 @@ metadata:
   name: rook-ceph-cluster
 spec:
   interval: 30m
-  timeout: 15m
   chart:
     spec:
       chart: rook-ceph-cluster
@@ -34,9 +33,6 @@ spec:
         tls:
           - hosts:
               - *host
-
-    monitoring:
-      enabled: true
 
     configOverride: |
       [global]
