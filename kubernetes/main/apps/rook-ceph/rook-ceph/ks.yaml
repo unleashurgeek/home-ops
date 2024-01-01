@@ -13,7 +13,7 @@ spec:
   dependsOn:
     - name: snapshot-controller
   path: ./kubernetes/main/apps/rook-ceph/rook-ceph/app
-  prune: true # TODO: flip to false -- never should be deleted
+  prune: true
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
@@ -36,7 +36,7 @@ spec:
   dependsOn:
     - name: rook-ceph
   path: ./kubernetes/main/apps/rook-ceph/rook-ceph/cluster
-  prune: true # TODO: flip to false -- never should be deleted
+  prune: false
   sourceRef:
     kind: GitRepository
     name: home-kubernetes
