@@ -14,8 +14,8 @@ spec:
       - dns01:
           cloudflare:
             apiTokenSecretRef:
-              name: letsencrypt-secret
-              key: CLOUDFLARE_API_KEY
+              name: cloudflare-secret
+              key: api-token
         selector:
           dnsZones:
             - kyle.fail
