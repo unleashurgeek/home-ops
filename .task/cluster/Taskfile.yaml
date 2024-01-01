@@ -18,8 +18,10 @@ tasks:
     desc: Create a new namespace from a tempalte
     requires:
       vars: [cluster, ns]
+    silent: true
     cmds:
-      - echo
+      - cp -r /{{.ROOT_DIR}}/.task/cluster/templates/namespace /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/apps/{{.ns}}/
+      - grep -lR 'NAMESPACE' /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/apps/{{.ns}}/ | xargs -I% sed -i 's/${NAMESPACE}/{{.ns}}/g' %
 
   new-app:
     aliases: [app]
