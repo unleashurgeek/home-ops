@@ -5,4 +5,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   # Flux Kustomizations
-  - ./snapshot-controller.yaml
+  - ./snapshot-controller/ks.yaml
