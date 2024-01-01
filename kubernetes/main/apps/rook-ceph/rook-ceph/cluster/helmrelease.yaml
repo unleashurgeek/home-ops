@@ -129,7 +129,7 @@ spec:
           enabled: true
           name: ceph-block
           isDefault: true
-          reclaimPolicy: delete
+          reclaimPolicy: Delete
           allowVolumeExpansion: true
           parameters:
             imageFormat: "2"
