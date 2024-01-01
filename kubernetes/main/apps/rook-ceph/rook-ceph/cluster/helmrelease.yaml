@@ -28,8 +28,6 @@ spec:
     ingress:
       dashboard:
         ingressClassName: internal
-        annotations:
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         host:
           name: &host rook.kyle.fail
           path: /
@@ -37,8 +35,8 @@ spec:
           - hosts:
               - *host
 
-    toolbox:
-      enabled: false
+    monitoring:
+      enabled: true
 
     configOverride: |
       [global]
@@ -102,6 +100,7 @@ spec:
       dashboard:
         enabled: true
         urlPrefix: /
+        ssl: false
 
       storage:
         useAllNodes: false
