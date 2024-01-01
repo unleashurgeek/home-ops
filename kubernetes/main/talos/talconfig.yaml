@@ -27,10 +27,6 @@ nodes:
     installDiskSelector:
       size: "<= 600GB"
       type: ssd
-    machineDisks:
-      - device: /dev/nvme0n1 # 1tb nvme
-        partitions:
-          - mountpoint: /var/mnt/nvme
     disableSearchDomain: true
     networkInterfaces:
       - &it12-net
