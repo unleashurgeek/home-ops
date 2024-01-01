@@ -123,7 +123,7 @@ controlPlane:
     # Configure containerd
     - |-
       machine:
-        file:
+        files:
           - op: create
             path: /etc/cri/conf.d/20-customization.part
             permissions: 0o644
