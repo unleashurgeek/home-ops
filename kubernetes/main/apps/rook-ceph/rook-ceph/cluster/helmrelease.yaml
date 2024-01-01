@@ -111,13 +111,13 @@ spec:
         nodes:
           - name: "augustus"
             devices:
-              - name: /dev/disk/by-id/nvme-todo
+              - name: /dev/disk/by-id/nvme-Lexar_SSD_NM7A1_1TB_NGF606R002706P2200
           - name: "nero"
             devices:
-              - name: /dev/disk/by-id/nvme-todo
+              - name: /dev/disk/by-id/nvme-Lexar_SSD_NM7A1_1TB_NGF606R001841P2200
           - name: "titus"
             devices:
-              - name: /dev/disk/by-id/nvme-todo
+              - name: /dev/disk/by-id/nvme-Lexar_SSD_NM7A1_1TB_NGF606R002283P2200
 
     cephBlockPools:
       - name: ceph-blockpool

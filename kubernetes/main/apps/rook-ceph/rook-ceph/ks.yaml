@@ -12,7 +12,6 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: snapshot-controller
-      namespace: storage
   path: ./kubernetes/main/apps/rook-ceph/rook-ceph/app
   prune: true # TODO: flip to false -- never should be deleted
   sourceRef:
@@ -36,7 +35,6 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: rook-ceph
-      namespace: rook-ceph
   path: ./kubernetes/main/apps/rook-ceph/rook-ceph/cluster
   prune: true # TODO: flip to false -- never should be deleted
   sourceRef:
