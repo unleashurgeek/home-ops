@@ -15,3 +15,4 @@ resources:
   - ./xenitab.yaml
   - ./piraeus.yaml
   - ./democratic-csi.yaml
+  - ./rook-ceph.yaml
