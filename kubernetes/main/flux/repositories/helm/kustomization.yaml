@@ -12,3 +12,4 @@ resources:
   - ./external-dns.yaml
   - ./intel.yaml
   - ./node-feature-discovery.yaml
+  - ./xenitab.yaml

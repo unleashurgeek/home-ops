@@ -24,15 +24,19 @@ k8sServiceHost: localhost
 k8sServicePort: 7445
 
 ## IP Routing
+ipv4NativeRoutingCIDR: 10.244.0.0/16
+containerRuntime:
+  integration: containerd
+
 # tunnel: disabled
 # endpointRoutes:
 #   enabled: true
 # localRedirectPolicy: true
-ipv4NativeRoutingCIDR: 10.244.0.0/16
 # loadBalancer:
 #   algorithm: maglev
 #   mode: dsr
 # autoDirectNodeRoutes: true
+
 bpf:
   masquerade: true
 bgp:
