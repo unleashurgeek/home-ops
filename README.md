@@ -22,3 +22,4 @@
 * https://github.com/Diaoul/home-ops
 * https://github.com/deedee-ops/home-ops
 * https://github.com/LilDrunkenSmurf/k3s-home-cluster
+* https://github.com/mihirsamdarshi/pancakebatter/tree/main
