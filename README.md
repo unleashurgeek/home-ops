@@ -12,6 +12,7 @@
 * sops: https://github.com/getsops/sops
 * age: https://github.com/FiloSottile/age
 * terraform: https://developer.hashicorp.com/terraform/install
+* https://github.com/sachaos/viddy
 
 # Insipration
 * https://github.com/JJGadgets/Biohazard/tree/main
