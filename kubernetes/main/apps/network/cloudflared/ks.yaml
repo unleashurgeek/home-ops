@@ -11,8 +11,8 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: external-dns-crd
     - name: external-secrets-stores
+    - name: nginx-external
   path: ./kubernetes/main/apps/network/cloudflared/app
   prune: true
   sourceRef:
