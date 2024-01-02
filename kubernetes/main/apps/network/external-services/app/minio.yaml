@@ -1,0 +1,54 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/externaldns.k8s.io/dnsendpoint_v1alpha1.json
+apiVersion: externaldns.k8s.io/v1alpha1
+kind: DNSEndpoint
+metadata:
+  name: &app minio
+  labels:
+    app.kubernetes.io/name: *app
+    app.kubernetes.io/instance: *app
+    target-dns: internal
+spec:
+  endpoints:
+    - dnsName: s3.kyle.fail
+      recordType: A
+      targets: ["192.168.10.5"]
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.29.0/service.json
+apiVersion: v1
+kind: Service
+metadata:
+  name: &app minio
+  labels:
+    app.kubernetes.io/name: *app
+    app.kubernetes.io/instance: *app
+spec:
+  type: ExternalName
+  externalName: s3.kyle.fail
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.29.0/ingress.json
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: &app minio
+  annotations:
+    nginx.ingress.kubernetes.io/backend-protocol: 'HTTPS'
+  labels:
+    app.kubernetes.io/name: *app
+    app.kubernetes.io/instance: *app
+spec:
+  ingressClassName: internal
+  rules:
+    - host: &host '{{ .Release.Name }}.kyle.fail'
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: *app
+                port:
+                  number: 9002
+  tls:
+    - hosts:
+        - *host
