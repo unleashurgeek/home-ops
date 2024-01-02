@@ -1,0 +1,211 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+vars:
+  ts: '{{now | date "150405"}}'
+
+includes:
+  k8s:
+    internal: true
+    taskfile: ../k8s
+
+tasks:
+  list:
+    desc: List snapshots for an application
+    summary: |
+      Args:
+        cluster: Cluster to run command against (required)
+        ns: Namespace the PVC is in (required)
+        app: Application to list snapshots for (required)
+    requires:
+      vars: [cluster, ns, app]
+    vars:
+      ns: '{{ or .ns (fail "Argument (ns) is required")}}'
+      app: '{{ or .app (fail "Argument (app) is required") }}'
+    env:
+      ns: '{{.ns}}'
+      app: '{{.app}}'
+      ts: '{{.ts}}'
+    dir: /{{.ROOT_DIR}}/.task/volsync/
+    cmds:
+      - task: k8s:cluster-switch
+        vars: { cluster: '{{.cluster}}' }
+      - envsubst < <(cat list.tmpl.yaml) | kubectl apply -f -
+      - task: k8s:wait-finish
+        vars: { ns: '{{.ns}}', type: job, name: '{{.app}}-list-{{.ts}}' }
+      - defer: kubectl -n {{.ns}} delete job {{.app}}-list-{{.ts}}
+    preconditions:
+      - { msg: "List template not found",        sh: "test -f list.tmpl.yaml" }
+    silent: true
+
+  unlock:
+    desc: Unlock a Restic repository for an application
+    summary: |
+      Args:
+        cluster: Cluster to run command against (required)
+        ns: Namespace the PVC is in (required)
+        app: Application to unlock (required)
+    requires:
+      vars: [cluster, ns, app]
+    vars:
+      ns: '{{ or .ns (fail "Argument (ns) is required")}}'
+      app: '{{ or .app (fail "Argument (app) is required") }}'
+    env:
+      ns: '{{.ns}}'
+      app: '{{.app}}'
+      ts: '{{.ts}}'
+    dir: /{{.ROOT_DIR}}/.task/volsync/
+    cmds:
+      - envsubst < <(cat unlock.tmpl.yaml) | kubectl apply -f -
+      - task: k8s:wait-finish
+        vars: { ns: '{{.ns}}', type: job, name: '{{.app}}-unlock-snapshots-{{.ts}}' }
+      - defer: kubectl -n {{.ns}} delete job {{.app}}-unlock-snapshots-{{.ts}}
+    preconditions:
+      - { msg: "Unlock template not found",      sh: "test -f unlock.tmpl.yaml" }
+    silent: true
+
+  # To run backup jobs in parallel for all replicationsources:
+  #  - kubectl get replicationsources --all-namespaces --no-headers | awk '{print $2, $1}' | xargs --max-procs=4 -l bash -c 'task volsync:snapshot app=$0 ns=$1'
+  snapshot:
+    desc: Trigger a Restic ReplicationSource snapshot
+    summary: |
+      Args:
+        cluster: Cluster to run command against (required)
+        ns: Namespace the PVC is in (required)
+        app: Application to list snapshots for (required)
+    requires:
+      vars: [cluster, ns, app]
+    vars:
+      app: '{{ or .app (fail "Argument (app) is required") }}'
+      ns: '{{ or .ns (fail "Argument (ns) is required")}}'
+      # Query to find the controller associated with the app
+      controller:
+        sh: |-
+          if kubectl --context {{.cluster}} -n {{.ns}} get deployment.apps/{{.app}} >/dev/null 2>&1 ; then
+            echo "deployment.apps/{{.app}}"
+          else
+            echo "statefulset.apps/{{.app}}"
+          fi
+    cmds:
+      - kubectl -n {{.ns}} patch replicationsources {{.app}} --type merge -p '{"spec":{"trigger":{"manual":"{{.ts}}"}}}'
+      - task: k8s:wait-finish
+        vars: { ns: '{{.ns}}', type: job, name: 'volsync-src-{{.app}}' }
+    preconditions:
+      - { msg: "ReplicationSource '{{.app}}' not found in namespace '{{.ns}}'", sh: "kubectl -n {{.ns}} get replicationsources {{.app}}" }
+
+  # To run restore jobs in parallel for all replicationdestinations:
+  # - kubectl get replicationsources --all-namespaces --no-headers | awk '{print $2, $1}' | xargs --max-procs=4 -l bash -c 'task volsync:restore app=$0 ns=$1'
+  restore:
+    desc: Restore a PVC for an application
+    summary: |
+      Args:
+        cluster: Cluster to run command against (required)
+        ns: Namespace the PVC is in (required)
+        app: Application to restore (required)
+        previous: Previous number of snapshots to restore (default: 2)
+    requires:
+      vars: [cluster, ns, app]
+    vars:
+      app: '{{ or .app (fail "Argument (app) is required")}}'
+      ns: '{{ or .ns (fail "Argument (ns) is required")}}'
+      previous: '{{.previous | default 2}}'
+      controller:
+        sh: |-
+          if kubectl -n {{.ns}} get deployment.apps/{{.app}} >/dev/null 2>&1 ; then
+            echo "deployment.apps/{{.app}}"
+          else
+            echo "statefulset.apps/{{.app}}"
+          fi
+      claim:
+        sh: kubectl -n {{.ns}} get replicationsources/{{.app}} -o jsonpath="{.spec.sourcePVC}"
+      puid:
+        sh: kubectl -n {{.ns}} get replicationsources/{{.app}} -o jsonpath="{.spec.restic.moverSecurityContext.runAsUser}"
+      pgid:
+        sh: kubectl -n {{.ns}} get replicationsources/{{.app}} -o jsonpath="{.spec.restic.moverSecurityContext.runAsGroup}"
+    env: &env
+      app: '{{.app}}'
+      controller: '{{.controller}}'
+      claim: '{{.claim}}'
+      puid: '{{.puid}}'
+      pgid: '{{.pgid}}'
+      ns: '{{.ns}}'
+      previous: '{{.previous}}'
+      ts: '{{.ts}}'
+    cmds:
+      - task: .suspend
+        vars: *env
+      - task: .wipe
+        vars: *env
+      - task: .restore
+        vars: *env
+      - task: .resume
+        vars: *env
+    preconditions:
+      - { msg: "ReplicationDestination script not found", sh: "test -f replication-destination.tmpl.yaml" }
+      - { msg: "Wipe template not found",                 sh: "test -f wipe.tmpl.yaml" }
+
+  cleanup:
+    desc: Delete volume populator PVCs in all namespaces
+    summary: |
+      Args:
+        cluster: Cluster to run command against (required)
+    requires:
+      vars: [cluster]
+    cmds:
+      - task: k8s:cluster-switch
+        vars: { cluster: '{{.cluster}}' }
+      - kubectl get pvc -A --no-headers | grep "dst-dest" | awk '{print $2, $1}' | xargs -l bash -c 'kubectl delete pvc -n $1 $0'
+      - kubectl get pvc -A --no-headers | grep "dst-cache" | awk '{print $2, $1}' | xargs -l bash -c 'kubectl delete pvc -n $1 $0'
+
+  .wipe:
+    internal: true
+    dir: /{{.ROOT_DIR}}/.task/volsync/
+    requires:
+      vars: [cluster, ns, app, ts, claim]
+    cmds:
+      - task: k8s:cluster-switch
+        vars: { cluster: '{{.cluster}}' }
+      - envsubst < <(cat wipe.tmpl.yaml) | kubectl apply -f -
+      - task: k8s:wait-finish
+        vars: { ns: '{{.ns}}', type: job, name: '{{.app}}-wipe-{{.ts}}' }
+      - defer: kubectl -n {{.ns}} delete job {{.app}}-wipe-{{.ts}}
+    preconditions:
+      - sh: test -f wipe.tmpl.yaml
+
+  .restore:
+    internal: true
+    dir: /{{.ROOT_DIR}}/.task/volsync/
+    requires:
+      vars: [cluster, ns, app, ts, claim, puid, pgid, previous]
+    cmds:
+      - task: k8s:cluster-switch
+        vars: { cluster: '{{.cluster}}' }
+      - envsubt < <(cat replication-destination.tmpl.yaml) | kubectl apply -f -
+      - task: k8s:wait-finish
+        vars: { ns: '{{.ns}}', type: job, name: 'volsync-dst-{{.app}}-{{.ts}}' }
+      - defer: kubectl -n {{.ns}} delete replicationdestination {{.app}}-{{.ts}}
+    preconditions:
+      - sh: test -f replication-destination.tmpl.yaml
+
+  .suspend:
+    internal: true
+    requires:
+      vars: [cluster, ns, app, controller]
+    cmds:
+      - task: k8s:cluster-switch
+        vars: { cluster: '{{.cluster}}' }
+      - flux suspend hr {{.app}} -n {{.ns}}
+      - flux suspend ks {{.app}}
+      - kubectl -n {{.ns}} scale {{.controller}} --replicas 0
+      - kubectl -n {{.ns}} wait pod --for delete --selector="app.kubernetes.io/name={{.app}}" --timeout=2m
+
+  .resume:
+    internal: true
+    requires:
+      vars: [cluster, ns, app]
+    cmds:
+      - task: k8s:cluster-switch
+        vars: { cluster: '{{.cluster}}' }
+      - flux suspend hr {{.app}} -n {{.ns}} && flux resume hr {{.app}} -n {{.ns}}
+      - flux suspend ks {{.app}} && flux resume ks {{.app}}

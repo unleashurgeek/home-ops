@@ -3,6 +3,7 @@ version: "3"
 
 tasks:
   cluster-switch:
+    run: once
     aliases: [ctx]
     desc: Switch kubeconfig current-context to another cluster
     requires:
@@ -17,6 +18,16 @@ tasks:
       vars: [namespace, name]
     cmds:
       - until [[ $(kubectl -n {{.namespace}} get pod {{.name}} -o jsonpath='{.items[*].status.phase}') == "Running" ]]; do sleep 1; done
+
+  wait-finish:
+    internal: true
+    desc: Wait for a job to finish
+    requires:
+      vars: [ns, type, name]
+    cmd: |-
+      until kubectl -n {{.ns}} wait {{.type}}/{{.name}} --for condition=complete --timeout=2s; do
+        echo "{{.name}} is still running, logs:" && kubectl -n {{.ns}} logs {{.type}}/{{.name}} --since 2s -f || true;
+      done
 
   flux-bootstrap-apply:
     desc: Bootstrap Flux onto a new cluster

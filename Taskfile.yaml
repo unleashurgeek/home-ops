@@ -14,6 +14,7 @@ includes:
   cluster: .task/cluster
   flux: .task/flux
   rook: .task/rook
+  volsync: .task/volsync
 
 tasks:
   default:
