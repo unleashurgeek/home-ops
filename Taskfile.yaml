@@ -13,6 +13,7 @@ includes:
   k8s: .task/k8s
   cluster: .task/cluster
   flux: .task/flux
+  rook: .task/rook
 
 tasks:
   default:

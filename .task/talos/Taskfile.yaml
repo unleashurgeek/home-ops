@@ -121,3 +121,12 @@ tasks:
           --graceful={{.graceful}} --reboot=true --wait={{.graceful}} \
           --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig \
           --nodes {{.ip}}
+
+  reboot:
+    desc: Reboot nodes based on Kubernetes InternalIP. Assumes only 1 IP in InternalIP, and the IP known to Kubernetes is the same used by `talosctl`.
+    requires:
+      vars: [cluster, node]
+    cmd: |-
+      talosctl reboot \
+          --talosconfig /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/talos/clusterconfig/talosconfig \
+          --nodes $(kubectl get nodes {{.node}} -o yaml | yq '.status.addresses | map(select(.type == "InternalIP")) | .[].address')

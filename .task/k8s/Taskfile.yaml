@@ -2,6 +2,22 @@
 version: "3"
 
 tasks:
+  cluster-switch:
+    aliases: [ctx]
+    desc: Switch kubeconfig current-context to another cluster
+    requires:
+      vars: [cluster]
+    cmd: "sed -i 's/current-context: admin@.*/current-context: admin@{{.cluster}}/g' ~/.kube/config || true"
+
+  wait-pod-running:
+    aliases: [waitr]
+    internal: true
+    desc: Wait for a job's pod to change its status to running
+    requires:
+      vars: [namespace, name]
+    cmds:
+      - until [[ $(kubectl -n {{.namespace}} get pod {{.name}} -o jsonpath='{.items[*].status.phase}') == "Running" ]]; do sleep 1; done
+
   flux-bootstrap-apply:
     desc: Bootstrap Flux onto a new cluster
     requires:

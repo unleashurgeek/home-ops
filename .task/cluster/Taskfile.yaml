@@ -6,13 +6,6 @@ includes:
     taskfile: ../../kubernetes/main
 
 tasks:
-  cluster-switch:
-    aliases: [ctx]
-    desc: Switch kubeconfig current-context to another cluster
-    requires:
-      vars: [cluster]
-    cmd: "sed -i 's/current-context: admin@.*/current-context: admin@{{.cluster}}/g' ~/.kube/config || true"
-
   new-ns:
     aliases: [ns]
     desc: Create a new namespace from a tempalte
