@@ -7,7 +7,7 @@ metadata:
 spec:
   sourcePVC: ${APP}
   trigger:
-    schedule: "0 0 * * *" # Every day at midnight
+    schedule: ${B2_BACKUP_SCHEDULE:-0 0 * * *} # Default: Every day at midnight
   restic:
     copyMethod: ${VOLSYNC_COPYMETHOD:-Snapshot}
     repository: ${APP}-volsync-b2

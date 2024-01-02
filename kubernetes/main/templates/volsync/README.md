@@ -25,6 +25,7 @@ resources:
 
 ## `postBuild` variables:
 * `APP`: The application name
+* `B2_BACKUP_SCHEDULE`: When backup should be created (default: `0 0 * * *` / Midnight daily)
 * `VOLSYNC_CAPACITY`: The PVC size (default: `1Gi`)
 * `VOLSYNC_CACHE_CAPACITY`: The size of the restic metadata cache volume (default: `1Gi`)
 * `VOLSYNC_STORAGECLASS`: What `StorageClass` to use for this PVC (default: `ceph-block`)
