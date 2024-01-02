@@ -8,7 +8,7 @@ spec:
   trigger:
     manual: restore-once
   restic:
-    repository: "${app}-volsync-b2" # IMPORTANT: Which repository to use for restore (TODO: switch to minio as default once setup)
+    repository: "${app}-volsync-minio" # IMPORTANT: Which repository to use for restore
     destinationPVC: "${claim}"
     copyMethod: Direct
     storageClassName: ceph-block

@@ -3,14 +3,14 @@
 apiVersion: volsync.backube/v1alpha1
 kind: ReplicationSource
 metadata:
-  name: ${APP}-b2
+  name: ${APP}-minio
 spec:
   sourcePVC: ${APP}
   trigger:
-    schedule: 0 0 * * * # Every day at midnight
+    schedule: 0 * * * * # At the top of every hour
   restic:
     copyMethod: ${VOLSYNC_COPYMETHOD:-Snapshot}
-    repository: ${APP}-volsync-b2
+    repository: ${APP}-volsync-minio
     cacheCapacity: "${VOLSYNC_CACHE_CAPACITY:-1Gi}"
     volumeSnapshotClassName: "${VOLSYNC_SNAPSHOTCLASS:-csi-ceph-blockpool}"
     storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-block}"
@@ -22,5 +22,7 @@ spec:
       runAsGroup: ${APP_GID:-568}
       fsGroup: ${APP_GID:-568}
     pruneIntervalDays: 7
-    retain: # keep the last 7 backups
+    retain: # keep 24 hourly, 7 daily, and 5 weekly backups
+      hourly: 24
       daily: 7
+      weekly: 5
