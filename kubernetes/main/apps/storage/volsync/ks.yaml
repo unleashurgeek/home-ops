@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: snapshot-controller
-    - name: external-secrets-store
+    - name: external-secrets-store # indirect dependency
   path: ./kubernetes/main/apps/storage/volsync/app
   prune: true
   sourceRef:
