@@ -39,7 +39,7 @@ metadata:
 spec:
   ingressClassName: internal
   rules:
-    - host: &host '{{ .Release.Name }}.kyle.fail'
+    - host: &host minio.kyle.fail
       http:
         paths:
           - path: /
