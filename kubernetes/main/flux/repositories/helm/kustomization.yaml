@@ -19,3 +19,5 @@ resources:
   - ./external-secrets.yaml
   - ./backube.yaml
   - ./bitnami.yaml
+  - ./cloudnative-pg.yaml
+  - ./ext-postgres-operator.yaml
