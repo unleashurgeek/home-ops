@@ -30,7 +30,7 @@ spec:
     limits:
       memory: 4Gi
   monitoring:
-    enablePodMonitor: true
+    enablePodMonitor: false # TODO: prometheus
     podMonitorMetricRelabelings:
       - action: replace
         sourceLabels: [cluster]
