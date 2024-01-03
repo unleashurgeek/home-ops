@@ -53,3 +53,44 @@ l2announcements:
 rollOutCiliumPods: true
 operator:
   rollOutPods: true
+
+dashboards:
+  enabled: true
+
+hubble:
+  enabled: true
+  metrics:
+    enabled:
+      - dns:query
+      - drop
+      - tcp
+      - flow
+      - port-distribution
+      - icmp
+      - http
+    serviceMonitor:
+      enabled: false # TODO prometheus
+    dashboards:
+      enabled: false # TODO grafana
+      annotations:
+        grafana_folder: Cilium
+
+  relay:
+    enabled: true
+    rollOutPods: true
+    prometheus:
+      enabled: false # TODO prometheus
+      serviceMonitor:
+        enabled: false # TODO prometheus
+
+  ui:
+    enabled: true
+    rollOutPods: true
+    ingress:
+      enabled: true
+      className: internal
+      hosts:
+        - &host hubble.kyle.fail
+      tls:
+        - hosts:
+            - *host
