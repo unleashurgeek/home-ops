@@ -21,3 +21,4 @@ resources:
   - ./bitnami.yaml
   - ./cloudnative-pg.yaml
   - ./ext-postgres-operator.yaml
+  - ./weaveworks.yaml
