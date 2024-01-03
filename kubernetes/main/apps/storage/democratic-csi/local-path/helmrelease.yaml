@@ -69,7 +69,7 @@ spec:
       config:
         driver: local-hostpath
         local-hostpath:
-          shareBasePath: &storagePath /var/democratic-csi-local-path
+          shareBasePath: &storagePath /var/lib/democratic-csi-local-hostpath
           controllerBasePath: *storagePath
           dirPermissionsMode: "0770"
           dirPermissionsUser: 0
