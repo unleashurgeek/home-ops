@@ -46,7 +46,7 @@ spec:
         compression: bzip2
         maxParallel: 8
       destinationPath: &s3-path s3://main-cloudnative-pg/
-      endpointURL: &s3-endpoint http://s3.kyle.fail:9000
+      endpointURL: &s3-endpoint https://s3.kyle.fail
       serverName: &current-cluster postgres16-v1
       s3Credentials: &s3-creds
         accessKeyId:
