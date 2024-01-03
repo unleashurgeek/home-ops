@@ -24,6 +24,9 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    podAnnotations:
+      reloader.stakater.com/auto: "true"
+
     controller:
       strategy: node
       externalProvisioner:
@@ -56,8 +59,8 @@ spec:
       - name: local-hostpath
         defaultClass: false
         reclaimPolicy: Delete
-        volumeBindingMode: Immediate
-        allowVolumeExpansion: true
+        volumeBindingMode: WaitForFirstConsumer
+        allowVolumeExpansion: false
 
     volumeSnapshotClasses:
       - name: local-hostpath
