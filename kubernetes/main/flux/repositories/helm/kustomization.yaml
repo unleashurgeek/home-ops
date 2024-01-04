@@ -22,3 +22,4 @@ resources:
   - ./cloudnative-pg.yaml
   - ./ext-postgres-operator.yaml
   - ./weaveworks.yaml
+  - ./k8tz.yaml
