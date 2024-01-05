@@ -9,3 +9,4 @@ resources:
   - ./thanos/ks.yaml
   - ./alertmanager/ks.yaml
   - ./loki/ks.yaml
+  - ./vector/ks.yaml
