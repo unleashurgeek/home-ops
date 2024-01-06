@@ -99,7 +99,7 @@ spec:
       config: *config
       resources:
         requests:
-          cpu: 23m
+          cpu: 24m
           memory: 204M
       persistence:
         enabled: true
