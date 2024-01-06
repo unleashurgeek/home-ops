@@ -11,3 +11,4 @@ resources:
   - ./loki/ks.yaml
   - ./vector/ks.yaml
   - ./grafana/ks.yaml
+  - ./exporters/ks.yaml
