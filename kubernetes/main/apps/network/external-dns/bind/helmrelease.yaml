@@ -65,5 +65,8 @@ spec:
     txtOwnerId: default
     txtPrefix: k8s.
 
+    serviceMonitor:
+      enabled: true
+
     podAnnotations:
       secret.reloader.stakater.com/reload: external-dns-bind-secret
