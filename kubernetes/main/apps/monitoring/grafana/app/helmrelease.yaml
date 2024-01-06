@@ -103,10 +103,6 @@ spec:
           url: https://raw.githubusercontent.com/kubernetes-sigs/node-feature-discovery/master/examples/grafana-dashboard.json
           datasource: Prometheus
 
-        miniflux:
-          url: https://raw.githubusercontent.com/miniflux/v2/main/contrib/grafana/dashboard.json
-          datasource: Prometheus
-
         cloudflared:
           # renovate: depName="Cloudflare Tunnels (cloudflared)"
           gnetId: 17457
@@ -119,13 +115,6 @@ spec:
           gnetId: 15038
           revision: 3
           datasource: Prometheus
-
-        minio:
-          # renovate: depName="MinIO Dashboard"
-          gnetId: 13502
-          revision: 24
-          datasource:
-            - { name: DS_PROMETHEUS, value: Prometheus }
 
         redis:
           # renovate: depName="Redis Dashboard for Prometheus Redis Exporter 1.x"
