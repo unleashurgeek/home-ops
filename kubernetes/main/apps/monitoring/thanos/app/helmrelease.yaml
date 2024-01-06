@@ -61,7 +61,7 @@ spec:
       replicaLabel: [__replica__]
       dnsDiscovery:
         sidecarsService: kube-prometheus-stack-thanos-discovery
-        sidecarsNamespace: observability
+        sidecarsNamespace: monitoring
       stores: []
       resources:
         requests:
