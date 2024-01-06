@@ -7,8 +7,7 @@ spec:
   storageClassName: "${VOLSYNC_STORAGECLASS:-ceph-block}"
   accessModes:
     - "${VOLSYNC_ACCESSMODES:-ReadWriteOnce}"
-  volumeMode:
-    - "${VOLSYNC_VOLUMEMODE:-Filesystem}"
+  volumeMode: "${VOLSYNC_VOLUMEMODE:-Filesystem}"
   resources:
     requests:
       storage: "${VOLSYNC_CAPACITY:-1Gi}"
