@@ -262,8 +262,8 @@ spec:
 
     admin:
       existingSecret: grafana-secret
-      passwordKey: adminPass
-      userKey: adminUser
+      passwordKey: admin-pass
+      userKey: admin-user
 
     imageRenderer:
       enabled: true
