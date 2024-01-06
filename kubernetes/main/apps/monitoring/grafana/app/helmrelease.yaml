@@ -260,6 +260,11 @@ spec:
       server:
         root_url: https://grafana.kyle.fail
 
+    admin:
+      existingSecret: grafana-secret
+      passwordKey: adminPass
+      userKey: adminUser
+
     imageRenderer:
       enabled: true
 
