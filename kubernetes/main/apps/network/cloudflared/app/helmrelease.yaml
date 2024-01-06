@@ -75,10 +75,10 @@ spec:
               capabilities: { drop: ["ALL"] }
             resources:
               limits: &resources
-                memory: 256Mi
+                memory: 105Mi
               requests:
                 <<: *resources
-                cpu: 10m
+                cpu: 6m
 
         pod:
           securityContext:
@@ -98,6 +98,16 @@ spec:
         ports:
           http:
             port: *port
+
+    serviceMonitor:
+      main:
+        enabled: true
+        endpoints:
+          - port: http
+            scheme: http
+            path: /metrics
+            interval: 1m
+            scrapeTimeout: 30s
 
     persistence:
       config:
