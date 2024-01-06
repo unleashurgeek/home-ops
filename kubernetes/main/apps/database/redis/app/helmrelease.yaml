@@ -44,5 +44,5 @@ spec:
     metrics:
       enabled: true
       serviceMonitor:
-        enabled: false # TODO: prometheus
+        enabled: true
         interval: 1m
