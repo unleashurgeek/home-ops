@@ -134,7 +134,7 @@ spec:
         enabled: true
 
     monitoring:
-      enabled: false
+      enabled: true
 
     resources:
       requests:
