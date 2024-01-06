@@ -9,15 +9,15 @@ api:
 #
 
 sources:
-  journald_source:
+  kubernetes_source:
     type: vector
     version: "2"
     address: 0.0.0.0:6000
 
-  kubernetes_source:
+  journald_source:
     type: vector
     version: "2"
-    address: 0.0.0.0:6010
+    address: 0.0.0.0:6001
 
 #
 # Transforms
