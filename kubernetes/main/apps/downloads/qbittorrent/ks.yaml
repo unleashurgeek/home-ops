@@ -29,6 +29,6 @@ spec:
       VOLSYNC_CAPACITY: 2Gi
       VOLSYNC_ACCESSMODES: ReadWriteMany
       VOLSYNC_STORAGECLASS: ceph-filesystem
-      VOLSYSNC_SNAPSHOTCLASS: csi-ceph-filesystem
+      VOLSYNC_SNAPSHOTCLASS: csi-ceph-filesystem
       APP_UID: "568"
       APP_GID: "568"
