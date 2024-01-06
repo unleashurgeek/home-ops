@@ -79,6 +79,7 @@ tasks:
     vars:
       app: '{{ or .app (fail "Argument (app) is required") }}'
       ns: '{{ or .ns (fail "Argument (ns) is required")}}'
+      repo: '{{ .repo | default "minio" }}'
       # Query to find the controller associated with the app
       controller:
         sh: |-
@@ -88,11 +89,11 @@ tasks:
             echo "statefulset.apps/{{.app}}"
           fi
     cmds:
-      - kubectl -n {{.ns}} patch replicationsources {{.app}} --type merge -p '{"spec":{"trigger":{"manual":"{{.ts}}"}}}'
+      - kubectl -n {{.ns}} patch replicationsources {{.app}}-{{.repo}} --type merge -p '{"spec":{"trigger":{"manual":"{{.ts}}"}}}'
       - task: k8s:wait-finish
         vars: { ns: '{{.ns}}', type: job, name: 'volsync-src-{{.app}}' }
     preconditions:
-      - { msg: "ReplicationSource '{{.app}}' not found in namespace '{{.ns}}'", sh: "kubectl -n {{.ns}} get replicationsources {{.app}}" }
+      - { msg: "ReplicationSource '{{.app}}' not found in namespace '{{.ns}}'", sh: "kubectl -n {{.ns}} get replicationsources {{.app}}-{{.repo}}" }
 
   # To run restore jobs in parallel for all replicationdestinations:
   # - kubectl get replicationsources --all-namespaces --no-headers | awk '{print $2, $1}' | xargs --max-procs=4 -l bash -c 'task volsync:restore app=$0 ns=$1'
@@ -109,6 +110,7 @@ tasks:
     vars:
       app: '{{ or .app (fail "Argument (app) is required")}}'
       ns: '{{ or .ns (fail "Argument (ns) is required")}}'
+      repo: '{{ .repo | default "minio" }}'
       previous: '{{.previous | default 2}}'
       controller:
         sh: |-
@@ -118,11 +120,11 @@ tasks:
             echo "statefulset.apps/{{.app}}"
           fi
       claim:
-        sh: kubectl -n {{.ns}} get replicationsources/{{.app}} -o jsonpath="{.spec.sourcePVC}"
+        sh: kubectl -n {{.ns}} get replicationsources/{{.app}}-{{.repo}} -o jsonpath="{.spec.sourcePVC}"
       puid:
-        sh: kubectl -n {{.ns}} get replicationsources/{{.app}} -o jsonpath="{.spec.restic.moverSecurityContext.runAsUser}"
+        sh: kubectl -n {{.ns}} get replicationsources/{{.app}}-{{.repo}} -o jsonpath="{.spec.restic.moverSecurityContext.runAsUser}"
       pgid:
-        sh: kubectl -n {{.ns}} get replicationsources/{{.app}} -o jsonpath="{.spec.restic.moverSecurityContext.runAsGroup}"
+        sh: kubectl -n {{.ns}} get replicationsources/{{.app}}-{{.repo}} -o jsonpath="{.spec.restic.moverSecurityContext.runAsGroup}"
     env: &env
       app: '{{.app}}'
       controller: '{{.controller}}'
