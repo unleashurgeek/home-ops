@@ -37,6 +37,12 @@ spec:
         - "1.1.1.1"
         - "9.9.9.9"
 
+    prometheus:
+      enabled: true
+      servicemonitor:
+        enabled: true
+        prometheusInstance: monitoring
+
     webhook:
       replicaCount: 2
     cainjector:
