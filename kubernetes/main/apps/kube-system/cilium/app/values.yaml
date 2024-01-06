@@ -53,9 +53,25 @@ l2announcements:
 rollOutCiliumPods: true
 operator:
   rollOutPods: true
+  prometheus:
+    enabled: true
+    serviceMonitor:
+      enabled: true
+  dashboards:
+    enabled: true
+    annotations:
+      grafana_folder: Cilium
+
+prometheus:
+  enabled: true
+  serviceMonitor:
+    enabled: true
+    trustCRDsExist: true
 
 dashboards:
   enabled: true
+  annotations:
+    grafana_folder: Cilium
 
 hubble:
   enabled: true
@@ -69,9 +85,9 @@ hubble:
       - icmp
       - http
     serviceMonitor:
-      enabled: false # TODO prometheus
+      enabled: true
     dashboards:
-      enabled: false # TODO grafana
+      enabled: true
       annotations:
         grafana_folder: Cilium
 
@@ -79,9 +95,9 @@ hubble:
     enabled: true
     rollOutPods: true
     prometheus:
-      enabled: false # TODO prometheus
+      enabled: true
       serviceMonitor:
-        enabled: false # TODO prometheus
+        enabled: true
 
   ui:
     enabled: true
