@@ -24,3 +24,4 @@ resources:
   - ./weaveworks.yaml
   - ./k8tz.yaml
   - ./prometheus-community.yaml
+  - ./grafana.yaml
