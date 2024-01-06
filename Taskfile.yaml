@@ -16,6 +16,7 @@ includes:
   rook: .task/rook
   volsync: .task/volsync
   secret: .task/secret
+  create: .task/create
 
 tasks:
   default:
