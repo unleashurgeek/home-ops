@@ -12,7 +12,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: kube-prometheus-stack
-    - name: external-secrets-store
+    - name: external-secrets-stores
   path: ./kubernetes/main/apps/monitoring/grafana/app
   prune: true
   sourceRef:
