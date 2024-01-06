@@ -29,6 +29,8 @@ spec:
       secret.reloader.stakater.com/reload: grafana-secret
 
     replicas: 1
+    deploymentStrategy:
+      type: Recreate
 
     dashboardProviders:
       dashboardproviders.yaml:
@@ -229,9 +231,6 @@ spec:
           - name: Alertmanager
             orgId: 1
 
-    deploymentStrategy:
-      type: Recreate
-
     envFromSecret: grafana-secret
 
     grafana.ini:
@@ -241,9 +240,8 @@ spec:
         reporting_enabled: false
       auth.anonymous:
         enabled: true
+        org_id: 1
         org_role: admin
-      dashboards:
-        default_home_dashboard_path: /tmp/dashboards/home.json
       date_formats:
         use_browser_locale: true
       explore:
@@ -256,11 +254,6 @@ spec:
         news_feed_enabled: false
       panels:
         disable_sanitize_html: true
-      paths:
-        data: /var/lib/grafana/data
-        logs: /var/log/grafana
-        plugins: /var/lib/grafana/plugins
-        provisioning: /etc/grafana/provisioning
       security:
         allow_embedding: true
         cookie_samesite: grafana
