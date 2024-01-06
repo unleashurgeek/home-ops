@@ -32,4 +32,4 @@ spec:
     metrics:
       enabled: true
     serviceMonitor:
-      enabled: false # TODO: enable once prometheus is setup
+      enabled: true
