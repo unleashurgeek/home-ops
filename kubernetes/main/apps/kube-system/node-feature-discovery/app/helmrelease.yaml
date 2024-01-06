@@ -41,3 +41,6 @@ spec:
           memory: 48Mi
         limits:
           memory: 48Mi
+
+    prometheus:
+      enable: true
