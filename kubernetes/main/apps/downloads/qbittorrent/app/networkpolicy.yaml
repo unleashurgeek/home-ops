@@ -21,7 +21,7 @@ spec:
               app.kubernetes.io/name: ingress-nginx
               app.kubernetes.io/instance: nginx-internal
       ports:
-        - port: &port 80
+        - port: &port 8080
           protocol: TCP
     # sonarr
     - from:
@@ -44,6 +44,14 @@ spec:
         - podSelector:
             matchLabels:
               app.kubernetes.io/name: qbtools
+      ports:
+        - port: *port
+          protocol: TCP
+    # qbittorrent-exporter
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: qbittorrent-exporter
       ports:
         - port: *port
           protocol: TCP
