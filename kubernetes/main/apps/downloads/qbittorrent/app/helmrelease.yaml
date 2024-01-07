@@ -62,27 +62,26 @@ spec:
                 drop:
                   - ALL
 
-          # gluetun:
-          #   image:
-          #     repository: ghcr.io/qdm12/gluetun
-          #     tag: latest@sha256:450a487b23cd460da99b025b32b22fbccd41e7f3a0b083d34326d5a4c88519b0
-          #   env:
-          #     VPN_SERVICE_PROVIDER: custom
-          #     VPN_TYPE: wireguard
-          #     VPN_INTERFACE: wg0
-          #     VPN_ENDPOINT_PORT: 51820
-          #     VPN_PORT_FORWARDING: on
-          #     VPN_PORT_FORWARDING_PROVIDER: protonvpn
-          #     FIREWALL_INPUT_PORTS: *port
-          #     FIREWALL_OUTBOUND_SUBNETS: 10.96.0.0/12,10.244.0.0/16 # Allow access to k8s subnets
-          #   envFrom:
-          #     - secretRef:
-          #         name: qbittorrent-secret
-          #   securityContext:
-          #     capabilities:
-          #       add:
-          #         - NET_ADMIN
-          #     allowPrivilegeEscalation: false
+          gluetun:
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: latest@sha256:450a487b23cd460da99b025b32b22fbccd41e7f3a0b083d34326d5a4c88519b0
+            env:
+              VPN_SERVICE_PROVIDER: custom
+              VPN_TYPE: wireguard
+              VPN_INTERFACE: wg0
+              VPN_ENDPOINT_PORT: 51820
+              VPN_PORT_FORWARDING: on
+              VPN_PORT_FORWARDING_PROVIDER: protonvpn
+              FIREWALL_INPUT_PORTS: *port
+              FIREWALL_OUTBOUND_SUBNETS: 10.96.0.0/12,10.244.0.0/16 # Allow access to k8s subnets
+            envFrom:
+              - secretRef:
+                  name: qbittorrent-secret
+            securityContext:
+              capabilities:
+                add:
+                  - NET_ADMIN
 
           # port-forward:
           #   image:
