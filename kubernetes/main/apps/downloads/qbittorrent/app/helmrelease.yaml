@@ -147,7 +147,7 @@ spec:
       media:
         type: nfs
         server: tank.kyle.fail
-        path: /tank/media
+        path: /mnt/tank/media
         advancedMounts:
           main:
             main:
