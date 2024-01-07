@@ -6,6 +6,12 @@ includes:
     taskfile: ../../kubernetes/main
 
 tasks:
+  watch:
+    desc: Watches a namespace to monitor for changes
+    requires:
+      vars: [ns]
+    cmd: viddy -n1 kubectl get all -n {{.ns}}
+
   delete-failed-pods:
     desc: Deletes pods with Failed phase
     cmd: kubectl delete pods --field-selector status.phase=Failed -A --ignore-not-found=true
