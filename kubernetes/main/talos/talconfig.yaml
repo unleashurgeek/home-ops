@@ -160,6 +160,11 @@ controlPlane:
               wsize=131072
               nconnect=8
 
+    # Disable default API server admission plugins.
+    - |-
+      - op: remove
+        path: /cluster/apiServer/admissionControl
+
     # Custom sysctls
     - |-
       machine:
