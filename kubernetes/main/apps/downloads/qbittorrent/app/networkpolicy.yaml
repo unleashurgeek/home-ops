@@ -49,7 +49,10 @@ spec:
           protocol: TCP
     # qbittorrent-exporter
     - from:
-        - podSelector:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: monitoring
+          podSelector:
             matchLabels:
               app.kubernetes.io/name: qbittorrent-exporter
       ports:
