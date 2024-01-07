@@ -45,7 +45,28 @@ spec:
               tag: 4.6.2@sha256:fedb62126c82ae0c7192e9052633411294a27e9c233613c03b0a8d168d160040
             env:
               UMASK: "022"
-              QBITTORRENT__PORT: &port 8080
+              QBITTORRENT__PORT: &port 80
+              QBT_Preferences__WebUI__AlternativeUIEnabled: false
+              QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
+              QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
+                10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
+              QBT_Preferences__WebUI__LocalHostAuth: false
+              QBT_Preferences__WebUI__UseUPNP: false
+              QBT_BitTorrent__Session__BTProtocol: TCP
+              QBT_BitTorrent__Session__SubcategoriesEnabled: true
+              QBT_BitTorrent__Session__DefaultSavePath: /data/downloads/torrent/complete
+              QBT_BitTorrent__Session__TempPath: /data/downloads/torrent/temp
+              QBT_BitTorrent__Session__TempPathEnabled: true
+              QBT_BitTorrent__Session__TorrentExportDirectory: /data/downloads/torrent/files
+              QBT_BitTorrent__Session__FinishedTorrentExportDirectory: /data/downloads/torrent/files
+              QBT_BitTorrent__Session__DisableAutoTMMByDefault: false
+              QBT_BitTorrent__Session__DisableAutoTMMTriggers__CategorySavePathChanged: false
+              QBT_BitTorrent__Session__DisableAutoTMMTriggers__DefaultSavePathChanged: false
+              QBT_BitTorrent__Session__MaxConnections: -1
+              QBT_BitTorrent__Session__MaxConnectionsPerTorrent: -1
+              QBT_BitTorrent__Session__MaxUploads: -1
+              QBT_BitTorrent__Session__MaxUploadsPerTorrent: -1
+              QBT_BitTorrent__Session__QueueingSystemEnabled: false
             resources:
               requests:
                 cpu: 49m
@@ -151,4 +172,4 @@ spec:
         advancedMounts:
           main:
             main:
-              - path: /media
+              - path: /data

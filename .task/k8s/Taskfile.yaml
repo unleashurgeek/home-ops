@@ -72,3 +72,61 @@ tasks:
     preconditions:
       - msg: kubelet-csr-approver bootstrap files not found
         sh: test -f /{{.ROOT_DIR}}/kubernetes/{{.cluster}}/bootstrap/kubelet-csr-approver/kustomization.yaml
+
+  mount:
+    desc: Mount a PersistentVolumeClaim to a pod temporarily
+    summary: |
+      Args:
+        cluster: Cluster to run command against (required)
+        ns: Namespace the PVC is in (default: default)
+        claim: PVC to mount (required)
+    interactive: true
+    vars:
+      cluster: "{{ .cluster }}"
+      ns: '{{ .ns }}'
+      claim: "{{ .claim }}"
+    requires:
+      vars:
+        - claim
+        - ns
+        - cluster
+    cmds:
+      - task: cluster-switch
+        vars: { cluster: "{{ .cluster }}" }
+      - |
+        kubectl run -n {{.ns}} debug-{{.claim}} -i --tty --rm --image=null --privileged --overrides='
+          {
+            "apiVersion": "v1",
+            "spec": {
+              "containers": [
+                {
+                  "name": "debug",
+                  "image": "ghcr.io/onedr0p/alpine:rolling",
+                  "command": [
+                    "/bin/bash"
+                  ],
+                  "stdin": true,
+                  "stdinOnce": true,
+                  "tty": true,
+                  "volumeMounts": [
+                    {
+                      "name": "claim",
+                      "mountPath": "/mnt/claim"
+                    }
+                  ]
+                }
+              ],
+              "volumes": [
+                {
+                  "name": "claim",
+                  "persistentVolumeClaim": {
+                    "claimName": "{{.claim}}"
+                  }
+                }
+              ],
+              "restartPolicy": "Never"
+            }
+          }'
+    preconditions:
+      - sh: kubectl --context admin@{{.cluster}} -n {{.ns}} get pvc {{.claim}}
+        msg: "PVC not found"
