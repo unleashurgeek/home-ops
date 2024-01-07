@@ -37,7 +37,7 @@ spec:
             fsGroup: ${APP_GID}
             fsGroupChangePolicy: OnRootMismatch
             supplementalGroups:
-              - 65542
+              - 10000
 
         containers:
           main:
