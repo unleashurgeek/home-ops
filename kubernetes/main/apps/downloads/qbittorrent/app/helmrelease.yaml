@@ -67,6 +67,21 @@ spec:
               QBT_BitTorrent__Session__MaxUploads: -1
               QBT_BitTorrent__Session__MaxUploadsPerTorrent: -1
               QBT_BitTorrent__Session__QueueingSystemEnabled: false
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v2/app/version
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
             resources:
               requests:
                 cpu: 49m
