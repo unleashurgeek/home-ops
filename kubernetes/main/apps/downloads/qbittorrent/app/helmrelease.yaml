@@ -67,7 +67,7 @@ spec:
               QBT_BitTorrent__Session__MaxUploads: -1
               QBT_BitTorrent__Session__MaxUploadsPerTorrent: -1
               QBT_BitTorrent__Session__QueueingSystemEnabled: false
-              QBT_AutoRun__program: '/scripts/completed.sh \"\%F\"'
+              QBT_AutoRun__program: '/scripts/completed.sh "%%F"'
             resources:
               requests:
                 cpu: 49m
