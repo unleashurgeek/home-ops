@@ -31,11 +31,27 @@ spec:
       ports:
         - port: *port
           protocol: TCP
-    # radarr
+    # radarr-movies
     - from:
         - podSelector:
             matchLabels:
-              app.kubernetes.io/name: radarr
+              app.kubernetes.io/name: radarr-movies
+      ports:
+        - port: *port
+          protocol: TCP
+    # radarr-hq
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: radarr-hq
+      ports:
+        - port: *port
+          protocol: TCP
+    # radarr-anime
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: radarr-anime
       ports:
         - port: *port
           protocol: TCP
