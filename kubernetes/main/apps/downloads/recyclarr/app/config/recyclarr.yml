@@ -38,7 +38,7 @@ radarr:
             - WEBRip-720p
           - name: Bluray-720p
 
-      - name: No Sync Streaming
+      - name: Streaming - No Sync
         reset_unmatched_scores:
           enabled: true
         upgrade:
@@ -143,4 +143,4 @@ radarr:
 
         quality_profiles:
           - name: Streaming
-          - name: No Sync Streaming
+          - name: Streaming - No Sync
