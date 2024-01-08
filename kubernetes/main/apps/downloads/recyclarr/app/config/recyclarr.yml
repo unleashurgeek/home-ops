@@ -25,7 +25,7 @@ radarr:
           allowed: true
           until_quality: Bluray|WEB-1080p
           until_score: 10000
-        min_format_score: 1000
+        min_format_score: 10
         score_set: sqp-1-1080p
         quality_sort: top
         qualities:
@@ -45,7 +45,7 @@ radarr:
           allowed: true
           until_quality: Bluray|WEB-1080p
           until_score: 10000
-        min_format_score: 1000
+        min_format_score: 10
         score_set: sqp-1-1080p
         quality_sort: top
         qualities:
