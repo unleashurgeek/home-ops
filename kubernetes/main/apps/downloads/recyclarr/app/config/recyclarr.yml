@@ -1,0 +1,9 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/recyclarr/recyclarr/master/schemas/config-schema.json
+radarr:
+  streaming:
+    base_url: http://radarr-movies.downloads.svc.cluster.local
+    api_key: !env_var RADARR_MOVIES_API_KEY
+
+    delete_old_custom_formats: true
+    replace_existing_custom_formats: true
