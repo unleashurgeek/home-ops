@@ -88,7 +88,6 @@ spec:
         className: external
         annotations:
           external-dns.alpha.kubernetes.io/target: external.kyle.fail
-          nginx.ingress.kubernetes.io/backend-protocol: HTTPS
         hosts:
           - host: &host "{{ .Release.Name }}.kyle.fail"
             paths:
