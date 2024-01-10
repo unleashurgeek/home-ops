@@ -74,9 +74,9 @@ spec:
       config:
         enabled: true
         existingClaim: recyclarr
-      config-file:
-        type: configMap
-        name: recyclarr-configmap
-        globalMounts:
-          - path: /config/configs/
-            readOnly: true
+      # config-file:
+      #   type: configMap
+      #   name: recyclarr-configmap
+      #   globalMounts:
+      #     - path: /config/configs/
+      #       readOnly: true
