@@ -57,8 +57,6 @@ spec:
               QBT_BitTorrent__Session__DefaultSavePath: /media/downloads/torrent/complete
               QBT_BitTorrent__Session__TempPath: /media/downloads/torrent/temp
               QBT_BitTorrent__Session__TempPathEnabled: true
-              QBT_BitTorrent__Session__TorrentExportDirectory: /media/downloads/torrent/files
-              QBT_BitTorrent__Session__FinishedTorrentExportDirectory: /media/downloads/torrent/files
               QBT_BitTorrent__Session__DisableAutoTMMByDefault: false
               QBT_BitTorrent__Session__DisableAutoTMMTriggers__CategorySavePathChanged: false
               QBT_BitTorrent__Session__DisableAutoTMMTriggers__DefaultSavePathChanged: false
