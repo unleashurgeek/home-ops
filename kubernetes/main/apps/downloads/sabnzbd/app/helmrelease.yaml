@@ -79,10 +79,10 @@ spec:
                   - ALL
             resources:
               requests:
-                cpu: 5m
-                memory: 1024Mi
+                cpu: 100m
+                memory: 1Gi
               limits:
-                memory: 6144Mi
+                memory: 8Gi
 
     service:
       main:
