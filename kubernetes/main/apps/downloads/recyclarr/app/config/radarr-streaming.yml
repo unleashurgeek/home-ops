@@ -15,7 +15,6 @@ radarr:
       folder: plex
       movie:
         rename: true
-        standard: default
 
     quality_profiles:
       - name: Streaming
