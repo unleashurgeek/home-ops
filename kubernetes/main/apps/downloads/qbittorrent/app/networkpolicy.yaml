@@ -23,11 +23,19 @@ spec:
       ports:
         - port: &port 8080
           protocol: TCP
-    # sonarr
+    # sonarr-tv
     - from:
         - podSelector:
             matchLabels:
-              app.kubernetes.io/name: sonarr
+              app.kubernetes.io/name: sonarr-tv
+      ports:
+        - port: *port
+          protocol: TCP
+    # sonarr-anime
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: sonarr-anime
       ports:
         - port: *port
           protocol: TCP
