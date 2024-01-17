@@ -10,5 +10,6 @@ resources:
   - ./autobrr/ks.yaml
   - ./sabnzbd/ks.yaml
   - ./radarr/ks.yaml
+  - ./sonarr/ks.yaml
   - ./recyclarr/ks.yaml
   - ./cross-seed/ks.yaml
