@@ -12,6 +12,7 @@ configMapGenerator:
       - radarr-streaming.yml=./config/radarr-streaming.yml
       - radarr-hq.yml=./config/radarr-hq.yml
       - radarr-anime.yml=./config/radarr-anime.yml
+      - sonarr-tv.yml=./config/sonarr-tv.yml
 generatorOptions:
   disableNameSuffixHash: true
   annotations:
