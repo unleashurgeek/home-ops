@@ -46,7 +46,7 @@ spec:
               PLEX_URL: http://plex.media.svc.cluster.local:32400
             envFrom:
               - secretRef:
-                name: plex-auto-languages-secret
+                  name: plex-auto-languages-secret
             resources:
               requests:
                 cpu: 50m
