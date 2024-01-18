@@ -54,6 +54,10 @@ spec:
               limits:
                 memory: 1024M
 
+    service:
+      main:
+        enabled: false
+
     persistence:
       config:
         enabled: true
