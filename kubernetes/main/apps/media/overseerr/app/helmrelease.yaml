@@ -61,9 +61,9 @@ spec:
                   name: main
                   port: http
           - host: &host2 request.kyle.fail
-            paths: *paths
+            paths: *path
           - host: &host3 "{{ .Release.Name }}.kyle.fail"
-            paths: *paths
+            paths: *path
         tls:
           - hosts:
               - *host1
