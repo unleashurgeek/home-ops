@@ -53,16 +53,22 @@ spec:
         enabled: true
         className: external
         hosts:
-          - host: &host requests.kyle.fail
-            paths:
+          - host: &host1 requests.kyle.fail
+            paths: &path
               - path: /
                 pathType: Prefix
                 service:
                   name: main
                   port: http
+          - host: &host2 request.kyle.fail
+            paths: *paths
+          - host: &host3 "{{ .Release.Name }}.kyle.fail"
+            paths: *paths
         tls:
           - hosts:
-              - *host
+              - *host1
+              - *host2
+              - *host3
 
     persistence:
       config:
