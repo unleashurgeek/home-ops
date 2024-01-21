@@ -52,6 +52,8 @@ spec:
       main:
         enabled: true
         className: external
+        annotations:
+          external-dns.alpha.kubernetes.io/target: external.kyle.fail
         hosts:
           - host: &host1 requests.kyle.fail
             paths: &path
