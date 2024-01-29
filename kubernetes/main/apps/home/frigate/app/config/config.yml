@@ -43,8 +43,8 @@ objects:
 
 go2rtc:
   streams:
-    cam1: rtsp://{FRIGATE_CAM1_USER}:{FRIGATE_CAM1_PASSWORD}@cam1.dyn.kyle.fail:554/cam/realmonitor?channel=1&subtype=0
-    cam2: rtsp://{FRIGATE_CAM2_USER}:{FRIGATE_CAM2_PASSWORD}@cam2.dyn.kyle.fail:554/cam/realmonitor?channel=1&subtype=0
+    cam1: rtsp://{FRIGATE_CAM1_USER}:{FRIGATE_CAM1_PASSWORD}@192.168.2.138:554/cam/realmonitor?channel=1&subtype=0
+    cam2: rtsp://{FRIGATE_CAM2_USER}:{FRIGATE_CAM2_PASSWORD}@192.168.2.136:554/cam/realmonitor?channel=1&subtype=0
 
 cameras:
   cam1:
