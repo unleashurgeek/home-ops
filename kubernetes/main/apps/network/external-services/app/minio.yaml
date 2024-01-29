@@ -39,8 +39,10 @@ metadata:
   labels:
     app.kubernetes.io/name: *app
     app.kubernetes.io/instance: *app
+  annotations:
+    external-dns.alpha.kubernetes.io/target: external.kyle.fail
 spec:
-  ingressClassName: internal
+  ingressClassName: external
   rules:
     - host: &host minio.kyle.fail
       http:
