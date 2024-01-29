@@ -68,6 +68,7 @@ spec:
               AUTHELIA_THEME: dark
               X_AUTHELIA_CONFIG: /config/configuration.yaml
               X_AUTHELIA_CONFIG_FILTERS: expand-env
+            envFrom: *envFrom
             probes:
               liveness: &probes
                 enabled: true
