@@ -1,0 +1,57 @@
+---
+logger:
+  default: info
+
+database:
+  path: /data/frigate.db
+
+detectors:
+  cpu1:
+    type: cpu
+    num_threads: 3
+
+ffmpeg:
+  hwaccel_args: preset-vaapi
+
+snapshots:
+  enabled: true
+  timestamp: false
+  bounding_box: true
+  retain:
+    default: 2
+
+record:
+  enabled: true
+  retain:
+    day: 2
+    mode: all
+  events:
+    retain:
+      default: 2
+      mode: active_objects
+
+objects:
+  track: [person, cat]
+  filters:
+    person:
+      min_area: 5000
+      max_area: 100000
+      threshold: 0.7
+
+go2rtc:
+  streams:
+    cam1: rtsp://{FRIGATE_CAM1_USER}:{FRIGATE_CAM1_PASSWORD}@cam1.dyn.kyle.fail:554/cam/realmonitor?channel=1&subtype=0
+    cam2: rtsp://{FRIGATE_CAM2_USER}:{FRIGATE_CAM2_PASSWORD}@cam2.dyn.kyle.fail:554/cam/realmonitor?channel=1&subtype=0
+
+cameras:
+  cam1:
+    ffmpeg:
+      inputs:
+        - path: rtsp://localhost:8554/cam1
+          roles: [detect, record]
+
+  cam2:
+    ffmpeg:
+      inputs:
+        - path: rtsp://localhost:8554/cam2
+          roles: [detect, record]
