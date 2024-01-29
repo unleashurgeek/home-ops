@@ -13,9 +13,6 @@ detectors:
     type: cpu
     num_threads: 3
 
-ffmpeg:
-  hwaccel_args: preset-vaapi
-
 snapshots:
   enabled: true
   timestamp: false
