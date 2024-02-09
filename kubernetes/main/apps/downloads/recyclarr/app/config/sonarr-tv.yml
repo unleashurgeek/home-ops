@@ -36,6 +36,11 @@ sonarr:
             qualities:
               - WEBDL-1080p
               - WEBRip-1080p
+              - Bluray-1080p
+          - name: WEB 720p
+            qualities:
+              - WEBDL-720p
+              - WEBRip-720p
 
     custom_formats:
       - trash_ids:
@@ -88,6 +93,8 @@ sonarr:
           - 5d2317d99af813b6529c7ebf01c83533  # VDL
 
           # HQ Source Groups
+          - d6819cba26b1a6508138d25fb5e32293  # HD Bluray Tier 01
+          - c2216b7b8aa545dc1ce8388c618f8d57  # HD Bluray Tier 02
           - e6258996055b9fbab7e9cb2f75819294  # WEB Tier 01
           - 58790d4e2fdcd9733aa7ae68ba2bb503  # WEB Tier 02
           - d84935abd3f8556dcd51d4f27e22d0a6  # WEB Tier 03
