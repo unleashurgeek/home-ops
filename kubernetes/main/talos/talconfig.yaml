@@ -22,7 +22,7 @@ additionalMachineCertSans: *san
 nodes:
   - &it12 # GEEKOM IT12, i7-12650H, nvme + ssd storage
     hostname: augustus
-    ipAddress: 192.168.10.20
+    ipAddress: 192.168.2.20
     controlPlane: true
     installDiskSelector:
       size: "<= 600GB"
@@ -33,10 +33,10 @@ nodes:
         deviceSelector:
           driver: igc # Ethernet Controller I225-V
         addresses:
-          - 192.168.10.20
+          - 192.168.2.20
         routes:
           - network: 0.0.0.0/0
-            gateway: 192.168.10.1
+            gateway: 192.168.2.1
         dhcp: false
         vip:
           ip: ${clusterVIP}
@@ -65,19 +65,19 @@ nodes:
 
   - <<: *it12
     hostname: nero
-    ipAddress: 192.168.10.21
+    ipAddress: 192.168.2.21
     networkInterfaces:
       - <<: *it12-net
         addresses:
-          - 192.168.10.21
+          - 192.168.2.21
 
   - <<: *it12
     hostname: titus
-    ipAddress: 192.168.10.22
+    ipAddress: 192.168.2.22
     networkInterfaces:
       - <<: *it12-net
         addresses:
-          - 192.168.10.22
+          - 192.168.2.22
 
 controlPlane:
   schematic:
@@ -114,7 +114,7 @@ controlPlane:
       cluster:
         etcd:
           advertisedSubnets:
-            - 192.168.10.0/24
+            - 192.168.2.0/24
 
     # Configure containerd
     - |-
@@ -141,7 +141,7 @@ controlPlane:
             maxPods: 150
           nodeIP:
             validSubnets:
-              - 192.168.10.0/24
+              - 192.168.2.0/24
 
     # Configure nfs mount options
     - |-

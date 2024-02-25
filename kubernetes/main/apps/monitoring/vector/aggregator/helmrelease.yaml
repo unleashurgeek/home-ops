@@ -53,7 +53,7 @@ spec:
         type: LoadBalancer
         annotations:
           external-dns.alpha.kubernetes.io/hostname: vector.kyle.fail
-          io.cilium/lb-ipam-ips: 192.168.10.202
+          io.cilium/lb-ipam-ips: 192.168.2.202
         ports:
           http:
             port: 8686
