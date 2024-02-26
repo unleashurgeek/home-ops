@@ -13,4 +13,4 @@ spec:
   dnsNames:
     - kyle.fail
     - plex.kyle.fail
-    - "*.kyle.fail"
+    # - "*.kyle.fail"
