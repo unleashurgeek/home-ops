@@ -7,10 +7,9 @@ metadata:
 spec:
   secretName: kyle-fail-tls
   issuerRef:
-    name: letsencrypt-prod
+    name: letsencrypt-staging
     kind: ClusterIssuer
   commonName: kyle.fail
   dnsNames:
     - kyle.fail
-    - plex.kyle.fail
-    # - "*.kyle.fail"
+    - "*.kyle.fail"
