@@ -8,11 +8,11 @@ spec:
   interval: 30m
   chart:
     spec:
-      chart: external-dns
-      version: 1.13.1
+      chart: app-template
+      version: 2.4.0
       sourceRef:
         kind: HelmRepository
-        name: external-dns
+        name: bjw-s
         namespace: flux-system
   install:
     remediation:
@@ -24,53 +24,83 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    fullnameOverride: *app
+    controllers:
+      main:
+        strategy: Recreate
+        annotations:
+          reloader.stakater.com/auto: "true"
 
-    resources:
-      requests:
-        cpu: 13m
-        memory: 42M
-      limits:
-        memory: 42M
+        containers:
+          main:
+            image:
+              repository: registry.k8s.io/external-dns/external-dns
+              tag: v0.14.0@sha256:474077b3dfccb3021db0a6638274967d0f64ce60dd9730a6f464bee2f78b046f
+            env:
+              EXTERNAL_DNS_RFC2136_HOST: 192.168.2.58
+              EXTERNAL_DNS_RFC2136_PORT: "53"
+              EXTERNAL_DNS_RFC2136_ZONE: kyle.fail
+              EXTERNAL_DNS_RFC2136_TSIG_AXFR: "true"
+              EXTERNAL_DNS_RFC2136_TSIG_KEYNAME: externaldns-key
+              EXTERNAL_DNS_RFC2136_TSIG_SECRET_ALG: hmac-sha256
+            envFrom:
+              - secretRef:
+                  name: external-dns-bind-secret
+            args:
+              - --domain-filter=kyle.fail
+              - --interval=1m
+              - --log-format=text
+              - --log-level=info
+              - --metrics-address=:7979
+              - --policy=sync
+              - --provider=rfc2136
+              - --registry=txt
+              - --source=crd
+              - --txt-owner-id=bind-crds
+              - --txt-prefix=k8s.
+              - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
+              - --crd-source-kind=DNSEndpoint
+              - --label-filter=target-dns==internal
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /healthz
+                    port: &port 7979
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 32Mi
 
-    domainFilters:
-      - kyle.fail
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+            runAsNonRoot: true
 
-    policy: sync
-    provider: rfc2136
+    serviceAccount:
+      create: true
+      name: *app
 
-    env:
-      - name: EXTERNAL_DNS_RFC2136_HOST
-        value: "192.168.2.58"
-      - name: EXTERNAL_DNS_RFC2136_PORT
-        value: "53"
-      - name: EXTERNAL_DNS_RFC2136_ZONE
-        value: kyle.fail
-      - name: EXTERNAL_DNS_RFC2136_TSIG_AXFR
-        value: "true"
-      - name: EXTERNAL_DNS_RFC2136_TSIG_KEYNAME
-        value: externaldns-key
-      - name: EXTERNAL_DNS_RFC2136_TSIG_SECRET_ALG
-        value: hmac-sha256
-      - name: EXTERNAL_DNS_RFC2136_TSIG_SECRET
-        valueFrom:
-          secretKeyRef:
-            name: external-dns-bind-secret
-            key: BIND_RNDC_KEY
-
-    extraArgs:
-      - --crd-source-apiversion=externaldns.k8s.io/v1alpha1
-      - --crd-source-kind=DNSEndpoint
-      - --label-filter=target-dns==internal
-
-    sources:
-      - crd
-
-    txtOwnerId: bind-crds
-    txtPrefix: k8s.
+    service:
+      main:
+        ports:
+          http:
+            port: *port
 
     serviceMonitor:
-      enabled: true
-
-    podAnnotations:
-      secret.reloader.stakater.com/reload: external-dns-bind-secret
+      main:
+        enabled: true
