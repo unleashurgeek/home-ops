@@ -44,7 +44,7 @@ spec:
               EXTERNAL_DNS_RFC2136_TSIG_SECRET_ALG: hmac-sha256
             envFrom:
               - secretRef:
-                  name: external-dns-bind-secret
+                  name: external-dns-bind-crd-secret
             args:
               - --domain-filter=kyle.fail
               - --interval=1m
