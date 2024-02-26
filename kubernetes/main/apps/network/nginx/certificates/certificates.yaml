@@ -12,4 +12,5 @@ spec:
   commonName: kyle.fail
   dnsNames:
     - kyle.fail
+    - plex.kyle.fail
     - "*.kyle.fail"
