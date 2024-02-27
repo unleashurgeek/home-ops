@@ -12,6 +12,11 @@ includes:
     taskfile: ../../.task/talos
     aliases: [talos]
     vars: { cluster: main }
+  rook:
+    internal: true
+    taskfile: ../../.task/rook
+    aliases: [rook]
+    vars: { cluster: main }
 
 tasks:
   apply-all:
@@ -36,6 +41,7 @@ tasks:
         vars: { cluster: main, ip: "{{.ip}}" }
       - task: k8s:cilium-bootstrap-apply
       - task: k8s:csr-bootstrap-apply
+      - task: rook:wipe-nodes-main
       - task: k8s:flux-bootstrap-apply
       - task: talos:health
         vars: { cluster: main, ip: 192.168.2.10 }
