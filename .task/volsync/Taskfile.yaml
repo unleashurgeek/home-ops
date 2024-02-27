@@ -107,11 +107,12 @@ tasks:
         previous: Previous number of snapshots to restore (default: 2)
     requires:
       vars: [cluster, ns, app]
+    dir: /{{.ROOT_DIR}}/.task/volsync
     vars:
       app: '{{ or .app (fail "Argument (app) is required")}}'
       ns: '{{ or .ns (fail "Argument (ns) is required")}}'
       repo: '{{ .repo | default "minio" }}'
-      previous: '{{.previous | default 2}}'
+      previous: '{{.previous | default 5 }}'
       controller:
         sh: |-
           if kubectl -n {{.ns}} get deployment.apps/{{.app}} >/dev/null 2>&1 ; then
@@ -165,6 +166,7 @@ tasks:
     dir: /{{.ROOT_DIR}}/.task/volsync/
     requires:
       vars: [cluster, ns, app, ts, claim]
+    env: *env
     cmds:
       - task: k8s:cluster-switch
         vars: { cluster: '{{.cluster}}' }
@@ -180,10 +182,11 @@ tasks:
     dir: /{{.ROOT_DIR}}/.task/volsync/
     requires:
       vars: [cluster, ns, app, ts, claim, puid, pgid, previous]
+    env: *env
     cmds:
       - task: k8s:cluster-switch
         vars: { cluster: '{{.cluster}}' }
-      - envsubt < <(cat replication-destination.tmpl.yaml) | kubectl apply -f -
+      - envsubst < <(cat replication-destination.tmpl.yaml) | kubectl apply -f -
       - task: k8s:wait-finish
         vars: { ns: '{{.ns}}', type: job, name: 'volsync-dst-{{.app}}-{{.ts}}' }
       - defer: kubectl -n {{.ns}} delete replicationdestination {{.app}}-{{.ts}}
