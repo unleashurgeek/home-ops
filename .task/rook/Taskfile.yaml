@@ -87,8 +87,8 @@ tasks:
         vars: { node: '{{.node}}', disk: '{{.disk}}' }
       - task: wipe-state
         vars: { node: '{{.node}}' }
-      - task: talos:reboot
-        vars: { node: '{{.node}}' }
+      # - task: talos:reboot
+      #   vars: { node: '{{.node}}' }
 
   wipe-nodes-main:
     desc: Wipe all nodes in cluster 'main'
