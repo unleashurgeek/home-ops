@@ -233,8 +233,9 @@ spec:
         reporting_enabled: false
       auth.anonymous:
         enabled: true
-        org_id: 1
-        org_role: admin
+        org_name: Main Org.
+        org_role: Viewer
+        hide_version: true
       date_formats:
         use_browser_locale: true
       explore:
