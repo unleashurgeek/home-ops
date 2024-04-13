@@ -30,6 +30,17 @@ tasks:
       - task: talos:apply
         vars: { node: titus, ip: 192.168.2.22 }
 
+  reboot:
+    desc: Sequentially reboot all nodes
+    cmds:
+      - task: talos:reboot
+        vars: { node: augustus, ip: 192.168.2.20 }
+      - task: talos:reboot
+        vars: { node: nero, ip: 192.168.2.21 }
+      - task: talos:reboot
+        vars: { node: titus, ip: 192.168.2.22 }
+
+
   bootstrap:
     desc: Bootstrap the cluster
     vars:
