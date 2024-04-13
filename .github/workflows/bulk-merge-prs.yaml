@@ -43,3 +43,5 @@ jobs:
               gh pr merge "${id}" --squash
               sleep 2
           done
+        env:
+          GH_TOKEN: ${{ github.token }}
