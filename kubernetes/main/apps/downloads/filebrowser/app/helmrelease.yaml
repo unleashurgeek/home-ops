@@ -41,8 +41,9 @@ spec:
 
         containers:
           main:
-            repository: docker.io/filebrowser/filebrowser
-            tag: v2.30.0
+            image:
+              repository: docker.io/filebrowser/filebrowser
+              tag: v2.30.0
           env:
             FB_DATABASE: /config/filebrowser.db
             FB_ROOT: /data
