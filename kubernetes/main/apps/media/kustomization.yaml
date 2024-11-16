@@ -10,3 +10,4 @@ resources:
   - ./wizarr/ks.yaml
   - ./overseerr/ks.yaml
   - ./kavita/ks.yaml
+  - ./filebrowser/ks.yaml
