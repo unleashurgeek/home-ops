@@ -22,11 +22,11 @@ kavita:
           - "ja-ro"
         orderBooks: true
         scoreTag: true
-      library:
-        1:
-          mediaType: MANGA
-        2:
-          mediaType: NOVEL
+    library:
+      1:
+        mediaType: MANGA
+      2:
+        mediaType: NOVEL
 
 database:
   file: ./database.sqlite
