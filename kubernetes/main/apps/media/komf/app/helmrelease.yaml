@@ -99,6 +99,8 @@ spec:
         existingClaim: komf
         globalMounts:
           - path: /config
+      tmp:
+        type: emptyDir
       configmap:
         enabled: true
         type: configMap
