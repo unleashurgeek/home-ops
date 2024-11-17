@@ -46,3 +46,4 @@ metadataProviders:
     nautiljon:
       priority: 30
       enabled: true
+      mediaType: NOVEL
