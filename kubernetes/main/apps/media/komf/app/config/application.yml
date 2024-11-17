@@ -5,28 +5,41 @@ kavita:
       - 1 # Manga
       - 2 # Light Novels
   metadataUpdate:
-    default:
-      updateModes: [ API ]
-      aggregate: true
-      mergeTags: true
-      mergeGenres: true
-      bookCovers: true
-      seriesCovers: true
-      postProcessing:
-        seriesTitle: true
-        seriesTitleLanguage: "en"
-        alternativeSeriesTitles: false
-        alternativeSeriesTitleLanguages:
-          - "en"
-          - "ja"
-          - "ja-ro"
-        orderBooks: true
-        scoreTag: true
     library:
       1:
-        mediaType: MANGA
+        libraryType: MANGA
+        aggregate: true
+        mergeTags: true
+        mergeGenres: true
+        bookCovers: true
+        seriesCovers: true
+        postProcessing:
+          seriesTitle: true
+          seriesTitleLanguage: "en"
+          alternativeSeriesTitles: false
+          alternativeSeriesTitleLanguages:
+            - "en"
+            - "ja"
+            - "ja-ro"
+          orderBooks: true
+          scoreTagName: score
       2:
-        mediaType: NOVEL
+        libraryType: NOVEL
+        aggregate: true
+        mergeTags: true
+        mergeGenres: true
+        bookCovers: true
+        seriesCovers: true
+        postProcessing:
+          seriesTitle: true
+          seriesTitleLanguage: "en"
+          alternativeSeriesTitles: false
+          alternativeSeriesTitleLanguages:
+            - "en"
+            - "ja"
+            - "ja-ro"
+          orderBooks: true
+          scoreTagName: score
 
 database:
   file: ./database.sqlite
@@ -41,7 +54,7 @@ metadataProviders:
       artistRoles: [ "PENCILLER","INKER","COLORIST","LETTERER","COVER" ]
     mal:
       priority: 20
-      enabled: false
+      enabled: true
       mediaType: MANGA
     nautiljon:
       priority: 30
