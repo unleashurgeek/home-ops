@@ -29,48 +29,48 @@ spec:
         annotations:
           reloader.stakater.com/auto: "true"
 
-      containers:
-        main:
-          image:
-            repository: sndxr/komf
-            tag: 1.1.0@sha256:ba6a9080f74e7c17a360112977ca633b202215ea801515bf2e03bc3dfe68f32e
-          env:
-            KOMF_KAVITA_BASE_URI: http://kavita.media.svc.cluster.local:5000
-            KOMF_LOG_LEVEL: INFO
-            JAVA_TOOL_OPTIONS: >-
-              -XX:+UnlockExperimentalVMOptions
-              -XX:+UseShenandoahGC
-              -XX:ShenandoahGCHeuristics=compact
-              -XX:ShenandoahGuaranteedGCInterval=3600000
-              -XX:TrimNativeHeapInterval=3600000
-          envFrom:
-            - secretRef:
-                name: komf-secret
-          probes:
-            liveness: &probes
-              enabled: true
-              custom: true
-              spec:
-                httpGet:
-                  path: /config
-                  port: &port 8085
-                initialDelaySeconds: 0
-                periodSeconds: 10
-                timeoutSeconds: 1
-                failureThreshold: 3
-            readiness: *probes
-            startup:
-              enabled: false
-          securityContext:
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            capabilities: { drop: ["ALL"] }
-          resources:
-            requests:
-              memory: 4282M
-              cpu: 15m
-            limits:
-              memory: 4282M
+        containers:
+          main:
+            image:
+              repository: sndxr/komf
+              tag: 1.1.0@sha256:ba6a9080f74e7c17a360112977ca633b202215ea801515bf2e03bc3dfe68f32e
+            env:
+              KOMF_KAVITA_BASE_URI: http://kavita.media.svc.cluster.local:5000
+              KOMF_LOG_LEVEL: INFO
+              JAVA_TOOL_OPTIONS: >-
+                -XX:+UnlockExperimentalVMOptions
+                -XX:+UseShenandoahGC
+                -XX:ShenandoahGCHeuristics=compact
+                -XX:ShenandoahGuaranteedGCInterval=3600000
+                -XX:TrimNativeHeapInterval=3600000
+            envFrom:
+              - secretRef:
+                  name: komf-secret
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /config
+                    port: &port 8085
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+              startup:
+                enabled: false
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                memory: 4282M
+                cpu: 15m
+              limits:
+                memory: 4282M
 
     service:
       main:
