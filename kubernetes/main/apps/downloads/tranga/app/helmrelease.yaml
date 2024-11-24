@@ -60,10 +60,8 @@ spec:
             image:
               repository: glax/tranga-website
               tag: latest@sha256:93db8d40292e1298f0c2bddaae3f4566c2b69ca5fd488a245cc45262833d923a
-
             securityContext:
               allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
             resources:
               requests:
