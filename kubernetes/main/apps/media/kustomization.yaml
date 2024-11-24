@@ -11,3 +11,4 @@ resources:
   - ./overseerr/ks.yaml
   - ./kavita/ks.yaml
   - ./komf/ks.yaml
+  - ./tachidesk/ks.yaml
