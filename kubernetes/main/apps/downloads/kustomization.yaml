@@ -14,3 +14,4 @@ resources:
   - ./recyclarr/ks.yaml
   - ./cross-seed/ks.yaml
   - ./filebrowser/ks.yaml
+  - ./tranga/ks.yaml
