@@ -68,9 +68,7 @@ spec:
               repository: glax/tranga-website
               tag: latest@sha256:93db8d40292e1298f0c2bddaae3f4566c2b69ca5fd488a245cc45262833d923a
             securityContext:
-              runAsNonRoot: false
-              readOnlyRootFilesystem: false
-              allowPrivilegeEscalation: true
+              privileged: true
             resources:
               requests:
                 cpu: 25m
