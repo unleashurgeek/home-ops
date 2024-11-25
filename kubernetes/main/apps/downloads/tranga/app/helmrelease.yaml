@@ -70,7 +70,6 @@ spec:
             securityContext:
               runAsNonRoot: false
               readOnlyRootFilesystem: false
-              privileged: true
               allowPrivilegeEscalation: true
             resources:
               requests:
