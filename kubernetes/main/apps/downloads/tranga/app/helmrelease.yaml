@@ -70,7 +70,7 @@ spec:
       main:
         ports:
           http:
-            port: &port 9555
+            port: &port 80
 
     ingress:
       main:
