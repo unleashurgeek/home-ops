@@ -51,7 +51,7 @@ spec:
               privileged: true
             resources:
               requests:
-                cpu: 25m
+                cpu: 30m
               limits:
                 memory: 4Gi
           web:
