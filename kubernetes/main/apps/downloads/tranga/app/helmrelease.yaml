@@ -32,30 +32,6 @@ spec:
         containers:
           main:
             image:
-              repository: glax/tranga-api
-              tag: latest@sha256:207960b71d0ad41110ae9ce74cf7966620ff7a96083b518a881ee03c5005edfe
-            # probes:
-            #   liveness: &probes
-            #     enabled: true
-            #     custom: true
-            #     spec:
-            #       httpGet:
-            #         path: /Ping
-            #         port: 6531
-            #       initialDelaySeconds: 0
-            #       periodSeconds: 10
-            #       timeoutSeconds: 1
-            #       failureThreshold: 3
-            #   readiness: *probes
-            securityContext:
-              privileged: true
-            resources:
-              requests:
-                cpu: 30m
-              limits:
-                memory: 4Gi
-          web:
-            image:
               repository: glax/tranga-website
               tag: latest@sha256:93db8d40292e1298f0c2bddaae3f4566c2b69ca5fd488a245cc45262833d923a
             securityContext:
@@ -65,15 +41,39 @@ spec:
                 cpu: 25m
               limits:
                 memory: 512Mi
+          api:
+            image:
+              repository: glax/tranga-api
+              tag: latest@sha256:207960b71d0ad41110ae9ce74cf7966620ff7a96083b518a881ee03c5005edfe
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /Ping
+                    port: 6531
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+              readiness: *probes
+            securityContext:
+              privileged: true
+            resources:
+              requests:
+                cpu: 30m
+              limits:
+                memory: 4Gi
 
     service:
-      web:
+      main:
         ports:
           http:
             port: &port 9555
 
     ingress:
-      web:
+      main:
         enabled: true
         className: internal
         hosts:
@@ -81,7 +81,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: web
+                  name: main
                   port: *port
         tls:
           - hosts:
