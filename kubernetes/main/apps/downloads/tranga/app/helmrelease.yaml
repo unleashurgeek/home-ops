@@ -90,7 +90,8 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: tranga
+        # existingClaim: tranga
+        type: emptyDir
         globalMounts:
           - path: /usr/share/tranga-api
       manga:
