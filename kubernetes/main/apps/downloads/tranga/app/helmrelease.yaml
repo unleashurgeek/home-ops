@@ -102,6 +102,7 @@ spec:
           - path: /Manga
             subPath: downloads/tranga
       tmp:
+        enabled: true
         type: emptyDir
         globalMounts:
           - path: /var/cache/nginx
