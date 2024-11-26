@@ -34,19 +34,19 @@ spec:
             image:
               repository: glax/tranga-api
               tag: latest@sha256:207960b71d0ad41110ae9ce74cf7966620ff7a96083b518a881ee03c5005edfe
-            probes:
-              liveness: &probes
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /Ping
-                    port: 6531
-                  initialDelaySeconds: 0
-                  periodSeconds: 10
-                  timeoutSeconds: 1
-                  failureThreshold: 3
-              readiness: *probes
+            # probes:
+            #   liveness: &probes
+            #     enabled: true
+            #     custom: true
+            #     spec:
+            #       httpGet:
+            #         path: /Ping
+            #         port: 6531
+            #       initialDelaySeconds: 0
+            #       periodSeconds: 10
+            #       timeoutSeconds: 1
+            #       failureThreshold: 3
+            #   readiness: *probes
             securityContext:
               privileged: true
             resources:
