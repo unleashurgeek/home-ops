@@ -81,7 +81,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: main
+                  name: web
                   port: *port
         tls:
           - hosts:
