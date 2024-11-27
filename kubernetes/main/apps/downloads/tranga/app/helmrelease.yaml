@@ -52,7 +52,7 @@ spec:
                 spec:
                   httpGet:
                     path: /Ping
-                    port: 6531
+                    port: &port-api 6531
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
@@ -70,7 +70,10 @@ spec:
       main:
         ports:
           http:
-            port: &port 80
+            primary: true
+            port: &port-web 80
+          api:
+            port: *port-api
 
     ingress:
       main:
@@ -82,10 +85,17 @@ spec:
               - path: /
                 service:
                   name: main
-                  port: *port
+                  port: *port-web
+          - host: &host-api "{{ .Release.Name }}-api.kyle.fail"
+            paths:
+              - path: /
+                service:
+                  name: api
+                  port: *port-api
         tls:
           - hosts:
               - *host
+              - *host-api
 
     persistence:
       config:
