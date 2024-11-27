@@ -90,7 +90,7 @@ spec:
             paths:
               - path: /
                 service:
-                  name: api
+                  name: main
                   port: *portApi
         tls:
           - hosts:
