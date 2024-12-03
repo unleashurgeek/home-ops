@@ -33,7 +33,7 @@ spec:
           main:
             image:
               repository: sndxr/komf
-              tag: 1.1.0@sha256:ba6a9080f74e7c17a360112977ca633b202215ea801515bf2e03bc3dfe68f32e
+              tag: 1.2.3@sha256:478fc38f2282516526be5f8cc3cef1385148122991eac5288b2819b727e2ef67
             env:
               KOMF_KAVITA_BASE_URI: http://kavita.media.svc.cluster.local:5000
               KOMF_LOG_LEVEL: INFO
