@@ -34,7 +34,7 @@ spec:
           main:
             image:
               repository: registry.k8s.io/external-dns/external-dns
-              tag: v0.14.1@sha256:7bb4c52748dec4fa2df1a8df7b94355c9677c70378cfe555ee4eb9a476409f0c
+              tag: v0.15.1@sha256:4f3ba4c2bd28030caad05bb7b47fbf47549a46d5e8443b74f0be463550b4fc2b
             env:
               EXTERNAL_DNS_RFC2136_HOST: 192.168.2.58
               EXTERNAL_DNS_RFC2136_PORT: "53"
