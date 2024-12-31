@@ -43,7 +43,7 @@ spec:
           main:
             image:
               repository: ghcr.io/cross-seed/cross-seed
-              tag: 5.9.2@sha256:6abdca45f0ecfd8d23a3035beefa716a14b66f23c14854631fe369d1ad346f1e
+              tag: 6.8.0@sha256:3e4c5818dad98f7405f5d9ed1815626e58019a49f1c60e1dcfcde6c5366fe96f
             args: [daemon]
             env:
               CROSSSEED_PORT: &port 80
