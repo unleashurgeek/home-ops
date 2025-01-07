@@ -52,7 +52,7 @@ spec:
           main:
             image:
               repository: ghcr.io/onedr0p/sonarr
-              tag: 4.0.4.1491@sha256:3689961acc03cc295a2c51cf6fb2227fd69c00c3c27a803c6e8e255ae3e45890
+              tag: 4.0.12.2823@sha256:f453b589cd553e09244b2fb48d74ae4047e6fab1fa837e008755be1200a62407
             env:
               # Ref: https://github.com/Radarr/Radarr/issues/7030#issuecomment-1039689518
               # Ref: https://github.com/dotnet/runtime/issues/9336
