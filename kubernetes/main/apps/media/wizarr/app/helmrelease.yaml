@@ -33,7 +33,7 @@ spec:
           main:
             image:
               repository: ghcr.io/wizarrrr/wizarr
-              tag: 3.5.1
+              tag: 4.2.0
             resources:
               requests:
                 cpu: 15m
