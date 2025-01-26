@@ -44,7 +44,7 @@ spec:
           api:
             image:
               repository: glax/tranga-api
-              tag: latest@sha256:207960b71d0ad41110ae9ce74cf7966620ff7a96083b518a881ee03c5005edfe
+              tag: latest@sha256:b156a04092827082065ec62e206c09157d864af834ed43f78170c43cbb392c51
             probes:
               liveness: &probes
                 enabled: true
