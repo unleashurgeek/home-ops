@@ -7,7 +7,6 @@ resources:
   # Flux Kustomizations
   - ./plex/ks.yaml
   - ./tautulli/ks.yaml
-  - ./wizarr/ks.yaml
   - ./overseerr/ks.yaml
   - ./kavita/ks.yaml
   - ./komf/ks.yaml
