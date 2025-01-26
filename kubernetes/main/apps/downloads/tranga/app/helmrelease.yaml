@@ -33,7 +33,7 @@ spec:
           main:
             image:
               repository: glax/tranga-website
-              tag: latest@sha256:93db8d40292e1298f0c2bddaae3f4566c2b69ca5fd488a245cc45262833d923a
+              tag: latest@sha256:9df3def7b9f1f5fa8f165e782782edda64445612f839159cebc61c2b684c55eb
             securityContext:
               privileged: true
             resources:
