@@ -22,9 +22,12 @@ spec:
     crds: CreateReplace
     cleanupOnFail: true
     remediation:
+      strategy: rollback
       retries: 3
   uninstall:
     keepHistory: false
   values:
-    webhook:
-      enabled: false
+    controller:
+      replicaCount: 2
+      serviceMonitor:
+        create: true
