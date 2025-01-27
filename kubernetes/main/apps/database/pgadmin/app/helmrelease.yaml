@@ -43,8 +43,8 @@ spec:
               repository: docker.io/dpage/pgadmin4
               tag: "8.14@sha256:8a68677a97b8c8d1427dc915672a26d2c4a04376916a68256f53d669d6171be7"
             envFrom:
-                - secretRef:
-                    name: pgadmin-secret
+              - secretRef:
+                  name: pgadmin-secret
             resources:
               requests:
                 cpu: 15m
