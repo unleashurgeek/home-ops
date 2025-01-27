@@ -34,14 +34,8 @@ spec:
             image:
               repository: ghcr.io/engels74/overseerr-anime
               tag: release-1.33.2-anime@sha256:4f712c024f9199a79815feefcda97d544b9ed31b05ca9d9bd8dfe22f75da93a9
-
-        pod:
-          securityContext:
-            runAsUser: 1000
-            runAsGroup: 1000
-            fsGroup: 1000
-            runAsNonRoot: true
-            fsGroupChangePolicy: OnRootMismatch
+            securityContext:
+              privileged: true
 
     service:
       main:
