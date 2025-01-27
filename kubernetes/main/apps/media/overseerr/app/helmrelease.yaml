@@ -32,8 +32,8 @@ spec:
         containers:
           main:
             image:
-              repository: ghcr.io/sct/overseerr
-              tag: 1.33.2
+              repository: ghcr.io/engels74/overseerr-anime
+              tag: release-1.33.2-anime@sha256:4f712c024f9199a79815feefcda97d544b9ed31b05ca9d9bd8dfe22f75da93a9
 
         pod:
           securityContext:
