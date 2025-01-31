@@ -2,7 +2,7 @@
 libraries:
   Anime:
     metadata_files:
-      - repo: Monogatari.yml
+      # - repo: Monogatari.yml
 
 settings:
   cache: true
