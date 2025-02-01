@@ -5,5 +5,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   # Flux Kustomizations
-  - ./weave-gitops/ks.yaml
   - ./addons/ks.yaml
