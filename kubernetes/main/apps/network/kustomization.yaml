@@ -8,5 +8,4 @@ resources:
   - ./cloudflared/ks.yaml
   - ./nginx/ks.yaml
   - ./external-dns/ks.yaml
-  - ./echo-server/ks.yaml
   - ./external-services/ks.yaml
