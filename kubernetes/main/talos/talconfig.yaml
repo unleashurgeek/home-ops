@@ -5,7 +5,7 @@ endpoint: "https://${clusterVIP}:6443" # TODO: change to url after dns reconfigu
 allowSchedulingOnControlPlanes: true
 
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.6.7
+talosVersion: v1.9.4
 
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
 kubernetesVersion: v1.29.3
