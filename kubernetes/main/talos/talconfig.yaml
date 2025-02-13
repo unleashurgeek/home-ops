@@ -8,7 +8,7 @@ allowSchedulingOnControlPlanes: true
 talosVersion: v1.6.7
 
 # renovate: datasource=docker depName=ghcr.io/siderolabs/kubelet
-kubernetesVersion: v1.29.3
+kubernetesVersion: v1.32.2
 
 cniConfig:
   name: none
