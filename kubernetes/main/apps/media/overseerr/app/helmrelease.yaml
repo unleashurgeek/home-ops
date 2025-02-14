@@ -33,7 +33,7 @@ spec:
           main:
             image:
               repository: ghcr.io/engels74/overseerr-anime
-              tag: release-1.33.2-anime@sha256:4f712c024f9199a79815feefcda97d544b9ed31b05ca9d9bd8dfe22f75da93a9
+              tag: release-1.33.2-anime@sha256:1bd9d65433e1314e5e079a6381d23731ec8cd18fc9e3e047ad91a70eb0e84288
             securityContext:
               privileged: true
 
