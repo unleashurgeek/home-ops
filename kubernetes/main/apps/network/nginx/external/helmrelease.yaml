@@ -35,7 +35,7 @@ spec:
       service:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: external.kyle.fail
-          io.cilium/lb-ipam-ips: 192.168.2.201
+          io.cilium/lb-ipam-ips: 192.168.1.202
         externalTrafficPolicy: Cluster
 
       ingressClassResource:

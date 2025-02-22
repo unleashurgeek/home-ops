@@ -45,7 +45,7 @@ spec:
         compression: bzip2
         maxParallel: 8
       destinationPath: &s3-path s3://main-cloudnative-pg/
-      endpointURL: &s3-endpoint http://192.168.10.5:9000
+      endpointURL: &s3-endpoint http://192.168.1.25:9000
       serverName: &current-cluster postgres16-v2
       s3Credentials: &s3-creds
         accessKeyId:
