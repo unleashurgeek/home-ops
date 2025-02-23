@@ -48,7 +48,6 @@
           kubeconform
           kustomize
           minijinja
-          mise
           moreutils
           # talosctl
           sops
