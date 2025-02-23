@@ -28,3 +28,5 @@ talosconfig
 *.agekey
 *.secret.env
 *.secret.yaml
+
+.direnv
