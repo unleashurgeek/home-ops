@@ -110,8 +110,8 @@ tasks:
           DISK: "{{.DISK}}"
 
   wipe-disk-cluster:
+    internal: true
     desc: Wipe all disks matching the given model on the cluster [DISK=required]
-    prompt: Wipe all instances of disk {{.DISK}} ... continue?
     vars:
       CLUSTERCONFIG_FILES:
         sh: ls {{.K8S_DIR}}/talos/clusterconfig/*.yaml

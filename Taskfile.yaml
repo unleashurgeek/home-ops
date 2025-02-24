@@ -9,6 +9,7 @@ shopt:
 
 includes:
   talos: .taskfiles/talos/Taskfile.yaml
+  bootstrap: .taskfiles/bootstrap/Taskfile.yaml
 
 vars:
   K8S_DIR: "{{.ROOT_DIR}}/kubernetes"
