@@ -14,7 +14,6 @@ resources:
   - ./node-feature-discovery.yaml
   - ./xenitab.yaml
   - ./piraeus.yaml
-  - ./democratic-csi.yaml
   - ./rook-ceph.yaml
   - ./external-secrets.yaml
   - ./backube.yaml
