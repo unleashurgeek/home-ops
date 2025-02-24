@@ -3,12 +3,10 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: webhook-receiver
-  annotations:
-    external-dns.alpha.kubernetes.io/target: external.kyle.fail
 spec:
   ingressClassName: external
   rules:
-    - host: &host flux-webhook.kyle.fail
+    - host: flux-webhook.kyle.fail
       http:
         paths:
           - path: /hook/
@@ -18,6 +16,3 @@ spec:
                 name: webhook-receiver
                 port:
                   number: 80
-  tls:
-    - hosts:
-        - *host

@@ -24,3 +24,4 @@ resources:
   - ./k8tz.yaml
   - ./prometheus-community.yaml
   - ./grafana.yaml
+  - ./controlplaneio.yaml
