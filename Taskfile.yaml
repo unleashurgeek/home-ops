@@ -1,25 +1,30 @@
 ---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: "3"
 
-env:
-  SOPS_AGE_KEY_FILE: "{{.ROOT_DIR}}/age.key"
-
-vars:
-  KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
+set:
+  - pipefail
+shopt:
+  - globstar
 
 includes:
-  sops: .task/sops
-  talos: .task/talos
-  k8s: .task/k8s
-  cluster: .task/cluster
-  flux: .task/flux
-  rook: .task/rook
-  volsync: .task/volsync
-  secret: .task/secret
-  create: .task/create
+  talos: .taskfiles/talos/Taskfile.yaml
+
+vars:
+  K8S_DIR: "{{.ROOT_DIR}}/kubernetes"
+  KUBECONFIG: "{{.K8S_DIR}}/kubeconfig"
+  TALOSCONFIG: "{{.K8S_DIR}}/talos/clusterconfig/talosconfig"
+
+env:
+  KUBECONFIG: "{{.KUBECONFIG}}"
+  TALOSCONFIG: "{{.TALOSCONFIG}}"
 
 tasks:
   default:
     silent: true
-    cmds:
-      - task -l
+    cmd: task --list
+
+  noop:
+    internal: true
+    silent: true
+    cmd: noop() { :; }

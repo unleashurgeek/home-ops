@@ -2,10 +2,6 @@
   description = "home-ops development environment";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
-    # pinned to this for talosctl v1.6.1
-    nixpkgs-7a339d.url = "github:nixos/nixpkgs/7a339d87931bba829f68e94621536cad9132971a";
-
     utils.url = "github:numtide/flake-utils";
     talhelper.url = "github:budimanjojo/talhelper";
     krew2nix = {
@@ -17,7 +13,6 @@
   outputs = {
     self,
     nixpkgs,
-    nixpkgs-7a339d,
     utils,
     talhelper,
     krew2nix,
@@ -28,7 +23,6 @@
         inherit system;
         config.allowUnfree = true;
       };
-      pkgs-7a339d = import nixpkgs-7a339d { inherit system; };
 
       kubectl = krew2nix.packages.${system}.kubectl;
     in {
@@ -49,15 +43,12 @@
           kustomize
           minijinja
           moreutils
-          # talosctl
+          talosctl
           sops
           stern
           viddy
           yq
         ]
-        ++ (with pkgs-7a339d; [
-          talosctl #v1.6.1
-        ])
         ++ [talhelper.packages.${system}.default]
         ++ [
           (kubectl.withKrewPlugins (plugins: with plugins; [
@@ -70,7 +61,23 @@
           ]))
         ];
 
-        shellHook = '''';
+        shellHook = ''
+          export FLAKE_ROOT="$(git rev-parse --show-toplevel)"
+
+          # Directory Paths
+          export ROOT_DIR=$FLAKE_ROOT
+          export KUBERNETES_DIR=$FLAKE_ROOT/kubernetes
+          export BOOTSTRAP_DIR=$KUBERNETES_DIR/bootstrap
+          export TALOS_DIR=$KUBERNETES_DIR/talos
+
+          # File Paths
+          export KUBECONFIG=$KUBERNETES_DIR/kubeconfig
+          export TALOSCONFIG=$TALOS_DIR/clusterconfig/talosconfig
+          export SOPS_AGE_KEY_FILE=$FLAKE_ROOT/age.key
+
+          # TODO: move to kubernetes folder
+          export $(grep -v '^#' .env | xargs)
+        '';
       };
     });
 }

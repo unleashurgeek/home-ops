@@ -55,7 +55,7 @@ tasks:
         node:    name of the node to use (required)
         ip:      address of node to apply (node name if not specified)
     cmds:
-      - task: genconfig
+      # - task: genconfig
       - |-
         talosctl apply-config \
             --nodes {{.ip}} \
