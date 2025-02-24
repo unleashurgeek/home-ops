@@ -7,3 +7,4 @@ resources:
   - ./flux-operator/ks.yaml
 components:
   - ../../components/common
+  - ../../components/sops
