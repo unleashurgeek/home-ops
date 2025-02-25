@@ -20,13 +20,12 @@ spec:
   upgrade:
     cleanupOnFail: true
     remediation:
+      strategy: rollback
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     namespace: kube-system
 
-    replicaCount: 3
+    replicaCount: 2
 
     timezone: America/Los_Angeles
     cronJobTimeZone: true
