@@ -5,5 +5,4 @@ kind: Kustomization
 resources:
   - ./namespace.yaml
   # Flux Kustomizations
-  - ./frigate/ks.yaml
   - ./silverbullet/ks.yaml
