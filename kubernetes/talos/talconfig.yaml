@@ -18,6 +18,7 @@ cniConfig:
   name: none
 
 nodes:
+  # GEEKOM IT12, i7-12650H w/ Sonnet 10G thunderbolt -> SFP+
   - hostname: augustus
     ipAddress: 192.168.1.14
     controlPlane: true
@@ -32,6 +33,7 @@ nodes:
         vip:
           ip: *clusterVIP
 
+  # GEEKOM IT12, i7-12650H w/ Sonnet 10G thunderbolt -> SFP+
   - hostname: nero
     ipAddress: 192.168.1.15
     controlPlane: true
@@ -46,6 +48,7 @@ nodes:
         vip:
           ip: *clusterVIP
 
+  # GEEKOM IT12, i7-12650H w/ Sonnet 10G thunderbolt -> SFP+
   - hostname: titus
     ipAddress: 192.168.1.16
     controlPlane: true
