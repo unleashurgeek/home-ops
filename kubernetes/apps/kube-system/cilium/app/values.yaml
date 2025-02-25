@@ -1,57 +1,53 @@
 ---
-## Talos required settings
-securityContext:
-  privileged: true
-  capabilities:
-    ciliumAgent: "{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}"
-    cleanCiliumState: "{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}"
+autoDirectNodeRoutes: true
+bandwidthManager:
+  enabled: false
+  bbr: true
+
+bpf:
+  hostLegacyRouting: true
+  masquerade: true
+  tproxy: true
+
 cgroup:
   autoMount:
     enabled: false
   hostRoot: /sys/fs/cgroup
 
-## Cluster Identification
 cluster:
   name: main
   id: 1
 
-## Cilium kube-proxy replacement
-ipam:
-  mode: kubernetes
-kubeProxyReplacement: true
-kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
-k8sServiceHost: localhost
-k8sServicePort: 7445
+devices: enp+
+enableRuntimeDeviceDetection: true
 
-## IP Routing
-ipv4NativeRoutingCIDR: 10.244.0.0/16
-containerRuntime:
-  integration: containerd
-
-# tunnel: disabled
-# endpointRoutes:
-#   enabled: true
-# localRedirectPolicy: true
-# loadBalancer:
-#   algorithm: maglev
-#   mode: dsr
-# autoDirectNodeRoutes: true
-
-bpf:
-  masquerade: true
-bgp:
+endpointRoutes:
+  enabled: true
+envoy:
+  enabled: false
+hubble:
   enabled: false
 
-## Enabling L2 Announcements (no BGP)
+ipam:
+  mode: kubernetes
+ipv4NativeRoutingCIDR: 10.42.0.0/16
+k8sServiceHost: 127.0.0.1
+k8sServicePort: 7445
+kubeProxyReplacement: true
+kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+
 l2announcements:
   enabled: true
-  leaseDuration: 120s
-  leaseRenewDeadline: 60s
-  leaseRetryPeriod: 1s
 
-## Cilium automatic management upon ConfigMap update/resource changes
+loadBalancer:
+  algorithm: maglev
+  mode: dsr
+localRedirectPolicy: true
+
 rollOutCiliumPods: true
+routingMode: native
 operator:
+  replicas: 2
   rollOutPods: true
   prometheus:
     enabled: true
@@ -61,52 +57,31 @@ operator:
     enabled: true
     annotations:
       grafana_folder: Cilium
-
 prometheus:
   enabled: true
   serviceMonitor:
     enabled: true
     trustCRDsExist: true
-
 dashboards:
   enabled: true
   annotations:
     grafana_folder: Cilium
 
-hubble:
-  enabled: true
-  metrics:
-    enabled:
-      - dns:query
-      - drop
-      - tcp
-      - flow
-      - port-distribution
-      - icmp
-      - http
-    serviceMonitor:
-      enabled: true
-    dashboards:
-      enabled: true
-      annotations:
-        grafana_folder: Cilium
-
-  relay:
-    enabled: true
-    rollOutPods: true
-    prometheus:
-      enabled: true
-      serviceMonitor:
-        enabled: true
-
-  ui:
-    enabled: true
-    rollOutPods: true
-    ingress:
-      enabled: true
-      className: internal
-      hosts:
-        - &host hubble.kyle.fail
-      tls:
-        - hosts:
-            - *host
+securityContext:
+  capabilities:
+    ciliumAgent:
+      - CHOWN
+      - KILL
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETGID
+      - SETUID
+    cleanCiliumState:
+      - NET_ADMIN
+      - SYS_ADMIN
+      - SYS_RESOURCE

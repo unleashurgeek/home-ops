@@ -2,14 +2,16 @@
 # yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: kube-system
 resources:
-  # Pre Flux-Kustomizations
-  - ./namespace.yaml
-  # Flux-Kustomizations
   - ./cilium/ks.yaml
-  - ./metrics-server/ks.yaml
-  - ./reloader/ks.yaml
-  - ./intel-device-plugins/ks.yaml
-  - ./node-feature-discovery/ks.yaml
-  - ./spegel/ks.yaml
-  - ./k8tz/ks.yaml
+  - ./coredns/ks.yaml
+components:
+  - ../../components/common
+patches:
+  - patch: |
+      - op: add
+        path: /metadata/labels/k8tz.io~1controller-namespace
+        value: "true"
+    target:
+      kind: Namespace
