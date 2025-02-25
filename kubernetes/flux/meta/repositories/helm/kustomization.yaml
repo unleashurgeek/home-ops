@@ -26,3 +26,4 @@ resources:
   - ./controlplaneio.yaml
   - ./coredns.yaml
   - ./spegel.yaml
+  - ./descheduler.yaml
