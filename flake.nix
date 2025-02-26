@@ -74,9 +74,6 @@
           export KUBECONFIG=$KUBERNETES_DIR/kubeconfig
           export TALOSCONFIG=$TALOS_DIR/clusterconfig/talosconfig
           export SOPS_AGE_KEY_FILE=$FLAKE_ROOT/age.key
-
-          # TODO: move to kubernetes folder
-          export $(grep -v '^#' .env | xargs)
         '';
       };
     });
