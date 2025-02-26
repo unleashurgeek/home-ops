@@ -146,7 +146,7 @@ patches:
 controlPlane:
   nodeLabels:
     topology.kubernetes.io/region: *cluster
-    topology.kubernetes.io/zone: control
+    topology.kubernetes.io/zone: IT12
 
   schematic:
     customization:
