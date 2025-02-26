@@ -27,3 +27,5 @@ resources:
   - ./coredns.yaml
   - ./spegel.yaml
   - ./descheduler.yaml
+  - ./openebs.yaml
+  - ./cs-driver-nfs.yaml
