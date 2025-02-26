@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: tautulli
+  name: jellyseerr
 spec:
   interval: 30m
   chart:
@@ -24,24 +24,28 @@ spec:
       retries: 3
   values:
     controllers:
-      tautulli:
+      jellyseerr:
         annotations:
           reloader.stakater.com/auto: "true"
 
         containers:
           app:
             image:
-              repository: ghcr.io/onedr0p/tautulli
-              tag: 2.15.1@sha256:2d5a1bce27a8e29e287aec1735001e68fc23dea08806c7124587cdbfaf0ddcff
+              repository: ghcr.io/fallenbagel/jellyseerr
+              tag: 2.3.0@sha256:df53a7b06006e9da117a7072a55cf5d8b2071a6272f6bb329d8ca62b6f5c08a6
             env:
-              TAUTULLI__PORT: &port 80
+              LOG_LEVEL: "info"
+              PORT: &port 80
+            envFrom:
+              - secretRef:
+                  name: jellyseerr-secret
             probes:
               liveness: &probes
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /status
+                    path: /api/v1/status
                     port: *port
                   initialDelaySeconds: 0
                   periodSeconds: 10
@@ -56,7 +60,7 @@ spec:
               requests:
                 cpu: 10m
               limits:
-                memory: 1Gi
+                memory: 2Gi
 
     defaultPodOptions:
       securityContext:
@@ -68,16 +72,16 @@ spec:
 
     service:
       app:
-        controller: tautulli
+        controller: jellyseerr
         ports:
           http:
             port: *port
 
     ingress:
       app:
-        className: internal
+        className: external
         hosts:
-          - host: "{{ .Release.Name }}.kyle.fail"
+          - host: requests.kyle.fail
             paths:
               - path: /
                 service:
@@ -86,14 +90,16 @@ spec:
 
     persistence:
       config:
-        existingClaim: tautulli
-      config-cache:
-        existingClaim: tautulli-cache
+        existingClaim: jellyseerr
         globalMounts:
-          - path: /config/cache
+          - path: /app/config
+      config-cache:
+        existingClaim: jellyseerr-cache
+        globalMounts:
+          - path: /app/config/cache
       config-logs:
         type: emptyDir
         globalMounts:
-          - path: /config/logs
+          - path: /app/config/logs
       tmp:
         type: emptyDir

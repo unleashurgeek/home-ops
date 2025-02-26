@@ -1,15 +1,15 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: kavita
+  name: &app kavita
 spec:
   interval: 30m
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.7.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -20,26 +20,16 @@ spec:
   upgrade:
     cleanupOnFail: true
     remediation:
+      strategy: rollback
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     controllers:
-      main:
+      kavita:
         annotations:
           reloader.stakater.com/auto: "true"
 
-        pod:
-          securityContext:
-            runAsUser: ${APP_UID}
-            runAsGroup: ${APP_GID}
-            fsGroup: ${APP_GID}
-            runAsNonRoot: true
-            fsGroupChangePolicy: "OnRootMismatch"
-            supplementalGroups: [44, 105, 10000]
-
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/kareadita/kavita
               tag: 0.8.4@sha256:07393ed7d6860e7312c0197b8c1ebcd4d53c52b7cabd542db08613410ff22c69
@@ -50,37 +40,41 @@ spec:
               limits:
                 memory: 4Gi
 
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 568
+        runAsGroup: 568
+        fsGroup: 568
+        fsGroupChangePolicy: OnRootMismatch
+        supplementalGroups: [44, 105, 10000]
+
     service:
-      main:
+      app:
+        controller: *app
         ports:
           http:
-            port: &port 5000
-
+            port: 5000
 
     ingress:
-      main:
-        enabled: true
+      app:
         className: internal
         hosts:
-          - host: &host "{{ .Release.Name }}.kyle.fail"
+          - host: "{{ .Release.Name }}.kyle.fail"
             paths:
               - path: /
                 service:
-                  name: main
-                  port: *port
-        tls:
-          - hosts:
-              - *host
+                  identifier: app
+                  port: http
 
     persistence:
       config:
-        enabled: true
         existingClaim: kavita
         globalMounts:
           - path: /kavita/config
       media:
         type: nfs
-        server: tank.kyle.fail
+        server: virtual-nas.internal
         path: /mnt/tank/media
         globalMounts:
           - path: /media
