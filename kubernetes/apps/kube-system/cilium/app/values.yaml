@@ -1,13 +1,15 @@
 ---
 # autoDirectNodeRoutes: true
-bandwidthManager:
-  enabled: false
-  bbr: true
+# bandwidthManager:
+#   enabled: false
+#   bbr: true
 
 bpf:
-  hostLegacyRouting: true
+  # hostLegacyRouting: true
   masquerade: true
-  tproxy: true
+  # tproxy: true
+bgp:
+  enabled: false
 
 cgroup:
   autoMount:
@@ -18,11 +20,11 @@ cluster:
   name: main
   id: 1
 
-devices: enp+
-enableRuntimeDeviceDetection: true
+# devices: enp+
+# enableRuntimeDeviceDetection: true
 
-endpointRoutes:
-  enabled: true
+# endpointRoutes:
+#   enabled: true
 envoy:
   enabled: false
 hubble:
