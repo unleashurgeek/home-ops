@@ -1,5 +1,0 @@
----
-providerRegex: |
-  ^(augustus|nero|titus)$
-
-bypassDnsResolution: true

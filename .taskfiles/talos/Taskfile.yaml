@@ -1,0 +1,202 @@
+---
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+
+tasks:
+  genconfig:
+    desc: Generate clusterconfig for talos
+    preconditions:
+      - which op test talhelper
+      - test -f {{.K8S_DIR}}/talos/talsecret.yaml
+      - test -f {{.K8S_DIR}}/talos/talconfig.yaml
+      - test -f {{.K8S_DIR}}/talos/secrets.env
+      - op user get --me
+    cmds:
+      - op run --env-file {{.K8S_DIR}}/talos/secrets.env --no-masking -- talhelper genconfig
+        --secret-file {{.K8S_DIR}}/talos/talsecret.yaml
+        --config-file {{.K8S_DIR}}/talos/talconfig.yaml
+        --out-dir {{.K8S_DIR}}/talos/clusterconfig
+
+  kubeconfig:
+    desc: Generates the kubeconfig from talos
+    vars:
+      NODE:
+        sh: talosctl config info --output json | jq --exit-status --raw-output '.endpoints[]' | shuf -n 1
+    preconditions:
+      - which jq talosctl
+      - talosctl --nodes {{.NODE}} get machineconfig
+    cmd: talosctl kubeconfig --nodes {{.NODE}} --force --force-context-name main {{.K8S_DIR}}
+
+  apply-node:
+    desc: Apply Talos config to a node [NODE=required] [MODE=auto] [INSECURE=false] [DRY_RUN=false]
+    preconditions:
+      - which talosctl
+      - test -f "${TALOSCONFIG}"
+    requires:
+      vars:
+        - NODE
+    vars:
+      FILE: "{{.K8S_DIR}}/talos/clusterconfig/main-{{.NODE}}.yaml"
+      MODE: '{{.MODE | default "auto"}}'
+      IP: '{{ .IP | default .NODE }}'
+    cmds:
+      - task: _apply
+        vars:
+          FILENAME: "{{.FILE}}"
+          HOSTNAME: "{{.IP}}"
+          MODE: "{{.MODE}}"
+          INSECURE: "{{.INSECURE}}"
+          DRY_RUN: "{{.DRY_RUN}}"
+
+  upgrade-node:
+    desc: Upgrade Talos on a single node [NODE=required] [FORCE=false]
+    preconditions:
+      - which talosctl yq
+      - test -f "${TALOSCONFIG}"
+    requires:
+      vars:
+        - NODE
+    vars:
+      FILE: "{{.K8S_DIR}}/talos/clusterconfig/main-{{.NODE}}.yaml"
+      TALOS_IMAGE:
+        sh: yq '.machine.install.image' < "{{.FILE}}"
+    cmds:
+      - talosctl upgrade
+        --nodes {{.NODE}}
+        --image={{.TALOS_IMAGE}}
+        --timeout=10m
+        {{ if eq "true" .FORCE}}--force{{ end }}
+      - talosctl --nodes {{.NODE}} health
+
+  reboot-node:
+    desc: Reboot Talos on a single node [NODE=required] [MODE=powercycle]
+    preconditions:
+      - which talosctl
+      - test -f "${TALOSCONFIG}"
+      - talosctl --nodes {{.NODE}} get machineconfig
+    requires:
+      vars:
+        - NODE
+    vars:
+      MODE: '{{.MODE | default "powercycle"}}'
+    cmd: talosctl --nodes {{.NODE}} reboot --mode={{.MODE}}
+
+  reset-node:
+    desc: Reset Talos on a single node (!!!Removes OS!!!) [NODE=required]
+    prompt: Reset talos node '{{.NODE}}', will be unable to boot ... continue?
+    preconditions:
+      - which talosctl
+      - test -f "${TALOSCONFIG}"
+      - talosctl --nodes {{.NODE}} get machineconfig
+    requires:
+      vars:
+        - NODE
+    cmd: talosctl reset --nodes {{.NODE}} --graceful=false
+
+  wipe-disk-node:
+    desc: Wipe the disk on a single node (needed for Rook install) [NODE=required] [DISK=required]
+    prompt: Wipe disk {{.DISK}} on {{.NODE}} ... continue?
+    requires:
+      vars:
+        - NODE
+        - DISK
+    preconditions:
+      - which talosctl
+      - test -f "${TALOSCONFIG}"
+    cmds:
+      - task: _wipe
+        vars:
+          NODE: "{{.NODE}}"
+          DISK: "{{.DISK}}"
+
+  wipe-disk-cluster:
+    internal: true
+    desc: Wipe all disks matching the given model on the cluster [DISK=required]
+    vars:
+      CLUSTERCONFIG_FILES:
+        sh: ls {{.K8S_DIR}}/talos/clusterconfig/*.yaml
+    preconditions:
+      - which ls
+      - test -f "${TALOSCONFIG}"
+    requires:
+      vars:
+        - DISK
+    ignore_error: true # Keep running/skip over failed nodes
+    cmds:
+      - for:
+          var: CLUSTERCONFIG_FILES
+        task: _wipe
+        vars:
+          NODE: |-
+            {{ trimPrefix (printf "main-") (base .ITEM) | trimSuffix ".yaml" }}
+          DISK: "{{ .DISK }}"
+
+  apply-cluster:
+    desc: Apply Talos config to the whole cluster [MODE=auto] [INSECURE=false] [DRY_RUN=false]
+    vars:
+      CLUSTERCONFIG_FILES:
+        sh: ls {{.K8S_DIR}}/talos/clusterconfig/*.yaml
+    preconditions:
+      - which ls
+      - test -f "${TALOSCONFIG}"
+    cmds:
+      - for:
+          var: CLUSTERCONFIG_FILES
+        task: _apply
+        vars:
+          FILENAME: "{{.ITEM}}"
+          HOSTNAME: |-
+            {{ trimPrefix (printf "main-") (base .ITEM) | trimSuffix ".yaml" }}
+          DRY_RUN: "{{ .DRY_RUN }}"
+          INSECURE: "{{ .INSECURE }}"
+
+  reset-cluster:
+    desc: Resets nodes back to maintenance mode so you can re-deploy again straight after
+    prompt: This will destroy your cluster and reset the nodes back to maintenance mode... continue?
+    preconditions:
+      - which test talhelper
+      - test -f {{.K8S_DIR}}/talos/talsecret.yaml
+      - test -f {{.K8S_DIR}}/talos/talconfig.yaml
+      - test -f {{.K8S_DIR}}/talos/secrets.env
+    cmds:
+      - talhelper gencommand reset
+        --config-file {{.K8S_DIR}}/talos/talconfig.yaml
+        --out-dir {{.K8S_DIR}}/talos/clusterconfig
+        --extra-flags "--reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --graceful=false --wait=false" | bash
+
+  _apply:
+    internal: true
+    desc: Apply a single Talos machineConfig to a Talos node
+    preconditions:
+      - which talosctl
+      - test -f "{{.FILENAME}}"
+    requires:
+      vars:
+        - HOSTNAME
+        - FILENAME
+    vars:
+      MODE: '{{.MODE | default "auto"}}'
+    cmds:
+      - talosctl apply-config
+        --nodes {{.HOSTNAME}}
+        --file {{.FILENAME}}
+        --mode="{{.MODE}}"
+        {{ if eq "true" .INSECURE}}--insecure{{ end }}
+        {{ if eq "true" .DRY_RUN}}--dry-run{{ end }}
+
+  _wipe:
+    internal: true
+    desc: "Wipe the disk of a single node"
+    vars:
+      DISK_ID:
+        sh: talosctl --nodes {{.NODE}} get disk --output json | jq --exit-status --raw-output --slurp '. | map(select(.spec.model == "{{.DISK}}") | .metadata.id) | join(" ")'
+    requires:
+      vars:
+        - NODE
+        - DISK
+    preconditions:
+      - which talosctl jq
+      - test -f "${TALOSCONFIG}"
+      - test {{.DISK_ID}}
+    cmds:
+      - talosctl --nodes {{.NODE}} wipe disk {{.DISK_ID}}
