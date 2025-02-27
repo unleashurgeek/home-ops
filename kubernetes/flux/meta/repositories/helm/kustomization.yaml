@@ -18,7 +18,7 @@ resources:
   - ./intel.yaml
   - ./jetstack.yaml
   - ./k8tz.yaml
-  - ./kubernetes-sigs-metrics-server.yaml
+  - ./metrics-server.yaml
   - ./node-feature-discovery.yaml
   - ./openebs.yaml
   - ./piraeus.yaml
