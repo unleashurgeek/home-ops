@@ -5,4 +5,8 @@
   "yaml.schemas": {
     "kubernetes": ["kubernetes/*.yml", "kubernetes/*.yaml"]
   },
+  "yaml.customTags": [
+    "!secret scalar",
+    "!env_var scalar"
+  ]
 }

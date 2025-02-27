@@ -3,13 +3,12 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - ./externalsecret.yaml
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: sabnzbd-scripts
+  - name: generic-device-plugin
     files:
-      - post-process.sh=./resources/post-process.sh
+      - ./config/config.yaml
 generatorOptions:
   disableNameSuffixHash: true
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled
+configurations:
+  - kustomizeconfig.yaml

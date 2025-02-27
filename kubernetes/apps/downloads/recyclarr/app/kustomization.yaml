@@ -5,7 +5,6 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
-  - ../../../../templates/volsync
 configMapGenerator:
   - name: recyclarr-configmap
     files:
@@ -16,5 +15,3 @@ configMapGenerator:
       - sonarr-anime.yml=./config/sonarr-anime.yml
 generatorOptions:
   disableNameSuffixHash: true
-  annotations:
-    kustomize.toolkit.fluxcd.io/substitute: disabled

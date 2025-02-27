@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: recyclarr
@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.7.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -20,59 +20,50 @@ spec:
   upgrade:
     cleanupOnFail: true
     remediation:
+      strategy: rollback
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     controllers:
-      main:
+      recyclarr:
         type: cronjob
         cronjob:
           schedule: "@daily"
-
-        annotations:
-          reloader.stakater.com/auto: "true"
-
+          backoffLimit: 0
+          concurrencyPolicy: Forbid
+          successfulJobsHistory: 1
+          failedJobsHistory: 1
+          ttlSecondsAfterFinished: 86400
         pod:
-          securityContext:
-            runAsUser: ${APP_UID}
-            runAsGroup: ${APP_GID}
-            runAsNonRoot: true
-            fsGroup: ${APP_GID}
-            fsGroupChangePolicy: OnRootMismatch
-
+          restartPolicy: Never
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/recyclarr/recyclarr
-              tag: 6.0.2
-            args:
-              - sync
-            env:
-              COMPlus_EnableDiagnostics: "0"
+              tag: 7.4.1@sha256:759540877f95453eca8a26c1a93593e783a7a824c324fbd57523deffb67f48e1
             envFrom:
               - secretRef:
                   name: recyclarr-secret
-            resources:
-              requests:
-                cpu: 5m
-                memory: 36M
-              limits:
-                memory: 128M
+            args: ["sync"]
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities:
-                drop:
-                  - ALL
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 128Mi
 
-    service:
-      main:
-        enabled: false
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
 
     persistence:
       config:
-        enabled: true
         existingClaim: recyclarr
       config-file:
         type: configMap
@@ -80,3 +71,13 @@ spec:
         globalMounts:
           - path: /config/configs/
             readOnly: true
+      config-logs:
+        type: emptyDir
+        globalMounts:
+          - path: /config/logs
+      config-repositories:
+        type: emptyDir
+        globalMounts:
+          - path: /config/repositories
+      tmp:
+        type: emptyDir

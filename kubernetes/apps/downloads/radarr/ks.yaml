@@ -4,69 +4,81 @@ apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app radarr-movies
-  namespace: flux-system
+  namespace: &namespace downloads
 spec:
-  targetNamespace: downloads
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
+    - name: onepassword-store
+      namespace: external-secrets
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: cloudnative-pg-cluster
-    - name: external-secrets-stores
-  path: ./kubernetes/main/apps/downloads/radarr/movies
+      namespace: database
+  interval: 30m
+  path: ./kubernetes/apps/downloads/radarr/movies
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
-  wait: false
-  interval: 30m
-  retryInterval: 1m
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
   timeout: 5m
+  wait: false
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app radarr-hq
-  namespace: flux-system
+  namespace: &namespace downloads
 spec:
-  targetNamespace: downloads
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
+    - name: onepassword-store
+      namespace: external-secrets
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: cloudnative-pg-cluster
-    - name: external-secrets-stores
-  path: ./kubernetes/main/apps/downloads/radarr/hq
+      namespace: database
+  interval: 30m
+  path: ./kubernetes/apps/downloads/radarr/hq
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
-  wait: false
-  interval: 30m
-  retryInterval: 1m
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
   timeout: 5m
+  wait: false
 ---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
   name: &app radarr-anime
-  namespace: flux-system
+  namespace: &namespace downloads
 spec:
-  targetNamespace: downloads
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
+    - name: onepassword-store
+      namespace: external-secrets
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
     - name: cloudnative-pg-cluster
-    - name: external-secrets-stores
-  path: ./kubernetes/main/apps/downloads/radarr/anime
+      namespace: database
+  interval: 30m
+  path: ./kubernetes/apps/downloads/radarr/anime
   prune: true
   sourceRef:
     kind: GitRepository
-    name: home-kubernetes
-  wait: false
-  interval: 30m
-  retryInterval: 1m
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
   timeout: 5m
+  wait: false
