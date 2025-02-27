@@ -1,5 +1,5 @@
 ---
-autoDirectNodeRoutes: true
+# autoDirectNodeRoutes: true
 bandwidthManager:
   enabled: false
   bbr: true
@@ -39,10 +39,10 @@ kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
 l2announcements:
   enabled: true
 
-loadBalancer:
-  algorithm: maglev
-  mode: dsr
-localRedirectPolicy: true
+# loadBalancer:
+#   algorithm: maglev
+#   mode: dsr
+# localRedirectPolicy: true
 
 rollOutCiliumPods: true
 routingMode: native
