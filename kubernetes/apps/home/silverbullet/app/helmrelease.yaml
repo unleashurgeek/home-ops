@@ -1,6 +1,6 @@
 ---
-# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
-apiVersion: helm.toolkit.fluxcd.io/v2beta2
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: silverbullet
@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 2.6.0
+      version: 3.7.1
       sourceRef:
         kind: HelmRepository
         name: bjw-s
@@ -20,25 +20,16 @@ spec:
   upgrade:
     cleanupOnFail: true
     remediation:
+      strategy: rollback
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
     controllers:
-      main:
+      silverbullet:
         annotations:
           reloader.stakater.com/auto: "true"
 
-        pod:
-          securityContext:
-            runAsUser: ${APP_UID}
-            runAsGroup: ${APP_GID}
-            fsGroup: ${APP_GID}
-            runAsNonRoot: true
-            fsGroupChangePolicy: OnRootMismatch
-
         containers:
-          main:
+          app:
             image:
               repository: docker.io/zefhemel/silverbullet
               tag: 0.10.1@sha256:4c1f9425c005cd7f922155c9afdab0fb6adc2fe8f7c2a64cfdb8ec92581c5db9
@@ -49,35 +40,37 @@ spec:
             resources:
               requests:
                 cpu: 100m
-                memory: 400Mi
               limits:
-                cpu: 500m
                 memory: 850Mi
 
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
     service:
-      main:
+      app:
+        controller: silverbullet
         ports:
           http:
-            port: &port 3000
+            port: 3000
 
     ingress:
       main:
-        enabled: true
         className: internal
         hosts:
-          - host: &host "notes.kyle.fail"
+          - host: notes.kyle.fail
             paths:
               - path: /
                 service:
-                  name: main
-                  port: *port
-        tls:
-          - hosts:
-              - *host
+                  identifier: app
+                  port: http
 
     persistence:
       space:
-        enabled: true
         existingClaim: silverbullet
         globalMounts:
           - path: /space
