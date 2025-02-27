@@ -110,7 +110,7 @@ tasks:
           DISK: "{{.DISK}}"
 
   wipe-disk-cluster:
-    internal: true
+    # internal: true
     desc: Wipe all disks matching the given model on the cluster [DISK=required]
     vars:
       CLUSTERCONFIG_FILES:
