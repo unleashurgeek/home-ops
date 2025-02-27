@@ -9,7 +9,7 @@ resources:
   - ./cloudnative-pg.yaml
   - ./controlplaneio.yaml
   - ./coredns.yaml
-  - ./cs-driver-nfs.yaml
+  - ./csi-driver-nfs.yaml
   - ./descheduler.yaml
   - ./external-dns.yaml
   - ./external-secrets.yaml
