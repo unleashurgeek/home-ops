@@ -18,7 +18,7 @@ releases:
   - name: prometheus-operator-crds
     namespace: observability
     chart: oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds
-    version: 18.0.0
+    version: 18.0.1
 
   - name: cilium
     namespace: kube-system
@@ -32,7 +32,7 @@ releases:
   - name: coredns
     namespace: kube-system
     chart: oci://ghcr.io/coredns/charts/coredns
-    version: 1.39.0
+    version: 1.39.1
     values:
       - ../apps/kube-system/coredns/app/values.yaml
     needs:
@@ -59,7 +59,7 @@ releases:
   - name: flux-operator
     namespace: flux-system
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-operator
-    version: 0.15.0
+    version: 0.16.0
     values:
       - ../apps/flux-system/flux-operator/app/values.yaml
     needs:
@@ -68,7 +68,7 @@ releases:
   - name: flux-instance
     namespace: flux-system
     chart: oci://ghcr.io/controlplaneio-fluxcd/charts/flux-instance
-    version: 0.15.0
+    version: 0.16.0
     wait: false
     values:
       - ../apps/flux-system/flux-operator/instance/values.yaml
