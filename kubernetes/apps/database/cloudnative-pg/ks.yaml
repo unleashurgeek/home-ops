@@ -35,7 +35,7 @@ spec:
       namespace: database
     - name: openebs
       namespace: storage
-    - name: onepassword-store
+    - name: onepassword
       namespace: external-secrets
   healthChecks:
     - apiVersion: helm.toolkit.fluxcd.io/v2beta1
