@@ -29,3 +29,4 @@ resources:
   - ./descheduler.yaml
   - ./openebs.yaml
   - ./cs-driver-nfs.yaml
+  - ./wiremind.yaml
