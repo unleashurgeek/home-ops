@@ -162,7 +162,7 @@ controlPlane:
         - intel_iommu=on                      # PCI Passthrough
         - iommu=pt                            # PCI Passthrough
         - net.ifnames=1                       # Enable predictable NIC naming
-        # - module_blacklist=igc                # Disable onboard NIC
+        - module_blacklist=igc                # Disable onboard NIC
       systemExtensions:
         officialExtensions:
           - siderolabs/i915
