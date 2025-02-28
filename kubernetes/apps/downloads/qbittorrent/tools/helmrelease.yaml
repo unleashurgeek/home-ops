@@ -48,7 +48,7 @@ spec:
               QBITTORRENT_PORT: 8080
               QBITTORRENTAPI_DO_NOT_VERIFY_WEBUI_CERTIFICATE: "true"
               SABNZBD_HOST: sabnzbd.downloads.svc.cluster.local
-              SABNZBD_PORT: 80
+              SABNZBD_PORT: 8080
             envFrom:
               - secretRef:
                   name: qbtools-secret
