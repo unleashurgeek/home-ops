@@ -4,5 +4,4 @@ kind: Kustomization
 resources:
   - ./externalsecret.yaml
   - ./replicationdestination.yaml
-  # TODO: Ability to make backups disabled until all backups rehydrated successfully
-  # - ./replicationsource.yaml
+  - ./replicationsource.yaml
