@@ -38,7 +38,7 @@ spec:
                   name: radarr-movies-secret
 
         containers:
-          main:
+          app:
             image:
               repository: ghcr.io/onedr0p/radarr
               tag: 5.19.3.9730@sha256:7218cd42b646bb773a2c683b95860c51103c3ca7e0b9171b4bc549b95ddc6896
