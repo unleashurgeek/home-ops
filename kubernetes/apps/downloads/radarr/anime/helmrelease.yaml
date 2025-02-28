@@ -114,7 +114,5 @@ spec:
         type: nfs
         server: virtual-nas.internal
         path: /mnt/tank/media
-        advancedMounts:
-          main:
-            main:
-              - path: /media
+        globalMounts:
+          - path: /media
