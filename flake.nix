@@ -34,7 +34,12 @@
           fluxcd
           go-task
           gum
-          kubernetes-helm
+          (wrapHelm kubernetes-helm {
+            plugins = with pkgs.kubernetes-helmPlugins; [
+              helm-diff
+            ];
+          })
+          cilium-cli
           helmfile
           jq
           k9s
