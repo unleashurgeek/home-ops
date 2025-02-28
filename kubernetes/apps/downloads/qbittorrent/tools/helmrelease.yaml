@@ -75,9 +75,19 @@ spec:
             args: [
               "prune",
               "--exclude-category", "manual",
+              "--exclude-category", "cross-seed",
               "--exclude-tag", "added:1d",
               "--include-tag", "unregistered",
-              "--with-data",
+              "--with-data"
+            ]
+          unmapped:
+            <<: *container
+            args: [
+              "prune",
+              "--exclude-category", "manual",
+              "--exclude-category", "cross-seed",
+              "--exclude-tag", "added:1d",
+              "--include-tag", "site:unmapped",
               "--dry-run"
             ]
 
