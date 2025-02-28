@@ -164,6 +164,19 @@ tasks:
         --out-dir {{.K8S_DIR}}/talos/clusterconfig
         --extra-flags "--reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --graceful=false --wait=false" | bash
 
+  reboot-cluster:
+    desc: Reboot Talos across the whole cluster
+    prompt: This will reboot all of the cluster nodes. Are you sure you want to continue?
+    vars:
+      HOSTNAMES:
+        sh: kubectl get nodes --output=jsonpath='{.items[*].metadata.name}'
+    cmds:
+      - for: { var: HOSTNAMES }
+        task: reboot-node
+        vars:
+          NODE: '{{.ITEM}}'
+      - task: :kube:cleanse-pods
+
   init-cluster:
     desc: Initializes the cluster from an insecure state
     cmds:
