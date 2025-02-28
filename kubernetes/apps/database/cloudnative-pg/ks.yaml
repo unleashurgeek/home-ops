@@ -38,7 +38,7 @@ spec:
     - name: onepassword
       namespace: external-secrets
   healthChecks:
-    - apiVersion: helm.toolkit.fluxcd.io/v2beta1
+    - apiVersion: helm.toolkit.fluxcd.io/v2
       kind: Cluster
       name: postgres16
       namespace: database
