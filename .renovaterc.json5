@@ -32,5 +32,8 @@
     "fileMatch": [
       "(^|/)kubernetes/.+\\.ya?ml$"
     ]
+  },
+  "nix": {
+    "enabled": true
   }
 }
