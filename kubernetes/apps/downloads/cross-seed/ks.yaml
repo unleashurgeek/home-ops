@@ -16,6 +16,16 @@ spec:
       namespace: external-secrets
     - name: volsync
       namespace: storage
+    - name: sonarr-tv
+      namespace: downloads
+    - name: sonarr-anime
+      namespace: downloads
+    - name: radarr-movies
+      namespace: downloads
+    - name: radarr-hq
+      namespace: downloads
+    - name: radarr-anime
+      namespace: downloads
   interval: 30m
   path: ./kubernetes/apps/downloads/cross-seed/app
   postBuild:
