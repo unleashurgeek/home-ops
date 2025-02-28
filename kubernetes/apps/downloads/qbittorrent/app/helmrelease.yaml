@@ -90,6 +90,7 @@ spec:
             env:
               UMASK: "022"
               QBT_WEBUI_PORT: &port 8080
+              VERIFY_WEBUI_CERTIFICATE: "False"
               QBT_Preferences__WebUI__AlternativeUIEnabled: false
               QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
               QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
