@@ -132,10 +132,10 @@ spec:
                   periodSeconds: 5
             resources:
               requests:
-                cpu: 150m
+                cpu: 300m
                 memory: 2048Mi
               limits:
-                memory: 8192Mi
+                memory: 8Gi
             securityContext:
               runAsUser: 568
               runAsGroup: 568
