@@ -164,6 +164,25 @@ tasks:
         --out-dir {{.K8S_DIR}}/talos/clusterconfig
         --extra-flags "--reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --graceful=false --wait=false" | bash
 
+  init-cluster:
+    desc: Initializes the cluster from an insecure state
+    cmds:
+      - task: apply-node
+        vars:
+          NODE: augustus
+          INSECURE: "true"
+          IP: 192.168.1.54
+      - task: apply-node
+        vars:
+          NODE: nero
+          INSECURE: "true"
+          IP: 192.168.1.55
+      - task: apply-node
+        vars:
+          NODE: titus
+          INSECURE: "true"
+          IP: 192.168.1.56
+
   _apply:
     internal: true
     desc: Apply a single Talos machineConfig to a Talos node
