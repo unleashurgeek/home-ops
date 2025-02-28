@@ -87,8 +87,7 @@ spec:
               "--exclude-category", "manual",
               "--exclude-category", "cross-seed",
               "--exclude-tag", "added:1d",
-              "--include-tag", "site:unmapped",
-              "--dry-run"
+              "--include-tag", "site:unmapped"
             ]
 
       orphaned:
