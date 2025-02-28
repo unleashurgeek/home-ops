@@ -13,7 +13,7 @@ sonarr:
     include:
       - template: sonarr-quality-definition-series
       - template: sonarr-v4-quality-profile-web-1080p-alternative
-      - template: onarr-v4-custom-formats-web-1080p
+      - template: sonarr-v4-custom-formats-web-1080p
     custom_formats:
       - trash_ids:
           - 32b367365729d530ca1c124a0b180c64 # Bad Dual Groups
