@@ -10,5 +10,6 @@ configMapGenerator:
     files:
       - anime.yaml=./config/anime.yaml
       - sonarr.yaml=./config/sonarr.yaml
+      - radarr.yaml=./config/radarr.yaml
 generatorOptions:
   disableNameSuffixHash: true
