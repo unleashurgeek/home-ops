@@ -9,5 +9,6 @@ configMapGenerator:
   - name: recyclarr-configmap
     files:
       - anime.yaml=./config/anime.yaml
+      - sonarr.yaml=./config/sonarr.yaml
 generatorOptions:
   disableNameSuffixHash: true
