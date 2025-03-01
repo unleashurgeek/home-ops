@@ -87,7 +87,7 @@ spec:
       main:
         className: internal
         hosts:
-          - host: sonarr-tv-v2.kyle.fail
+          - host: sonarr-tv.kyle.fail
             paths:
               - path: /
                 service:
