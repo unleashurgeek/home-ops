@@ -59,7 +59,7 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &app radarr-anime
+  name: &app radarr-anime-pg
   namespace: &namespace downloads
 spec:
   commonMetadata:
@@ -73,7 +73,7 @@ spec:
     - name: cloudnative-pg-cluster
       namespace: database
   interval: 30m
-  path: ./kubernetes/apps/downloads/radarr/anime
+  path: ./kubernetes/apps/downloads/radarr/anime-pg
   prune: true
   sourceRef:
     kind: GitRepository

@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: radarr-anime
+  name: radarr-anime-pg
 spec:
   interval: 30m
   chart:
@@ -35,7 +35,7 @@ spec:
               tag: 16
             envFrom: &envFrom
               - secretRef:
-                  name: radarr-anime-secret
+                  name: radarr-anime-pg-secret
 
         containers:
           app:
@@ -43,7 +43,7 @@ spec:
               repository: ghcr.io/onedr0p/radarr
               tag: 5.19.3.9730@sha256:7218cd42b646bb773a2c683b95860c51103c3ca7e0b9171b4bc549b95ddc6896
             env:
-              RADARR__APP__INSTANCENAME: Radarr Anime
+              RADARR__APP__INSTANCENAME: Radarr Anime (PG)
               RADARR__APP__THEME: dark
               RADARR__AUTH__METHOD: External
               RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
@@ -94,7 +94,7 @@ spec:
       app:
         className: internal
         hosts:
-          - host: "{{ .Release.Name }}.kyle.fail"
+          - host: radarr-anime.kyle.fail
             paths:
               - path: /
                 service:
@@ -105,7 +105,7 @@ spec:
       config:
         type: emptyDir
       config-cache:
-        existingClaim: radarr-anime-cache
+        existingClaim: radarr-anime-pg-cache
         globalMounts:
           - path: /config/MediaCover
       tmp:
