@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: prowlarr
+  name: prowlarr-pg
 spec:
   interval: 30m
   chart:
@@ -101,7 +101,7 @@ spec:
       app:
         className: internal
         hosts:
-          - host: "{{ .Release.Name }}.kyle.fail"
+          - host: prowlarr.kyle.fail
             paths:
               - path: /
                 service:
