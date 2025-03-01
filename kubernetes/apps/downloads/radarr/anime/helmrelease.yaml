@@ -96,9 +96,9 @@ spec:
 
     persistence:
       config:
-        existingClaim: radarr
+        existingClaim: radarr-anime
       config-cache:
-        existingClaim: radarr-cache
+        existingClaim: radarr-anime-cache
         globalMounts:
           - path: /config/MediaCover
       tmp:
