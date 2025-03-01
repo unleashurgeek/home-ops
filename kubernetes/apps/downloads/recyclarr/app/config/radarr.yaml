@@ -125,9 +125,17 @@ radarr:
           - 839bea857ed2c0a8e084f3cbdbd65ecb  # x265 (no HDR/DV)
         assign_scores_to:
           - name: SQP-3
+          - name: SQP-2
+            score: 0
+          - name: SQP-4
+            score: 0
       - trash_ids:
           # Disable to allow some 1080p x265 cases
           - dc98083864ea246d05a42df0d05f81cc  # x265 (HD)
         assign_scores_to:
           - name: SQP-3
             score: 0
+          - name: SQP-2
+            score: -10000
+          - name: SQP-4
+            score: -10000
