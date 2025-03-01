@@ -87,7 +87,7 @@ spec:
       app:
         className: internal
         hosts:
-          - host: radarr-anime-v2.kyle.fail
+          - host: radarr-anime.kyle.fail
             paths:
               - path: /
                 service:
