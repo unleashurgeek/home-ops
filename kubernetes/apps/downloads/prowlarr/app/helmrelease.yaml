@@ -87,7 +87,7 @@ spec:
       app:
         className: internal
         hosts:
-          - host: prowlarr-v2.kyle.fail
+          - host: prowlarr.kyle.fail
             paths:
               - path: /
                 service:
