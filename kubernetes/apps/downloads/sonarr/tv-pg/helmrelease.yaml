@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: sonarr-anime
+  name: sonarr-tv-pg
 spec:
   interval: 30m
   chart:
@@ -35,7 +35,7 @@ spec:
               tag: 16
             envFrom: &envFrom
               - secretRef:
-                  name: sonarr-anime-secret
+                  name: sonarr-tv-pg-secret
 
         containers:
           app:
@@ -43,7 +43,7 @@ spec:
               repository: ghcr.io/onedr0p/sonarr
               tag: 4.0.13.2932@sha256:b2217e5c81155ba002e0497932c2de197b8f5c1ac9c9fff7210e9a6381caab41
             env:
-              SONARR__APP__INSTANCENAME: Sonarr Anime
+              SONARR__APP__INSTANCENAME: Sonarr TV (PG)
               SONARR__APP__THEME: dark
               SONARR__AUTH__METHOD: External
               SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
@@ -91,10 +91,10 @@ spec:
             port: *port
 
     ingress:
-      main:
+      app:
         className: internal
         hosts:
-          - host: "{{ .Release.Name }}.kyle.fail"
+          - host: sonarr-tv.kyle.fail
             paths:
               - path: /
                 service:
@@ -103,10 +103,9 @@ spec:
 
     persistence:
       config:
-        enabled: true
         type: emptyDir
       config-cache:
-        existingClaim: sonarr-anime-cache
+        existingClaim: sonarr-tv-pg-cache
         globalMounts:
           - path: /config/MediaCover
       tmp:
