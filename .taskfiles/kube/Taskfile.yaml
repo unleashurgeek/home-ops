@@ -69,6 +69,6 @@ tasks:
         ignore_error: true
       - minijinja-cli --env {{.KUBE_TASK_RESOURCES_DIR}}/fio.yaml.j2 | kubectl apply --server-side --filename -
       - until kubectl --namespace {{.NS}} get job/kbench &>/dev/null; do sleep 5; done
-      - kubectl --namespace {{.NS}} wait job/kbench --for=condition=complete --timeout=10m
-      - kubectl logs -l kbench=fio --tail=20
+      - kubectl --namespace {{.NS}} wait job/kbench --for=condition=complete
+      - kubectl logs -l kbench=fio --tail=25
       - minijinja-cli --env {{.KUBE_TASK_RESOURCES_DIR}}/fio.yaml.j2 | kubectl delete --filename -
