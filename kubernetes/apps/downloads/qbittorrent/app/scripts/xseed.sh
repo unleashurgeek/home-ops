@@ -5,23 +5,24 @@ XSEED_PORT=${XSEED_PORT:-8080}
 XSEED_APIKEY=${XSEED_APIKEY:-unset}
 XSEED_SLEEP_INTERVAL=${CROSS_SEED_SLEEP_INTERVAL:-30}
 
-SEARCH_PATH=$1
+INFO_HASH=$1
+NAME=$2
 
 response=$(curl \
   --silent \
   --output /dev/null \
   --write-out "%{http_code}" \
   --request POST \
-  --data-urlencode "path=${SEARCH_PATH}" \
+  --data-urlencode "infoHash=${INFO_HASH}" \
   --header "X-Api-Key: ${XSEED_APIKEY}" \
   "http://${XSEED_HOST}:${XSEED_PORT}/api/webhook"
 )
 
 if [[ "${response}" != "204" ]]; then
-  printf "Failed to search cross-seed for '%s'\n" "${SEARCH_PATH}"
+  printf "Failed to search cross-seed for '%s'\n" "${NAME}"
   exit 1
 fi
 
-printf "Successfully searched cross-seed for '%s'\n" "${SEARCH_PATH}"
+printf "Successfully searched cross-seed for '%s'\n" "${NAME}"
 
 sleep "${XSEED_SLEEP_INTERVAL}"
