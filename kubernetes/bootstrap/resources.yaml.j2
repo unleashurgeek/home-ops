@@ -9,6 +9,27 @@ metadata:
 apiVersion: v1
 kind: Secret
 metadata:
+  name: kyle-fail-tls
+  namespace: cert-manager
+  annotations:
+    cert-manager.io/alt-names: '*.kyle.fail,kyle.fail'
+    cert-manager.io/certificate-name: kyle-fail
+    cert-manager.io/common-name: kyle.fail
+    cert-manager.io/ip-sans: ""
+    cert-manager.io/issuer-group: ""
+    cert-manager.io/issuer-kind: ClusterIssuer
+    cert-manager.io/issuer-name: letsencrypt-production
+    cert-manager.io/uri-sans: ""
+  labels:
+    controller.cert-manager.io/fao: "true"
+type: kubernetes.io/tls
+data:
+  tls.crt: op://home-ops/kyle-fail-tls/tls.crt
+  tls.key: op://home-ops/kyle-fail-tls/tls.key
+---
+apiVersion: v1
+kind: Secret
+metadata:
   name: onepassword-secret
   namespace: external-secrets
 stringData:
