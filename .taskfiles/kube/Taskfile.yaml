@@ -2,6 +2,9 @@
 # yaml-language-server: $schema=https://taskfile.dev/schema.json
 version: '3'
 
+vars:
+  KUBE_TASK_RESOURCES_DIR: "{{.ROOT_DIR}}/.taskfiles/kube/resources"
+
 tasks:
   browse-pvc:
     desc: Mount a PVC to an temp container [NS=default] [CLAIM=required]
@@ -47,3 +50,25 @@ tasks:
         cmd: kubectl delete pods --all-namespaces --field-selector status.phase={{.ITEM.PHASE}} --ignore-not-found=true
     preconditions:
       - which kubectl
+
+  fio:
+    desc: Run kbench on a given StorageClass [SC=required] [NS=default]
+    preconditions:
+      - which kubectl minijinja-cli
+      - test -f "{{.KUBE_TASK_RESOURCES_DIR}}/fio.yaml.j2"
+    requires:
+      vars:
+        - SC
+    vars:
+      NS: '{{.NS | default "default"}}'
+    env:
+      NS: "{{.NS}}"
+      SC: "{{.SC}}"
+    cmds:
+      - cmd: minijinja-cli --env {{.KUBE_TASK_RESOURCES_DIR}}/fio.yaml.j2 | kubectl delete --filename -
+        ignore_error: true
+      - minijinja-cli --env {{.KUBE_TASK_RESOURCES_DIR}}/fio.yaml.j2 | kubectl apply --server-side --filename -
+      - until kubectl --namespace {{.NS}} get job/kbench &>/dev/null; do sleep 5; done
+      - kubectl --namespace {{.NS}} wait job/kbench --for=condition=complete --timeout=10m
+      - kubectl logs -l kbench=fio --tail=20
+      - minijinja-cli --env {{.KUBE_TASK_RESOURCES_DIR}}/fio.yaml.j2 | kubectl delete --filename -
