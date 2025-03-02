@@ -20,9 +20,9 @@ spec:
       namespace: downloads
     - name: sonarr-anime
       namespace: downloads
-    - name: radarr-movies
+    - name: radarr-hd
       namespace: downloads
-    - name: radarr-hq
+    - name: radarr-uhd
       namespace: downloads
     - name: radarr-anime
       namespace: downloads
