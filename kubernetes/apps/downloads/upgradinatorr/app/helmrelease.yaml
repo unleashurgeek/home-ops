@@ -61,6 +61,8 @@ spec:
 
     persistence:
       config:
+        existingClaim: upgradinatorr
+      config-file:
         type: secret
         name: upgradinatorr-secret
         globalMounts:
