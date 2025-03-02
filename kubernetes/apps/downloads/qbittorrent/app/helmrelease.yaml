@@ -91,25 +91,6 @@ spec:
               UMASK: "022"
               QBT_WEBUI_PORT: &port 8080
               VERIFY_WEBUI_CERTIFICATE: "False"
-              QBT_Preferences__WebUI__AlternativeUIEnabled: false
-              QBT_Preferences__WebUI__AuthSubnetWhitelistEnabled: true
-              QBT_Preferences__WebUI__AuthSubnetWhitelist: |-
-                10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
-              QBT_Preferences__WebUI__LocalHostAuth: false
-              QBT_Preferences__WebUI__UseUPNP: false
-              QBT_BitTorrent__Session__BTProtocol: TCP
-              QBT_BitTorrent__Session__SubcategoriesEnabled: true
-              QBT_BitTorrent__Session__DefaultSavePath: /media/downloads/torrent/complete
-              QBT_BitTorrent__Session__TempPath: /media/downloads/torrent/temp
-              QBT_BitTorrent__Session__TempPathEnabled: true
-              QBT_BitTorrent__Session__DisableAutoTMMByDefault: false
-              QBT_BitTorrent__Session__DisableAutoTMMTriggers__CategorySavePathChanged: false
-              QBT_BitTorrent__Session__DisableAutoTMMTriggers__DefaultSavePathChanged: false
-              QBT_BitTorrent__Session__MaxConnections: -1
-              QBT_BitTorrent__Session__MaxConnectionsPerTorrent: -1
-              QBT_BitTorrent__Session__MaxUploads: -1
-              QBT_BitTorrent__Session__MaxUploadsPerTorrent: -1
-              QBT_BitTorrent__Session__QueueingSystemEnabled: false
               XSEED_HOST: cross-seed.downloads.svc.cluster.local
               XSEED_PORT:
                 valueFrom:

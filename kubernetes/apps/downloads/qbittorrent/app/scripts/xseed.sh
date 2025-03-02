@@ -9,8 +9,6 @@ INFO_HASH=$1
 NAME=$2
 
 response=$(curl \
-  --silent \
-  --output /dev/null \
   --write-out "%{http_code}" \
   --request POST \
   --data-urlencode "infoHash=${INFO_HASH}" \
