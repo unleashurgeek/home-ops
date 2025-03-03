@@ -31,17 +31,17 @@ Size: 30G
 Quick Mode: disabled
 =========================
 IOPS (Read/Write)
-        Random:             35,205 / 765
-    Sequential:             39,286 / 867
+        Random:             36,281 / 833
+    Sequential:             39,781 / 864
 
 Bandwidth in KiB/sec (Read/Write)
-        Random:       1,117,899 / 95,300
-    Sequential:      1,178,934 / 107,599
+        Random:      1,198,067 / 102,760
+    Sequential:      1,092,901 / 108,948
 
 
 Latency in ns (Read/Write)
-        Random:      120,223 / 6,361,935
-    Sequential:       54,457 / 5,398,745
+        Random:      125,716 / 5,845,466
+    Sequential:       58,475 / 5,566,372
 ```
 
 ### ceph-filesystem (Lexar SSD NM7A1 1TB)
@@ -54,17 +54,17 @@ Size: 30G
 Quick Mode: disabled
 =========================
 IOPS (Read/Write)
-        Random:             36,414 / 342
-    Sequential:             30,024 / 350
+        Random:             41,713 / 852
+    Sequential:             42,466 / 861
 
 Bandwidth in KiB/sec (Read/Write)
-        Random:       1,166,884 / 36,183
-    Sequential:       1,103,324 / 41,126
+        Random:      1,263,214 / 104,511
+    Sequential:      1,143,987 / 107,434
 
 
 Latency in ns (Read/Write)
-        Random:      167,982 / 8,291,015
-    Sequential:       75,013 / 7,660,091
+        Random:      113,135 / 5,958,694
+    Sequential:       56,818 / 5,546,764
 ```
 
 ### nfs-slow / virtual-nas.internal (raidz2 8x Seagate IronWolf 12 TB)
