@@ -21,7 +21,7 @@ Latency in ns (Read/Write)
     Sequential:         166,476 / 68,810
 ```
 
-### ceph-block (Lexar SSD NM7A1 1TB)
+### ceph-block (Samsung SSD 990 PRO 1TB)
 ```
 =========================
 FIO Benchmark Summary
@@ -31,17 +31,17 @@ Size: 30G
 Quick Mode: disabled
 =========================
 IOPS (Read/Write)
-        Random:             43,557 / 374
-    Sequential:             27,918 / 375
+        Random:             35,205 / 765
+    Sequential:             39,286 / 867
 
 Bandwidth in KiB/sec (Read/Write)
-        Random:       1,168,927 / 40,967
-    Sequential:       1,134,255 / 41,053
+        Random:       1,117,899 / 95,300
+    Sequential:      1,178,934 / 107,599
 
 
 Latency in ns (Read/Write)
-        Random:      180,285 / 8,001,521
-    Sequential:       74,765 / 8,020,852
+        Random:      120,223 / 6,361,935
+    Sequential:       54,457 / 5,398,745
 ```
 
 ### ceph-filesystem (Lexar SSD NM7A1 1TB)
