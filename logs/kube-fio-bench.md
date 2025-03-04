@@ -44,7 +44,7 @@ Latency in ns (Read/Write)
     Sequential:       58,475 / 5,566,372
 ```
 
-### ceph-filesystem (Lexar SSD NM7A1 1TB)
+### ceph-filesystem (Samsung SSD 990 PRO 1TB)
 ```
 =========================
 FIO Benchmark Summary
