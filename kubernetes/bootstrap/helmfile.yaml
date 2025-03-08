@@ -2,11 +2,10 @@
 # yaml-language-server: $schema=https://json.schemastore.org/helmfile
 
 helmDefaults:
-  force: true
-  timeout: 600
+  cleanupOnFail: true
   wait: true
   waitForJobs: true
-  recreatePods: true
+  # waitRetries: 3 # Not supported by Helm yet
 
 repositories:
   - name: cilium
