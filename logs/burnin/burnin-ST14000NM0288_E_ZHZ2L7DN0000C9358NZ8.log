@@ -1,0 +1,192 @@
++-----------------------------------------------------------------------------
++ Started burn-in: Fri Mar 14 01:51:05 AM UTC 2025
++-----------------------------------------------------------------------------
+Host:                   debian
+OS:                     Linux
+Drive:                  /dev/sdu
+Disk Type:              7200_rpm
+Drive Model:            ST14000NM0288_E
+Serial Number:          ZHZ2L7DN0000C9358NZ8
+Short test duration:     minutes
+                        0 seconds
+Extended test duration:  minutes
+                        0 seconds
+Log file:               /home/user/burnin-ST14000NM0288_E_ZHZ2L7DN0000C9358NZ8.log
+Bad blocks file:        /home/user/burnin-ST14000NM0288_E_ZHZ2L7DN0000C9358NZ8.bb
++-----------------------------------------------------------------------------
++ Running SMART short test: Fri Mar 14 01:51:05 AM UTC 2025
++-----------------------------------------------------------------------------
+SMART short test started, awaiting completion for 0 seconds ...
+SMART self-test succeeded
+smartctl 7.3 2022-02-28 r5338 [x86_64-linux-6.1.0-29-amd64] (local build)
+
+SMART Self-test log
+Num  Test              Status                 segment  LifeTime  LBA_first_err [SK ASC ASQ]
+     Description                              number   (hours)
+# 1  Background short  Completed                   -   42358                 - [-   -    -]
+# 2  Background short  Aborted (by user command)   -      13                 - [-   -    -]
+
+Long (extended) Self-test duration: 80400 seconds [22.3 hours]
+
+Finished SMART short test
++-----------------------------------------------------------------------------
++ Running badblocks test: Fri Mar 14 01:53:05 AM UTC 2025
++-----------------------------------------------------------------------------
+Finished badblocks test
++-----------------------------------------------------------------------------
++ Running SMART long test: Thu Mar 20 07:31:39 AM UTC 2025
++-----------------------------------------------------------------------------
+SMART long test started, awaiting completion for 0 seconds ...
+SMART self-test timeout threshold exceeded
+smartctl 7.3 2022-02-28 r5338 [x86_64-linux-6.1.0-29-amd64] (local build)
+
+Self-test execution status:		64% of test remaining
+SMART Self-test log
+Num  Test              Status                 segment  LifeTime  LBA_first_err [SK ASC ASQ]
+     Description                              number   (hours)
+# 1  Background long   Self test in progress ...   -     NOW                 - [-   -    -]
+# 2  Background short  Completed                   -   42358                 - [-   -    -]
+# 3  Background short  Aborted (by user command)   -      13                 - [-   -    -]
+
+Long (extended) Self-test duration: 80400 seconds [22.3 hours]
+
+Finished SMART long test
++-----------------------------------------------------------------------------
++ Drive information: Thu Mar 20 12:01:36 PM UTC 2025
++-----------------------------------------------------------------------------
+smartctl 7.3 2022-02-28 r5338 [x86_64-linux-6.1.0-29-amd64] (local build)
+
+=== START OF INFORMATION SECTION ===
+Vendor:               IBM-ESXS
+Product:              ST14000NM0288 E
+Revision:             ECH8
+Compliance:           SPC-5
+User Capacity:        13,902,809,137,152 bytes [13.9 TB]
+Logical block size:   4096 bytes
+Formatted with type 2 protection
+8 bytes of protection information per logical block
+LU is fully provisioned
+Rotation Rate:        7200 rpm
+Form Factor:          3.5 inches
+Logical Unit id:      0x5000c500adab01c7
+Serial number:        ZHZ2L7DN0000C9358NZ8
+Device type:          disk
+Transport protocol:   SAS (SPL-4)
+Local Time is:        Thu Mar 20 12:01:36 2025 UTC
+SMART support is:     Available - device has SMART capability.
+SMART support is:     Enabled
+Temperature Warning:  Enabled
+Read Cache is:        Enabled
+Writeback Cache is:   Disabled
+
+SMART Health Status: OK
+
+Grown defects during certification <not available>
+Total blocks reassigned during format <not available>
+Total new blocks reassigned <not available>
+Power on minutes since format <not available>
+Current Drive Temperature:     52 C
+Drive Trip Temperature:        65 C
+
+Elements in grown defect list: 0
+
+Error counter log:
+           Errors Corrected by           Total   Correction     Gigabytes    Total
+               ECC          rereads/    errors   algorithm      processed    uncorrected
+           fast | delayed   rewrites  corrected  invocations   [10^9 bytes]  errors
+read:          0       14         0        14         14     605564.354           0
+write:         0 18446744073709551615  18446744073709551615         0          0     683630.087           0
+verify:        0        0         0         0          0      29513.778           0
+
+Non-medium error count:        1
+
+  Pending defect count:0 Pending Defects
+Self-test execution status:		64% of test remaining
+SMART Self-test log
+Num  Test              Status                 segment  LifeTime  LBA_first_err [SK ASC ASQ]
+     Description                              number   (hours)
+# 1  Background long   Self test in progress ...   -     NOW                 - [-   -    -]
+# 2  Background short  Completed                   -   42358                 - [-   -    -]
+# 3  Background short  Aborted (by user command)   -      13                 - [-   -    -]
+
+Long (extended) Self-test duration: 80400 seconds [22.3 hours]
+
+Background scan results log
+  Status: no scans active
+    Accumulated power on time, hours:minutes 42513:02 [2550782 minutes]
+    Number of background scans performed: 0,  scan progress: 0.00%
+    Number of background medium scans performed: 0
+
+   #  when        lba(hex)    [sk,asc,ascq]    reassign_status
+   1 2373:19  000000001973e377  [1,18,4]   Recovered via rewrite in-place
+   2 26612:55  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+   3 26707:11  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+   4 26924:59  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+   5 26970:46  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+   6 27044:18  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+   7 27067:56  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+   8 27169:27  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+   9 27382:19  00000000000035de  [1,18,1]   Recovered via rewrite in-place
+  10 27404:38  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  11 27543:17  00000000000035de  [1,17,1]   Recovered via rewrite in-place
+  12 27768:07  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  13 28221:20  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  14 28236:11  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  15 28383:49  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  16 28412:45  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  17 28547:04  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  18 28614:42  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  19 28625:55  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  20 28782:53  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  21 29449:44  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  22 29759:38  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  23 30066:53  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  24 30132:15  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  25 30160:43  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  26 30241:11  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  27 30278:39  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  28 30291:54  00000000000035de  [1,18,4]   Recovered via rewrite in-place
+  29 39747:23  0000000005d9d4ff  [1,18,4]   Recovered via rewrite in-place
+  30 40509:13  000000000d9692e6  [1,18,4]   Recovered via rewrite in-place
+  31 40834:28  000000000796e4a5  [1,18,4]   Recovered via rewrite in-place
+
+
+Protocol Specific port log page for SAS SSP
+relative target port id = 1
+  generation code = 0
+  number of phys = 1
+  phy identifier = 0
+    attached device type: expander device
+    attached reason: SMP phy control function
+    reason: unknown
+    negotiated logical link rate: phy enabled; 12 Gbps
+    attached initiator port: ssp=0 stp=0 smp=0
+    attached target port: ssp=0 stp=0 smp=1
+    SAS address = 0x5000c500adab01c5
+    attached SAS address = 0x500304801ec987bf
+    attached phy identifier = 29
+    Invalid DWORD count = 4
+    Running disparity error count = 4
+    Loss of DWORD synchronization count = 2
+    Phy reset problem count = 0
+relative target port id = 2
+  generation code = 0
+  number of phys = 1
+  phy identifier = 1
+    attached device type: no device attached
+    attached reason: unknown
+    reason: unknown
+    negotiated logical link rate: phy enabled; unknown
+    attached initiator port: ssp=0 stp=0 smp=0
+    attached target port: ssp=0 stp=0 smp=0
+    SAS address = 0x5000c500adab01c6
+    attached SAS address = 0x0
+    attached phy identifier = 0
+    Invalid DWORD count = 0
+    Running disparity error count = 0
+    Loss of DWORD synchronization count = 0
+    Phy reset problem count = 0
+
++-----------------------------------------------------------------------------
++ Finished burn-in: Thu Mar 20 12:01:37 PM UTC 2025
++-----------------------------------------------------------------------------

@@ -1,0 +1,166 @@
++-----------------------------------------------------------------------------
++ Started burn-in: Sun Mar  2 02:21:26 PM UTC 2025
++-----------------------------------------------------------------------------
+Host:                   debian
+OS:                     Linux
+Drive:                  /dev/sdc
+Disk Type:              7200_rpm
+Drive Model:            W7214A520ORA014T
+Serial Number:          001912NKSHUT________9JGKSHUT
+Short test duration:     minutes
+                        0 seconds
+Extended test duration:  minutes
+                        0 seconds
+Log file:               /home/user/burnin-W7214A520ORA014T_001912NKSHUT________9JGKSHUT.log
+Bad blocks file:        /home/user/burnin-W7214A520ORA014T_001912NKSHUT________9JGKSHUT.bb
++-----------------------------------------------------------------------------
++ Running SMART short test: Sun Mar  2 02:21:26 PM UTC 2025
++-----------------------------------------------------------------------------
+SMART short test started, awaiting completion for 0 seconds ...
+SMART self-test succeeded
+smartctl 7.3 2022-02-28 r5338 [x86_64-linux-6.1.0-29-amd64] (local build)
+
+SMART Self-test log
+Num  Test              Status                 segment  LifeTime  LBA_first_err [SK ASC ASQ]
+     Description                              number   (hours)
+# 1  Background short  Completed                   -   18097                 - [-   -    -]
+# 2  Background short  Completed                   -   18096                 - [-   -    -]
+
+Long (extended) Self-test duration: 94380 seconds [26.2 hours]
+
+Finished SMART short test
++-----------------------------------------------------------------------------
++ Running badblocks test: Sun Mar  2 02:22:34 PM UTC 2025
++-----------------------------------------------------------------------------
+Finished badblocks test
++-----------------------------------------------------------------------------
++ Running SMART long test: Sat Mar  8 10:21:10 PM UTC 2025
++-----------------------------------------------------------------------------
+SMART long test started, awaiting completion for 0 seconds ...
+SMART self-test timeout threshold exceeded
+smartctl 7.3 2022-02-28 r5338 [x86_64-linux-6.1.0-29-amd64] (local build)
+
+Self-test execution status:		74% of test remaining
+SMART Self-test log
+Num  Test              Status                 segment  LifeTime  LBA_first_err [SK ASC ASQ]
+     Description                              number   (hours)
+# 1  Background long   Self test in progress ...   -     NOW                 - [-   -    -]
+# 2  Background short  Completed                   -   18097                 - [-   -    -]
+# 3  Background short  Completed                   -   18096                 - [-   -    -]
+
+Long (extended) Self-test duration: 94380 seconds [26.2 hours]
+
+Finished SMART long test
++-----------------------------------------------------------------------------
++ Drive information: Sun Mar  9 02:48:56 AM UTC 2025
++-----------------------------------------------------------------------------
+smartctl 7.3 2022-02-28 r5338 [x86_64-linux-6.1.0-29-amd64] (local build)
+
+=== START OF INFORMATION SECTION ===
+Vendor:               WDC
+Product:              W7214A520ORA014T
+Revision:             A144
+Compliance:           SPC-4
+User Capacity:        13,715,978,059,776 bytes [13.7 TB]
+Logical block size:   512 bytes
+Physical block size:  4096 bytes
+Formatted with type 1 protection
+8 bytes of protection information per logical block
+LU is fully provisioned
+Rotation Rate:        7200 rpm
+Form Factor:          3.5 inches
+Logical Unit id:      0x5000cca258204a40
+Serial number:        001912NKSHUT        9JGKSHUT
+Device type:          disk
+Transport protocol:   SAS (SPL-4)
+Local Time is:        Sun Mar  9 02:48:56 2025 UTC
+SMART support is:     Available - device has SMART capability.
+SMART support is:     Enabled
+Temperature Warning:  Enabled
+Read Cache is:        Enabled
+Writeback Cache is:   Disabled
+
+SMART Health Status: OK
+
+Grown defects during certification <not available>
+Total blocks reassigned during format <not available>
+Total new blocks reassigned <not available>
+Power on minutes since format <not available>
+Current temperature = 47
+Lifetime maximum temperature = 51
+Lifetime minimum temperature = 18
+Maximum temperature since power on = 51
+Minimum temperature since power on = 25
+Manufactured in week 12 of year 2019
+Specified cycle count over device lifetime:  50000
+Accumulated start-stop cycles:  30
+Specified load-unload count over device lifetime:  600000
+Accumulated load-unload cycles:  783
+Elements in grown defect list: 0
+
+Error counter log:
+           Errors Corrected by           Total   Correction     Gigabytes    Total
+               ECC          rereads/    errors   algorithm      processed    uncorrected
+           fast | delayed   rewrites  corrected  invocations   [10^9 bytes]  errors
+read:          0       90         0        90    1736973     860912.062           0
+write:         0        4         0         4    1656872     492185.073           0
+verify:        0       27         0        27       6399         28.181           0
+
+Non-medium error count:        0
+
+Self-test execution status:		74% of test remaining
+SMART Self-test log
+Num  Test              Status                 segment  LifeTime  LBA_first_err [SK ASC ASQ]
+     Description                              number   (hours)
+# 1  Background long   Self test in progress ...   -     NOW                 - [-   -    -]
+# 2  Background short  Completed                   -   18097                 - [-   -    -]
+# 3  Background short  Completed                   -   18096                 - [-   -    -]
+
+Long (extended) Self-test duration: 94380 seconds [26.2 hours]
+
+Background scan results log
+  Status: scan is active
+    Accumulated power on time, hours:minutes 18253:59 [1095239 minutes]
+    Number of background scans performed: 22,  scan progress: 2.01%
+    Number of background medium scans performed: 22
+
+
+Protocol Specific port log page for SAS SSP
+relative target port id = 1
+  generation code = 2
+  number of phys = 1
+  phy identifier = 0
+    attached device type: expander device
+    attached reason: SMP phy control function
+    reason: unknown
+    negotiated logical link rate: phy enabled; 12 Gbps
+    attached initiator port: ssp=0 stp=0 smp=0
+    attached target port: ssp=0 stp=0 smp=1
+    SAS address = 0x5000cca258204a41
+    attached SAS address = 0x500304801ec987bf
+    attached phy identifier = 0
+    Invalid DWORD count = 0
+    Running disparity error count = 0
+    Loss of DWORD synchronization count = 0
+    Phy reset problem count = 0
+relative target port id = 2
+  generation code = 2
+  number of phys = 1
+  phy identifier = 1
+    attached device type: no device attached
+    attached reason: unknown
+    reason: power on
+    negotiated logical link rate: phy enabled; unknown
+    attached initiator port: ssp=0 stp=0 smp=0
+    attached target port: ssp=0 stp=0 smp=0
+    SAS address = 0x5000cca258204a42
+    attached SAS address = 0x0
+    attached phy identifier = 0
+    Invalid DWORD count = 0
+    Running disparity error count = 0
+    Loss of DWORD synchronization count = 0
+    Phy reset problem count = 0
+
++-----------------------------------------------------------------------------
++ Finished burn-in: Sun Mar  9 02:48:57 AM UTC 2025
++-----------------------------------------------------------------------------

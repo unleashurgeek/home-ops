@@ -26,13 +26,14 @@ spec:
       namespace: downloads
     - name: radarr-anime
       namespace: downloads
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/downloads/cross-seed/app
   postBuild:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 5Gi
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system

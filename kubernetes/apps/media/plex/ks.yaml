@@ -9,16 +9,8 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  interval: 30m
-  path: ./kubernetes/apps/media/plex/app
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  targetNamespace: *namespace
-  timeout: 5m
-  wait: false
+  components:
+    - ../../../../components/volsync
   dependsOn:
     - name: onepassword
       namespace: external-secrets
@@ -26,10 +18,19 @@ spec:
       namespace: rook-ceph
     - name: volsync
       namespace: storage
-  components:
-    - ../../../../components/volsync
+  interval: 1h
+  path: ./kubernetes/apps/media/plex/app
   postBuild:
     substitute:
       APP: *app
       VOLSYNC_CACHE_CAPACITY: 25Gi
       VOLSYNC_CAPACITY: 50Gi
+  prune: true
+  retryInterval: 2m
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  targetNamespace: *namespace
+  timeout: 5m
+  wait: false
