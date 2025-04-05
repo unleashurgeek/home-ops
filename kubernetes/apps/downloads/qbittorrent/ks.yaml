@@ -18,13 +18,14 @@ spec:
       namespace: rook-ceph
     - name: volsync
       namespace: storage
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/downloads/qbittorrent/app
   postBuild:
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 2Gi
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -43,12 +44,17 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   dependsOn:
     - name: onepassword
       namespace: external-secrets
-  interval: 30m
+  interval: 1h
   path: ./kubernetes/apps/downloads/qbittorrent/tools
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -56,7 +62,3 @@ spec:
   targetNamespace: *namespace
   timeout: 5m
   wait: false
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age

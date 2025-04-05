@@ -9,9 +9,13 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  interval: 30m
+  dependsOn:
+    - name: cert-manager
+      namespace: cert-manager
+  interval: 1h
   path: ./kubernetes/apps/kube-system/k8tz/app
   prune: true
+  retryInterval: 2m
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -19,6 +23,3 @@ spec:
   targetNamespace: *namespace
   timeout: 5m
   wait: false
-  dependsOn:
-    - name: cert-manager
-      namespace: cert-manager
