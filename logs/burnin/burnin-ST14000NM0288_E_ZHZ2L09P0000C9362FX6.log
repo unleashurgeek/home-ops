@@ -1,0 +1,162 @@
++-----------------------------------------------------------------------------
++ Started burn-in: Fri Mar 14 01:50:50 AM UTC 2025
++-----------------------------------------------------------------------------
+Host:                   debian
+OS:                     Linux
+Drive:                  /dev/sdt
+Disk Type:              7200_rpm
+Drive Model:            ST14000NM0288_E
+Serial Number:          ZHZ2L09P0000C9362FX6
+Short test duration:     minutes
+                        0 seconds
+Extended test duration:  minutes
+                        0 seconds
+Log file:               /home/user/burnin-ST14000NM0288_E_ZHZ2L09P0000C9362FX6.log
+Bad blocks file:        /home/user/burnin-ST14000NM0288_E_ZHZ2L09P0000C9362FX6.bb
++-----------------------------------------------------------------------------
++ Running SMART short test: Fri Mar 14 01:50:50 AM UTC 2025
++-----------------------------------------------------------------------------
+SMART short test started, awaiting completion for 0 seconds ...
+SMART self-test succeeded
+smartctl 7.3 2022-02-28 r5338 [x86_64-linux-6.1.0-29-amd64] (local build)
+
+SMART Self-test log
+Num  Test              Status                 segment  LifeTime  LBA_first_err [SK ASC ASQ]
+     Description                              number   (hours)
+# 1  Background short  Completed                   -   42359                 - [-   -    -]
+# 2  Background short  Aborted (by user command)   -      13                 - [-   -    -]
+
+Long (extended) Self-test duration: 80400 seconds [22.3 hours]
+
+Finished SMART short test
++-----------------------------------------------------------------------------
++ Running badblocks test: Fri Mar 14 01:52:50 AM UTC 2025
++-----------------------------------------------------------------------------
+Finished badblocks test
++-----------------------------------------------------------------------------
++ Running SMART long test: Thu Mar 20 09:14:30 AM UTC 2025
++-----------------------------------------------------------------------------
+SMART long test started, awaiting completion for 0 seconds ...
+SMART self-test timeout threshold exceeded
+smartctl 7.3 2022-02-28 r5338 [x86_64-linux-6.1.0-29-amd64] (local build)
+
+Self-test execution status:		64% of test remaining
+SMART Self-test log
+Num  Test              Status                 segment  LifeTime  LBA_first_err [SK ASC ASQ]
+     Description                              number   (hours)
+# 1  Background long   Self test in progress ...   -     NOW                 - [-   -    -]
+# 2  Background short  Completed                   -   42359                 - [-   -    -]
+# 3  Background short  Aborted (by user command)   -      13                 - [-   -    -]
+
+Long (extended) Self-test duration: 80400 seconds [22.3 hours]
+
+Finished SMART long test
++-----------------------------------------------------------------------------
++ Drive information: Thu Mar 20 01:44:35 PM UTC 2025
++-----------------------------------------------------------------------------
+smartctl 7.3 2022-02-28 r5338 [x86_64-linux-6.1.0-29-amd64] (local build)
+
+=== START OF INFORMATION SECTION ===
+Vendor:               IBM-ESXS
+Product:              ST14000NM0288 E
+Revision:             ECH8
+Compliance:           SPC-5
+User Capacity:        13,902,809,137,152 bytes [13.9 TB]
+Logical block size:   4096 bytes
+Formatted with type 2 protection
+8 bytes of protection information per logical block
+LU is fully provisioned
+Rotation Rate:        7200 rpm
+Form Factor:          3.5 inches
+Logical Unit id:      0x5000c500adad4bcf
+Serial number:        ZHZ2L09P0000C9362FX6
+Device type:          disk
+Transport protocol:   SAS (SPL-4)
+Local Time is:        Thu Mar 20 13:44:35 2025 UTC
+SMART support is:     Available - device has SMART capability.
+SMART support is:     Enabled
+Temperature Warning:  Enabled
+Read Cache is:        Enabled
+Writeback Cache is:   Disabled
+
+SMART Health Status: OK
+
+Grown defects during certification <not available>
+Total blocks reassigned during format <not available>
+Total new blocks reassigned <not available>
+Power on minutes since format <not available>
+Current Drive Temperature:     50 C
+Drive Trip Temperature:        65 C
+
+Elements in grown defect list: 0
+
+Error counter log:
+           Errors Corrected by           Total   Correction     Gigabytes    Total
+               ECC          rereads/    errors   algorithm      processed    uncorrected
+           fast | delayed   rewrites  corrected  invocations   [10^9 bytes]  errors
+read:          0        0         0         0          0     618523.829           0
+write:         0 18446744073709551615  18446744073709551615         0          0     541422.678           0
+verify:        0        0         0         0          0      24333.422           0
+
+Non-medium error count:        0
+
+  Pending defect count:0 Pending Defects
+Self-test execution status:		64% of test remaining
+SMART Self-test log
+Num  Test              Status                 segment  LifeTime  LBA_first_err [SK ASC ASQ]
+     Description                              number   (hours)
+# 1  Background long   Self test in progress ...   -     NOW                 - [-   -    -]
+# 2  Background short  Completed                   -   42359                 - [-   -    -]
+# 3  Background short  Aborted (by user command)   -      13                 - [-   -    -]
+
+Long (extended) Self-test duration: 80400 seconds [22.3 hours]
+
+Background scan results log
+  Status: no scans active
+    Accumulated power on time, hours:minutes 42515:08 [2550908 minutes]
+    Number of background scans performed: 0,  scan progress: 0.00%
+    Number of background medium scans performed: 0
+
+   #  when        lba(hex)    [sk,asc,ascq]    reassign_status
+   1 32648:44  000000000000363d  [1,18,4]   Recovered via rewrite in-place
+
+
+Protocol Specific port log page for SAS SSP
+relative target port id = 1
+  generation code = 0
+  number of phys = 1
+  phy identifier = 0
+    attached device type: expander device
+    attached reason: loss of dword synchronization
+    reason: power on
+    negotiated logical link rate: phy enabled; 12 Gbps
+    attached initiator port: ssp=0 stp=0 smp=0
+    attached target port: ssp=0 stp=0 smp=1
+    SAS address = 0x5000c500adad4bcd
+    attached SAS address = 0x500304801ec987bf
+    attached phy identifier = 30
+    Invalid DWORD count = 0
+    Running disparity error count = 0
+    Loss of DWORD synchronization count = 0
+    Phy reset problem count = 0
+relative target port id = 2
+  generation code = 0
+  number of phys = 1
+  phy identifier = 1
+    attached device type: no device attached
+    attached reason: unknown
+    reason: unknown
+    negotiated logical link rate: phy enabled; unknown
+    attached initiator port: ssp=0 stp=0 smp=0
+    attached target port: ssp=0 stp=0 smp=0
+    SAS address = 0x5000c500adad4bce
+    attached SAS address = 0x0
+    attached phy identifier = 0
+    Invalid DWORD count = 0
+    Running disparity error count = 0
+    Loss of DWORD synchronization count = 0
+    Phy reset problem count = 0
+
++-----------------------------------------------------------------------------
++ Finished burn-in: Thu Mar 20 01:44:36 PM UTC 2025
++-----------------------------------------------------------------------------

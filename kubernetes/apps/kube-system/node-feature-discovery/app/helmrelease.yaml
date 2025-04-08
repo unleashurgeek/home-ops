@@ -5,7 +5,7 @@ kind: HelmRelease
 metadata:
   name: node-feature-discovery
 spec:
-  interval: 30m
+  interval: 1h
   chart:
     spec:
       chart: node-feature-discovery
@@ -17,12 +17,11 @@ spec:
   install:
     crds: CreateReplace
     remediation:
-      retries: 3
+      retries: -1
   upgrade:
     cleanupOnFail: true
     crds: CreateReplace
     remediation:
-      strategy: rollback
       retries: 3
   values:
     master:
