@@ -8,6 +8,7 @@ components:
   - ../../components/sops
 resources:
   - ./cross-seed/ks.yaml
+  - ./filebrowser/ks.yaml
   - ./prowlarr/ks.yaml
   - ./qbittorrent/ks.yaml
   - ./radarr/ks.yaml

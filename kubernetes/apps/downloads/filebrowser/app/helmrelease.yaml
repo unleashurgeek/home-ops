@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: sabnzbd
+  name: filebrowser
 spec:
   interval: 30m
   chart:
@@ -24,52 +24,44 @@ spec:
       retries: 3
   values:
     controllers:
-      sabnzbd:
+      filebrowser:
         annotations:
           reloader.stakater.com/auto: "true"
 
         containers:
           app:
             image:
-              repository: ghcr.io/onedr0p/sabnzbd
-              tag: 4.4.1@sha256:36674664a94760ae934c09b1d97546a3e79a0f110edda88085e74778c26d68e3
+              repository: docker.io/filebrowser/filebrowser
+              tag: v2.32.0@sha256:593478e3c24c5ea9f5d7478dc549965b7bc7030707291006ce8d0b6162d3454b
             env:
-              SABNZBD__PORT: &port 8080
-              SABNZBD__HOST_WHITELIST_ENTRIES: >-
-                sabnzbd,
-                sabnzbd.downloads,
-                sabnzbd.downloads.svc,
-                sabnzbd.downloads.svc.cluster,
-                sabnzbd.downloads.svc.cluster.local,
-                sab.kyle.fail
-              CROSS_SEED_ENABLED: false
-              CROSS_SEED_HOST: cross-seed.downloads.svc.cluster.local
-            envFrom:
-              - secretRef:
-                  name: sabnzbd-secret
+              FB_DATABASE: /config/filebrowser.db
+              FB_ROOT: /srv
+              FB_LOG: stdout
+              FB_NOAUTH: true
             probes:
               liveness: &probes
                 enabled: true
                 custom: true
                 spec:
                   httpGet:
-                    path: /api?mode=version
-                    port: *port
+                    path: /health
+                    port: &port 80
                   initialDelaySeconds: 0
                   periodSeconds: 10
                   timeoutSeconds: 1
                   failureThreshold: 3
               readiness: *probes
+              startup:
+                enabled: false
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities: { drop: ["ALL"] }
             resources:
               requests:
-                cpu: 200m
-                memory: 100Mi
+                cpu: 10m
               limits:
-                memory: 12Gi
+                memory: 512Mi
 
     defaultPodOptions:
       securityContext:
@@ -82,7 +74,7 @@ spec:
 
     service:
       app:
-        controller: sabnzbd
+        controller: filebrowser
         ports:
           http:
             port: *port
@@ -91,7 +83,7 @@ spec:
       app:
         className: internal
         hosts:
-          - host: sab.kyle.fail
+          - host: "{{ .Release.Name }}.kyle.fail"
             paths:
               - path: /
                 service:
@@ -100,18 +92,10 @@ spec:
 
     persistence:
       config:
-        existingClaim: sabnzbd
-      scripts:
-        type: configMap
-        name: sabnzbd-scripts
-        defaultMode: 0775
-        globalMounts:
-          - readOnly: true
-      tmp:
-        type: emptyDir
-      media:
+        existingClaim: filebrowser
+      data:
         type: nfs
         server: virtual-nas.internal
         path: /mnt/tank/media
         globalMounts:
-          - path: /media
+          - path: /srv
