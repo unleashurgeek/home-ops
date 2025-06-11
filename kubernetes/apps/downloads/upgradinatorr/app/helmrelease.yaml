@@ -39,7 +39,7 @@ spec:
           app:
             image:
               repository: ghcr.io/drazzilb08/daps
-              tag: latest@sha256:8bcf90f5fb1f0b0f5e7630df5a5be521cb004c0187fcb1574c55f69839f76337
+              tag: latest@sha256:24dad72063f8b0321946cc7ec232b723537c50a990ef2d8f5c624f9ac617d57b
             command: ["/bin/bash", "-c", "python3 /app/main.py upgradinatorr"]
             securityContext:
               allowPrivilegeEscalation: false
